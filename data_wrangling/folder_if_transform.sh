@@ -36,10 +36,11 @@ cd $folder
 
 #Make sure if we didn't accidentily leave files behind
 find $comb_file.json -type f -exec rm '{}' \;
+
 #We first need to unzip each folder.
 for file in *.zip
 do
-	unzip ${file}
+	unzip -q ${file}
 done
 
 #Then do some maintenance to prepare the transformation to CSV
@@ -122,10 +123,10 @@ find . -type f \( -name "*.xls*" -or -name "20*.csv" -or -name "*.vrt" \) -exec 
 echo The geoJSON was prepared. Enjoy.
 
 #TODO:
-# Check in the beginning if the causes file is present somewhere
-# Clean up csvjoin on causes
 # Reproject before converting to geoJSON. It would be handy to have CSV with correct projection.
+# Once reprojected, we can cut out the X and Y columns
 # ENHANCEMENT: any cleanup we want to do on the columns
 # ENHANCEMENT: Use csvjson instead? csvjson --lat y --lon x --crs EPSG:20790 2011.csv > 2011.json
 
+exit
 done
