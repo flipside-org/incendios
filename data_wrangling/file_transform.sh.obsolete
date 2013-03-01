@@ -1,0 +1,47 @@
+#!/bin/bash
+#Script for the IF project, transforming the original data stored in .xlsx to geoJSON
+
+file_input=$1
+file_extension=${file_input##*.}
+
+#Check if a file has been specified
+if [ -z $file_input ]; then
+	echo You haven\'t specified a file to transform. Please specify one by using:  bash transform.sh \[file-name\]
+	exit
+#Check if the extension is supported
+elif [[ "$file_extension" != "xlsx" ]] && [[ "$file_extension" != "xls" ]]; then
+	echo Please specify either a .xls or .xlsx to transform.
+fi
+
+#Clean up the filename
+file_name=${file_input%.*}
+
+#TODO: The input might contain several sheets.
+
+#Convert it to CSV so we can work with it
+in2csv $file_input > $file_name.csv
+echo CSV generated. Continuing...	
+
+#We need to create a .VRT to let ogr2ogr know how it can extract the spatial information
+#http://gis-lab.info/docs/gdal/gdal_ogr_user_docs.html#csv
+echo "<OGRVRTDataSource>
+	<OGRVRTLayer name=\"$file_name\">
+		<SrcDataSource>$file_name.csv</SrcDataSource>
+    	<GeometryType>wkbPoint</GeometryType>
+    	<LayerSRS>EPSG:20790</LayerSRS>
+    	<GeometryField encoding=\"PointFromColumns\" x=\"x\" y=\"y\"/>
+	</OGRVRTLayer>
+</OGRVRTDataSource>" > $file_name.vrt
+echo $file_name.vrt created. Continuing...
+
+#Finally convert it to geoJSON, reprojecting to a more useful format
+#http://gis-lab.info/docs/gdal/gdal_ogr_user_docs.html#ogrinfo
+ogr2ogr -f "geoJSON" -nlt POINT $file_name.json $file_name.vrt -t_srs EPSG:4326
+
+echo JSON produced. Cleaning up...
+
+#Cleaning up after we're done
+rm $file_name.csv $file_name.vrt
+
+exit
+done
