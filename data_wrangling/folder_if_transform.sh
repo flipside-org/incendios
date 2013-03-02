@@ -91,28 +91,43 @@ echo "<OGRVRTDataSource>
 	</OGRVRTLayer>
 </OGRVRTDataSource>" > $comb_file.vrt
 
-echo Do some cleanup on the data.
+echo Reproject the coordinate system
 
 #Reproject the CSV coordinates to a more useful format.
 #http://gis-lab.info/docs/gdal/gdal_ogr_user_docs.html#ogrinfo
-#ogr2ogr -f "CSV" -nlt POINT -update IFdata-combined.vrt -t_srs EPSG:4326
+ogr2ogr -f CSV -nlt POINT tmp IFdata-combined.vrt -lco GEOMETRY=AS_XY -t_srs EPSG:4326
+
+#Housekeeping
+rm $comb_file.csv
+mv tmp/$comb_file.csv .
+rm -r tmp
+
+#Update the VRT to reflect the re-projection
+echo "<OGRVRTDataSource>
+	<OGRVRTLayer name=\"$comb_file\">
+		<SrcDataSource>$comb_file.csv</SrcDataSource>
+    	<GeometryType>wkbPoint</GeometryType>
+    	<LayerSRS>EPSG:4326</LayerSRS>
+    	<GeometryField encoding=\"PointFromColumns\" x=\"X\" y=\"Y\"/>
+	</OGRVRTLayer>
+</OGRVRTDataSource>" > $comb_file.vrt
+
+echo Add more meaning and cleanup the data.
 
 #We join the CSV with the list of causes to have a more meaningful description at hand
-csvjoin --left $comb_file.csv causas.csv -c 32,1 | csvcut --not-columns 34 > $comb_file-tmp.csv
+#Then the following columns are being removed:
+# - original x & y
+# - duplicate cause id (from csvjoin)
+csvjoin --left $comb_file.csv causas.csv -c 34,1 | csvcut --not-columns 11,12,36 > $comb_file-tmp.csv
 
 #Replace the original CSV with the cleaned up version
 rm $comb_file.csv
 mv $comb_file-tmp.csv $comb_file.csv
 
-#Cut out obsolete columns
-#csvcut --not-columns 
-
-#Once reprojected we can cut out the X & Y
-
 echo Generating the JSON file...
 
-#Finally convert it to geoJSON, reprojecting to a more useful format
-ogr2ogr -f "geoJSON" -nlt POINT $comb_file.json $comb_file.vrt -t_srs EPSG:4326
+#Finally convert it to geoJSON.
+ogr2ogr -f geoJSON -nlt POINT $comb_file.json $comb_file.vrt
 
 echo Doing some final housekeeping...
 
@@ -123,10 +138,8 @@ find . -type f \( -name "*.xls*" -or -name "20*.csv" -or -name "*.vrt" \) -exec 
 echo The geoJSON was prepared. Enjoy.
 
 #TODO:
-# Reproject before converting to geoJSON. It would be handy to have CSV with correct projection.
-# Once reprojected, we can cut out the X and Y columns
+# Nuno: How does json handle NULL? Can we substitute: "Null" for ""?
 # ENHANCEMENT: any cleanup we want to do on the columns
-# ENHANCEMENT: Use csvjson instead? csvjson --lat y --lon x --crs EPSG:20790 2011.csv > 2011.json
 
 exit
 done
