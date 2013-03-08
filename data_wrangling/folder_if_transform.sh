@@ -28,6 +28,32 @@ elif [ `ls $folder | grep 'causas.csv' | wc -l` == 0 ]; then
 	exit
 fi
 
+#Checking if the dependencies are met.
+#Some of the tools used are part of csvkit, like in2csv, csvjoin, csvstack, etc
+#Based on: http://www.snabelb.net/content/bash_support_function_check_dependencies
+
+deps_ok="yes"
+for dep in in2csv ogr2ogr #in2csv is part of csvkit
+do
+    if ! which $dep &>/dev/null;  then
+        if [[ $dep == "in2csv" ]]; then
+        	echo -e "\nThis script requires a couple of tools that are provided by csvkit."
+        	echo -e "You might be able to install csvkit by using:"
+        	echo -e "\t\tpip install csvkit"
+        	echo -e "More info: http://csvkit.readthedocs.org/en/0.5.0/index.html#installation"
+        elif [[ $dep != "in2csv" ]]; then
+            echo -e "\nThis script requires $dep to run but it is not installed."
+            echo -e "If you are running ubuntu or debian you could try"
+            echo -e "\t\tsudo apt-get install $dep"
+    	fi
+		deps_ok="no"
+    fi
+if [[ "$deps_ok" == "no" ]]; then
+	echo -e "Aborting!\n"
+	exit
+fi
+done
+
 echo Prepping the environment...
 
 #Giving the final files a nice name
@@ -138,7 +164,6 @@ find . -type f \( -name "*.xls*" -or -name "20*.csv" -or -name "*.vrt" \) -exec 
 echo The geoJSON was prepared. Enjoy.
 
 #TODO:
-# Nuno: How does json handle NULL? Can we substitute: "Null" for ""?
 # ENHANCEMENT: any cleanup we want to do on the columns
 
 exit
