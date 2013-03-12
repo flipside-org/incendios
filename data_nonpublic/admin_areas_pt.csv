@@ -1,4 +1,4 @@
-"id","name","type","parent_id"
+"_id","name","type","parent_id"
 "01","Aveiro","1","0"
 "0101","Águeda","2","01"
 "010101","Agadão","3","0101"
