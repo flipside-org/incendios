@@ -146,6 +146,9 @@ echo Add more meaning and cleanup the data.
 # - duplicate cause id (from csvjoin)
 csvjoin --left $comb_file.csv causas.csv -c 34,1 | csvcut --not-columns 11,12,36 > $comb_file-tmp.csv
 
+#Create a leaner CSV for mapping purposes
+csvcut --columns 1,2,3,4,10,23,26 $comb_file-tmp.csv > $comb_file-condensed.csv
+
 #Replace the original CSV with the cleaned up version
 rm $comb_file.csv
 mv $comb_file-tmp.csv $comb_file.csv
