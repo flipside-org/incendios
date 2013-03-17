@@ -1,8 +1,16 @@
 #!/bin/bash
-#Script for the IF project, transforming the original ZIP data to geoJSON
 
-#Place all the ZIP files in one folder and run the script on it.
-#Make sure to also place the causas.csv in the same folder
+# Script for the IF project, transforming the original ZIP files to useful formats
+
+# OUTPUT
+# - ifdata_detailed.csv - Full dataset in CSV, slightly cleaned up and improved
+# - ifdata_detailed.json - Full dataset in GeoJSON
+# - ifdata_condensed.csv - Condensed version of dataset for mapping. Excludes False Alarms
+# - ifdata_condensed.sqlite3 - Condensed version for use in Tilemill
+
+# INSTRUCTIONS
+# Place all the ZIP files in one folder and run the script on it.
+# Make sure to also place the causas.csv in the same folder
 
 #This project depends heavily on CSVKIT. For in2csv, part of CSVKIT, we're using the latest
 #dev that's up at Github: https://github.com/onyxfish/csvkit/. Otherwise, the --sheet option
@@ -59,11 +67,13 @@ done
 echo Prepping the environment...
 
 #Giving the final files a nice name
-comb_file=IFdata-combined
+comb_file=ifdata_detailed
+condensed_file=ifdata_condensed
 cd $folder
 
 #Make sure if we didn't accidentily leave files behind
 find $comb_file.json -type f -exec rm '{}' \;
+find $condensed_file.sqlite3 -type f -exec rm '{}' \;
 
 #We first need to unzip each folder.
 for file in *.zip
@@ -123,7 +133,7 @@ echo Reproject the coordinate system
 
 #Reproject the CSV coordinates to a more useful format.
 #http://gis-lab.info/docs/gdal/gdal_ogr_user_docs.html#ogrinfo
-ogr2ogr -f CSV -nlt POINT tmp IFdata-combined.vrt -lco GEOMETRY=AS_XY -t_srs EPSG:4326
+ogr2ogr -f CSV -nlt POINT tmp $comb_file.vrt -lco GEOMETRY=AS_XY -t_srs EPSG:900913
 
 #Housekeeping
 rm $comb_file.csv
@@ -135,7 +145,7 @@ echo "<OGRVRTDataSource>
 	<OGRVRTLayer name=\"$comb_file\">
 		<SrcDataSource>$comb_file.csv</SrcDataSource>
     	<GeometryType>wkbPoint</GeometryType>
-    	<LayerSRS>EPSG:4326</LayerSRS>
+    	<LayerSRS>EPSG:900913</LayerSRS>
     	<GeometryField encoding=\"PointFromColumns\" x=\"X\" y=\"Y\"/>
 	</OGRVRTLayer>
 </OGRVRTDataSource>" > $comb_file.vrt
@@ -148,15 +158,33 @@ echo Add more meaning and cleanup the data.
 # - duplicate cause id (from csvjoin)
 csvjoin --left $comb_file.csv causas.csv -c 34,1 | csvcut --not-columns 11,12,36 > $comb_file-tmp.csv
 
-#Create a leaner CSV for mapping purposes.
-#...first we're cutting out most columns
-csvcut --columns 1,2,3,4,10,23,26 $comb_file-tmp.csv > $comb_file-condensed.csv 
-#...then we are removing those rows that are False Alarms
-sed -i '/^[^,]*,[^,]*,[^,]*,[^,]*,[^,]*,[^,]*,1/d' $comb_file-condensed.csv
-
 #Replace the original CSV with the cleaned up version
 rm $comb_file.csv
 mv $comb_file-tmp.csv $comb_file.csv
+
+#Create a leaner CSV for mapping purposes.
+#...first we're cutting out most columns
+csvcut --columns 1,2,3,4,10,23,26 $comb_file.csv > $condensed_file-tmp.csv 
+#...then we are removing those rows that are False Alarms
+sed -i '/^[^,]*,[^,]*,[^,]*,[^,]*,[^,]*,[^,]*,1/d' $condensed_file-tmp.csv
+#...and remove the False Alarm column since it now only contains '0'
+csvcut --not-columns 7 $condensed_file-tmp.csv > $condensed_file.csv
+rm $condensed_file-tmp.csv
+
+echo Generate a SQLite file...
+
+#Create a VRT for the condensed CSV
+echo "<OGRVRTDataSource>
+	<OGRVRTLayer name=\"$condensed_file\">
+		<SrcDataSource>$condensed_file.csv</SrcDataSource>
+    	<GeometryType>wkbPoint</GeometryType>
+    	<LayerSRS>EPSG:900913</LayerSRS>
+    	<GeometryField encoding=\"PointFromColumns\" x=\"X\" y=\"Y\"/>
+	</OGRVRTLayer>
+</OGRVRTDataSource>" > $condensed_file.vrt
+
+#Create a SQLite file
+ogr2ogr -f SQLite -nlt POINT $condensed_file.sqlite3 $condensed_file.vrt
 
 echo Generating the JSON file...
 
@@ -172,7 +200,6 @@ find . -type f \( -name "*.xls*" -or -name "20*.csv" -or -name "*.vrt" \) -exec 
 elapsed_time=$(($SECONDS - $start_time))
 
 echo The geoJSON was prepared. The whole process took around $elapsed_time seconds. Enjoy.
-
 
 #TODO:
 # ENHANCEMENT: any cleanup we want to do on the columns
