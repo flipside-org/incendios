@@ -8,6 +8,8 @@
 #dev that's up at Github: https://github.com/onyxfish/csvkit/. Otherwise, the --sheet option
 # would not work properly.
 
+start_time=$SECONDS
+
 #Change Internal Field Separator to new line. Otherwise, it will think spaces in filenames are field separators
 IFS=$'\n'
 
@@ -146,8 +148,11 @@ echo Add more meaning and cleanup the data.
 # - duplicate cause id (from csvjoin)
 csvjoin --left $comb_file.csv causas.csv -c 34,1 | csvcut --not-columns 11,12,36 > $comb_file-tmp.csv
 
-#Create a leaner CSV for mapping purposes
-csvcut --columns 1,2,3,4,10,23,26 $comb_file-tmp.csv > $comb_file-condensed.csv
+#Create a leaner CSV for mapping purposes.
+#...first we're cutting out most columns
+csvcut --columns 1,2,3,4,10,23,26 $comb_file-tmp.csv > $comb_file-condensed.csv 
+#...then we are removing those rows that are False Alarms
+sed -i '/^[^,]*,[^,]*,[^,]*,[^,]*,[^,]*,[^,]*,1/d' $comb_file-condensed.csv
 
 #Replace the original CSV with the cleaned up version
 rm $comb_file.csv
@@ -164,7 +169,10 @@ echo Doing some final housekeeping...
 #We're leaving the combined CSV (even though coordinates are not reprojected) for analysis purposes.
 find . -type f \( -name "*.xls*" -or -name "20*.csv" -or -name "*.vrt" \) -exec rm '{}' \;
 
-echo The geoJSON was prepared. Enjoy.
+elapsed_time=$(($SECONDS - $start_time))
+
+echo The geoJSON was prepared. The whole process took around $elapsed_time seconds. Enjoy.
+
 
 #TODO:
 # ENHANCEMENT: any cleanup we want to do on the columns
