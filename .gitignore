@@ -1,0 +1,5 @@
+# OS file crap
+.DS_Store
+
+# Files generated in test folder
+data_wrangling/tests/ifdata*
