@@ -5,8 +5,8 @@
 # OUTPUT
 # - ifdata_detailed.csv - Full dataset in CSV, slightly cleaned up and improved
 # - ifdata_detailed.json - Full dataset in GeoJSON
-# - ifdata_condensed.csv - Condensed version of dataset for mapping. Excludes False Alarms
-# - ifdata_condensed.sqlite3 - Condensed version for use in Tilemill
+# - ifdata_detailed_condensed.csv - Condensed version of dataset for mapping. Excludes False Alarms
+# - ifdata_detailed_condensed.sqlite3 - Condensed version for use in Tilemill
 
 # INSTRUCTIONS
 # Place all the ZIP files in one folder and run the script on it.
@@ -66,9 +66,9 @@ done
 
 echo Prepping the environment...
 
-#Giving the final files a nice name
-comb_file=ifdata_detailed
-condensed_file=ifdata_condensed
+#Giving the final files a nice name. Make sure to add the version.
+comb_file=ifdata_detailed-0.1
+condensed_file=ifdata__detailed_condensed-0.1
 cd $folder
 
 #Make sure if we didn't accidentily leave files behind
