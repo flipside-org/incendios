@@ -3,3 +3,7 @@ IF Open Data project
 ##Data
 
 causas.csv - contains a list with the possible causes, maintained by the DGRF. The CSV was built on 01-03-2013 and based on [link].
+
+##Built using:
+
+- normalize: http://necolas.github.com/normalize.css/
