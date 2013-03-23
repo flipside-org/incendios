@@ -68,7 +68,7 @@ echo Prepping the environment...
 
 #Giving the final files a nice name. Make sure to add the version.
 comb_file=ifdata_detailed-0.1
-condensed_file=ifdata__detailed_condensed-0.1
+condensed_file=ifdata_detailed_condensed-0.1
 cd $folder
 
 #Make sure if we didn't accidentily leave files behind
@@ -164,11 +164,11 @@ mv $comb_file-tmp.csv $comb_file.csv
 
 #Create a leaner CSV for mapping purposes.
 #...first we're cutting out most columns
-csvcut --columns 1,2,3,4,10,23,26 $comb_file.csv > $condensed_file-tmp.csv 
+csvcut --columns 1,2,3,4,5,10,22,23,26 $comb_file.csv > $condensed_file-tmp.csv 
 #...then we are removing those rows that are False Alarms
 sed -i '/^[^,]*,[^,]*,[^,]*,[^,]*,[^,]*,[^,]*,1/d' $condensed_file-tmp.csv
 #...and remove the False Alarm column since it now only contains '0'
-csvcut --not-columns 7 $condensed_file-tmp.csv > $condensed_file.csv
+csvcut --not-columns 9 $condensed_file-tmp.csv > $condensed_file.csv
 rm $condensed_file-tmp.csv
 
 echo Generate a SQLite file...
