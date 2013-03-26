@@ -9,7 +9,7 @@ var utils    = require('connect').utils;
 
 
 exports.get_child_aaids = function(req, res){
-  // res.send("respond with a resource");
+  console.log(req);
   GeoAdminArea.
     find({ parent_id : req.params.id }, {'aaid': 1, 'name': 1}).
     exec( function ( err, geoadminareas ){
@@ -18,3 +18,5 @@ exports.get_child_aaids = function(req, res){
       res.send(geoadminareas);
     });
 };
+
+
