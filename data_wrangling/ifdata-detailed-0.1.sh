@@ -133,7 +133,7 @@ echo Reproject the coordinate system
 
 #Reproject the CSV coordinates to a more useful format.
 #http://gis-lab.info/docs/gdal/gdal_ogr_user_docs.html#ogrinfo
-ogr2ogr -f CSV -nlt POINT tmp $comb_file.vrt -lco GEOMETRY=AS_XY -t_srs EPSG:4326
+ogr2ogr -f CSV -nlt POINT tmp $comb_file.vrt -lco GEOMETRY=AS_XY -t_srs EPSG:900913 -skipfailures
 
 #Housekeeping
 rm $comb_file.csv
@@ -145,7 +145,7 @@ echo "<OGRVRTDataSource>
 	<OGRVRTLayer name=\"$comb_file\">
 		<SrcDataSource>$comb_file.csv</SrcDataSource>
     	<GeometryType>wkbPoint</GeometryType>
-    	<LayerSRS>EPSG:4326</LayerSRS>
+    	<LayerSRS>EPSG:900913</LayerSRS>
     	<GeometryField encoding=\"PointFromColumns\" x=\"X\" y=\"Y\"/>
 	</OGRVRTLayer>
 </OGRVRTDataSource>" > $comb_file.vrt
@@ -178,7 +178,7 @@ echo "<OGRVRTDataSource>
 	<OGRVRTLayer name=\"$condensed_file\">
 		<SrcDataSource>$condensed_file.csv</SrcDataSource>
     	<GeometryType>wkbPoint</GeometryType>
-    	<LayerSRS>EPSG:4326</LayerSRS>
+    	<LayerSRS>EPSG:900913</LayerSRS>
     	<GeometryField encoding=\"PointFromColumns\" x=\"X\" y=\"Y\"/>
 	</OGRVRTLayer>
 </OGRVRTDataSource>" > $condensed_file.vrt
