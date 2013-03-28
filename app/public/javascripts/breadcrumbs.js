@@ -40,12 +40,18 @@ function breadcrumb_do() {
         no_results_text: "No results matched for",
         allow_single_deselect: true
       })
+      // // same page...
+      // .change(function(){
+      //   // update global pointer
+      //   var selected = $(this).val();
+      //   pointer = selected;
+      //   // load up children
+      //   breadcrumb_do();
+      // });
       .change(function(){
-        // update global pointer
-        var selected = $(this).val();
-        pointer = selected;
-        // load up children
-        breadcrumb_do();
+        // similar behavior as clicking on a link
+        var url = '/geo/' + $(this).val();
+        window.location.href = url;
       });
   });
 }
