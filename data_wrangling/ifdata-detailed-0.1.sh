@@ -98,7 +98,8 @@ do
 	fi
 done
 ##In2csv act on sheet alone. Only works in latest csvkit, not 5.0.0 which is the stable one.
-echo Generating the CSV files...	
+elapsed_time=$(($SECONDS - $start_time))
+echo $elapsed_time seconds. Generating the CSV files...	
 
 for file in *.xls*
 do
@@ -110,7 +111,8 @@ do
 	in2csv --sheet $sheet_name $file > $file_name.csv
 done
 
-echo About to combine all the CSV files into one.
+elapsed_time=$(($SECONDS - $start_time))
+echo $elapsed_time seconds. About to combine all the CSV files into one.
 
 #List all CSVs in the folder, on one line (-L 1)
 list_csv=`ls . | grep '^20[0-9]*.csv$' | xargs -L 1 echo`
@@ -129,7 +131,8 @@ echo "<OGRVRTDataSource>
 	</OGRVRTLayer>
 </OGRVRTDataSource>" > $comb_file.vrt
 
-echo Reproject the coordinate system
+elapsed_time=$(($SECONDS - $start_time))
+echo $elapsed_time seconds. Reproject the coordinate system
 
 #Reproject the CSV coordinates to a more useful format.
 #http://gis-lab.info/docs/gdal/gdal_ogr_user_docs.html#ogrinfo
@@ -150,7 +153,8 @@ echo "<OGRVRTDataSource>
 	</OGRVRTLayer>
 </OGRVRTDataSource>" > $comb_file.vrt
 
-echo Add more meaning and cleanup the data.
+elapsed_time=$(($SECONDS - $start_time))
+echo $elapsed_time seconds. Add more meaning and cleanup the data.
 
 #We join the CSV with the list of causes to have a more meaningful description at hand
 #Then the following columns are being removed:
@@ -162,6 +166,26 @@ csvjoin --left $comb_file.csv causas.csv -c 34,1 | csvcut --not-columns 11,12,36
 rm $comb_file.csv
 mv $comb_file-tmp.csv $comb_file.csv
 
+#We're cleaning up the column headers
+#First we lowercase everything in the first row
+sed -i '1 s/\(.*\)/\L\1/' $comb_file.csv
+#With -i we're acting on the same file, the '1' makes sure we only replace on first line
+
+sed -i '
+	1 s/código/codigo/g;
+	1 s/dataalerta/data_alerta/g;
+	1 s/horaalerta/hora_alerta/g;
+	1 s/dataextinção/data_extincao/g;
+	1 s/horaextinção/hora_extincao/g;
+	1 s/data1interv/data1_interv/g;
+	1 s/hora1interv/hora1_interv/g;
+	1 s/fontealerta/fonte_alerta/g;
+	1 s/aa_espaçoflorestal (pov+mato)/aa_espaco_florestal/g;
+	1 s/aa_total(pov+mato+agric)/aa_total/g;
+	1 s/falsoalarme/falso_alarme/g;
+	1 s/TipoCausa/tipo_causa/g;
+	1 s/TipoCausa/tipo_causa/g' $comb_file.csv
+
 #Create a leaner CSV for mapping purposes.
 #...first we're cutting out most columns
 csvcut --columns 1,2,3,4,5,10,22,23,26 $comb_file.csv > $condensed_file-tmp.csv 
@@ -171,7 +195,8 @@ sed -i '/^[^,]*,[^,]*,[^,]*,[^,]*,[^,]*,[^,]*,1/d' $condensed_file-tmp.csv
 csvcut --not-columns 9 $condensed_file-tmp.csv > $condensed_file.csv
 rm $condensed_file-tmp.csv
 
-echo Generate a SQLite file...
+elapsed_time=$(($SECONDS - $start_time))
+echo $elapsed_time seconds. Generate a SQLite file...
 
 #Create a VRT for the condensed CSV
 echo "<OGRVRTDataSource>
@@ -186,12 +211,14 @@ echo "<OGRVRTDataSource>
 #Create a SQLite file
 ogr2ogr -f SQLite -nlt POINT $condensed_file.sqlite3 $condensed_file.vrt
 
-echo Generating the JSON file...
+elapsed_time=$(($SECONDS - $start_time))
+echo $elapsed_time seconds. Generating the JSON file...
 
 #Finally convert it to geoJSON.
 ogr2ogr -f geoJSON -nlt POINT $comb_file.json $comb_file.vrt
 
-echo Doing some final housekeeping...
+elapsed_time=$(($SECONDS - $start_time))
+echo $elapsed_time seconds. Doing some final housekeeping...
 
 #Doing some final housekeeping.
 #We're leaving the combined CSV (even though coordinates are not reprojected) for analysis purposes.
