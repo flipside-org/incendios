@@ -17,7 +17,7 @@ function breadcrumb_do() {
   // load the admin areas for that pointer and process them
   $.ajax({
     type: "GET",
-    url: 'geo/' + pointer + '/json',
+    url: '/geo/' + pointer + '/json',
     async: false,
     dataType: "json",
     context: document.body

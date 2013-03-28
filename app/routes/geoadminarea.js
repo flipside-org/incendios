@@ -9,13 +9,26 @@ var utils    = require('connect').utils;
 
 
 exports.get_child_aaids = function(req, res){
-  console.log(req);
   GeoAdminArea.
-    find({ parent_id : req.params.id }, {'aaid': 1, 'name': 1}).
+    find({ parent_id : req.params.aaid }, {'aaid': 1, 'name': 1}).
     exec( function ( err, geoadminareas ){
       if( err ) return next( err );
-        console.log(geoadminareas);
       res.send(geoadminareas);
+    });
+};
+
+exports.index = function(req, res){
+  GeoAdminArea.
+    findOne({ aaid : req.params.aaid }, {'aaid': 1, 'name': 1}).
+    exec( function ( err, geoadminarea ){
+      if( err ) return next( err );
+      if (geoadminarea) {
+        console.log(geoadminarea);
+        res.render('index', { title: geoadminarea.name });
+      }
+      else {
+        res.render('index', { title: 'FAIL!' });
+      }
     });
 };
 

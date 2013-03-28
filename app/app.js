@@ -35,7 +35,8 @@ app.configure('development', function(){
 
 app.get('/', routes.index);
 app.get('/users', user.list);
-app.get( '/geo/:id/json', geoadminarea.get_child_aaids );
+app.get( '/geo/:aaid', geoadminarea.index );
+app.get( '/geo/:aaid/json', geoadminarea.get_child_aaids );
 
 
 
