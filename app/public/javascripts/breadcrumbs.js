@@ -1,27 +1,46 @@
 // global vars
 var $breadcrumbs = $('#breadcrumbs')
-  , pointer = 0;
+  , pointer = get_requested_location();
 
 // get data and populate
-breadcrumb_do();
+while (pointer != null) {
+  breadcrumb_do(pointer);
+}
 
 /**
  * Construct the geographical breadcrumb.
  */
-function breadcrumb_do() {
+function breadcrumb_do(aaid) {
 
   // creates the breadcrumb select list
   var breadcrumb_id = 'breadcrumb-select-' + pointer;
-  $breadcrumbs.append('<select id="' + breadcrumb_id + '" class="chosen-select" data-placeholder="Choose a Distrito..."></select>');
+  $breadcrumbs.prepend('<select id="' + breadcrumb_id + '" class="chosen-select" data-placeholder="Choose a Place..."></select>');
+
+  // get own object and update pointer
+  $.ajax({
+    type: "GET",
+    url: '/geo/' + aaid + '/json',
+    async: false,
+    dataType: "json",
+    context: document.body
+  }).done(function(admin_area) {
+    if (admin_area && 'parent_id' in admin_area) {
+      pointer = admin_area.parent_id
+    }
+    else {
+     pointer = null;
+    }
+  });
 
   // load the admin areas for that pointer and process them
   $.ajax({
     type: "GET",
-    url: '/geo/' + pointer + '/json',
+    url: '/geo/' + aaid + '/json/children',
     async: false,
     dataType: "json",
     context: document.body
   }).done(function(admin_areas) {
+
     // prevent showing empty selects
     if(!admin_areas.length) {
       $('#' + breadcrumb_id).remove();
@@ -40,18 +59,15 @@ function breadcrumb_do() {
         no_results_text: "No results matched for",
         allow_single_deselect: true
       })
-      // // same page...
-      // .change(function(){
-      //   // update global pointer
-      //   var selected = $(this).val();
-      //   pointer = selected;
-      //   // load up children
-      //   breadcrumb_do();
-      // });
       .change(function(){
         // similar behavior as clicking on a link
         var url = '/geo/' + $(this).val();
         window.location.href = url;
       });
+
   });
+}
+
+function get_requested_location() {
+  return window.location.pathname.split('/')[2];
 }
