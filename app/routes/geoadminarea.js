@@ -5,12 +5,21 @@
 
 var mongoose = require('mongoose');
 var GeoAdminArea = mongoose.model('GeoAdminArea');
-var utils    = require('connect').utils;
+var utils = require('connect').utils;
 
 
-exports.get_child_aaids = function(req, res){
+exports.get_children = function(req, res){
   GeoAdminArea.
-    find({ parent_id : req.params.aaid }, {'aaid': 1, 'name': 1}).
+    find({ parent_id : req.params.aaid }, {'aaid': 1, 'name': 1, 'parent_id': 1}).
+    exec( function ( err, geoadminareas ){
+      if( err ) return next( err );
+      res.send(geoadminareas);
+    });
+};
+
+exports.get = function(req, res){
+  GeoAdminArea.
+    findOne({ aaid : req.params.aaid }).
     exec( function ( err, geoadminareas ){
       if( err ) return next( err );
       res.send(geoadminareas);
