@@ -7,6 +7,8 @@
 # - ifdata_detailed.json - Full dataset in GeoJSON
 # - ifdata_detailed_condensed.csv - Condensed version of dataset for mapping. Excludes False Alarms
 # - ifdata_detailed_condensed.sqlite3 - Condensed version for use in Tilemill
+# - ifdata_detailed_condensed_incendios.csv - Condensed version for mapping, showing only incendios
+# - ifdata_detailed_condensed_incendios.sqlite3 - Condensed version for use in Tilemill
 
 # INSTRUCTIONS
 # Place all the ZIP files in one folder and run the script on it.
@@ -69,11 +71,13 @@ echo Prepping the environment...
 #Giving the final files a nice name. Make sure to add the version.
 comb_file=ifdata_detailed-0.1
 condensed_file=ifdata_detailed_condensed-0.1
+condensed_incendios_file=ifdata_detailed_condensed_incendios-0.1
 cd $folder
 
 #Make sure if we didn't accidentily leave files behind
 find $comb_file.json -type f -exec rm '{}' \;
 find $condensed_file.sqlite3 -type f -exec rm '{}' \;
+find $condensed_incendios_file.sqlite3 -type f -exec rm '{}' \;
 
 #We first need to unzip each folder.
 for file in *.zip
@@ -166,11 +170,11 @@ csvjoin --left $comb_file.csv causas.csv -c 34,1 | csvcut --not-columns 11,12,36
 rm $comb_file.csv
 mv $comb_file-tmp.csv $comb_file.csv
 
-#We're cleaning up the column headers
+#Clean up the column headers
 #First we lowercase everything in the first row
 sed -i '1 s/\(.*\)/\L\1/' $comb_file.csv
-#With -i we're acting on the same file, the '1' makes sure we only replace on first line
 
+#With -i we're acting on the same file, the '1' makes sure we only replace on first line
 sed -i '
 	1 s/código/codigo/g;
 	1 s/dataalerta/data_alerta/g;
@@ -186,14 +190,20 @@ sed -i '
 	1 s/TipoCausa/tipo_causa/g;
 	1 s/TipoCausa/tipo_causa/g' $comb_file.csv
 
-#Create a leaner CSV for mapping purposes.
+#Create 2 leaner CSVs for mapping purposes.
 #...first we're cutting out most columns
-csvcut --columns 1,2,3,4,5,10,22,23,26 $comb_file.csv > $condensed_file-tmp.csv 
+csvcut --columns 1,2,3,4,5,10,22,23,26,28 $comb_file.csv > $condensed_file-tmp.csv
 #...then we are removing those rows that are False Alarms
-sed -i '/^[^,]*,[^,]*,[^,]*,[^,]*,[^,]*,[^,]*,1/d' $condensed_file-tmp.csv
-#...and remove the False Alarm column since it now only contains '0'
-csvcut --not-columns 9 $condensed_file-tmp.csv > $condensed_file.csv
-rm $condensed_file-tmp.csv
+sed -i '/^[^,]*,[^,]*,[^,]*,[^,]*,[^,]*,[^,]*,[^,]*,[^,]*,1,[^,]*/d' $condensed_file-tmp.csv
+#...then we create a copy for the CSV with only incendios
+cp $condensed_file-tmp.csv $condensed_incendios_file-tmp.csv
+#...and cut out the rows that are not Incendios
+sed -i '/^[^,]*,[^,]*,[^,]*,[^,]*,[^,]*,[^,]*,[^,]*,[^,]*,[^,]*,0/d' $condensed_incendios_file-tmp.csv
+#...and remove the False Alarm and Incendio columns since it now only contains '0'
+csvcut --not-columns 9,10 $condensed_file-tmp.csv > $condensed_file.csv
+csvcut --not-columns 9,10 $condensed_incendios_file-tmp.csv > $condensed_incendios_file.csv
+#rm $condensed_file-tmp.csv
+#rm $condensed_incendios_file-tmp.csv
 
 elapsed_time=$(($SECONDS - $start_time))
 echo $elapsed_time seconds. Generate a SQLite file...
@@ -229,6 +239,7 @@ elapsed_time=$(($SECONDS - $start_time))
 echo The geoJSON was prepared. The whole process took around $elapsed_time seconds. Enjoy.
 
 #TODO:
+# Make sure we export INE as a string
 # ENHANCEMENT: any cleanup we want to do on the columns
 
 exit
