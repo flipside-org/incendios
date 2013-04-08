@@ -5,10 +5,10 @@
 # OUTPUT
 # - ifdata_detailed.csv - Full dataset in CSV, slightly cleaned up and improved
 # - ifdata_detailed.json - Full dataset in GeoJSON
+# - ifdata_detailed.sqlite3 - Full dataset in SQLite
 # - ifdata_detailed_condensed.csv - Condensed version of dataset for mapping. Excludes False Alarms
 # - ifdata_detailed_condensed.sqlite3 - Condensed version for use in Tilemill
 # - ifdata_detailed_condensed_incendios.csv - Condensed version for mapping, showing only incendios
-# - ifdata_detailed_condensed_incendios.sqlite3 - Condensed version for use in Tilemill
 
 # INSTRUCTIONS
 # Place all the ZIP files in one folder and run the script on it.
@@ -76,8 +76,7 @@ cd $folder
 
 #Make sure if we didn't accidentily leave files behind
 find $comb_file.json -type f -exec rm '{}' \;
-find $condensed_file.sqlite3 -type f -exec rm '{}' \;
-find $condensed_incendios_file.sqlite3 -type f -exec rm '{}' \;
+find *.sqlite3 -type f -exec rm '{}' \;
 
 #We first need to unzip each folder.
 for file in *.zip
@@ -202,8 +201,8 @@ sed -i '/^[^,]*,[^,]*,[^,]*,[^,]*,[^,]*,[^,]*,[^,]*,[^,]*,[^,]*,0/d' $condensed_
 #...and remove the False Alarm and Incendio columns since it now only contains '0'
 csvcut --not-columns 9,10 $condensed_file-tmp.csv > $condensed_file.csv
 csvcut --not-columns 9,10 $condensed_incendios_file-tmp.csv > $condensed_incendios_file.csv
-#rm $condensed_file-tmp.csv
-#rm $condensed_incendios_file-tmp.csv
+rm $condensed_file-tmp.csv
+rm $condensed_incendios_file-tmp.csv
 
 elapsed_time=$(($SECONDS - $start_time))
 echo $elapsed_time seconds. Generate a SQLite file...
@@ -224,7 +223,8 @@ ogr2ogr -f SQLite -nlt POINT $condensed_file.sqlite3 $condensed_file.vrt
 elapsed_time=$(($SECONDS - $start_time))
 echo $elapsed_time seconds. Generating the JSON file...
 
-#Finally convert it to geoJSON.
+#Finally convert the full dataset to geoJSON & SQLite
+ogr2ogr -f SQLite -nlt POINT $comb_file.sqlite3 $comb_file.vrt
 ogr2ogr -f geoJSON -nlt POINT $comb_file.json $comb_file.vrt
 
 elapsed_time=$(($SECONDS - $start_time))
@@ -236,7 +236,7 @@ find . -type f \( -name "*.xls*" -or -name "20*.csv" -or -name "*.vrt" \) -exec 
 
 elapsed_time=$(($SECONDS - $start_time))
 
-echo The geoJSON was prepared. The whole process took around $elapsed_time seconds. Enjoy.
+echo Your files are ready to use. The whole process took around $elapsed_time seconds. Enjoy.
 
 #TODO:
 # Make sure we export INE as a string
