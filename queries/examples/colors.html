@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+
+  
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>
+  var steps = 5
+  var scale = Math.round(136/steps);
+  /*
+  var r = 241;
+  var g = 196;
+  var b = 15;
+  */
+  var r = 255;
+  var g = 255;
+  var b = 255;
+  var r2 = 148;
+  var g2 = 44;
+  var b2 = 33;
+  
+  d_r = Math.abs(r-r2) / scale;
+  d_g = Math.abs(g-g2) / scale;
+  d_b = Math.abs(b-b2) / scale;
+  
+  var output = '';
+  
+  for(var i=0; i<scale; i++){
+    r -= d_r;
+    g -= d_g;
+    b -= d_b;
+    
+    output +='[PNTCNT>' + i*steps +']{ polygon-fill: rgb(' + Math.round(r) + ',' + Math.round(g) + ',' + Math.round(b) + ');}\n'
+    
+    $('body').append('<div style="background-color: rgb(' + Math.round(r) + ',' + Math.round(g) + ',' + Math.round(b) + ')">color</div>')
+  }
+  
+  console.log(output);
+  
+  </script>
+    
+</body>
+</html>
