@@ -20,6 +20,12 @@
 
 start_time=$SECONDS
 
+#Giving the final files a nice name. Make sure to add the right version
+comb_file=ifdata_detailed-0.2
+condensed_file=ifdata_detailed_condensed-0.2
+condensed_incendios_file=ifdata_detailed_condensed_incendios-0.2
+icnf_version=1210
+
 #Change Internal Field Separator to new line. Otherwise, it will think spaces in filenames are field separators
 IFS=$'\n'
 
@@ -68,10 +74,6 @@ done
 
 echo Prepping the environment...
 
-#Giving the final files a nice name. Make sure to add the version.
-comb_file=ifdata_detailed-0.1
-condensed_file=ifdata_detailed_condensed-0.1
-condensed_incendios_file=ifdata_detailed_condensed_incendios-0.1
 cd $folder
 
 #Make sure if we didn't accidentily leave files behind
@@ -188,6 +190,12 @@ sed -i '
 	1 s/falsoalarme/falso_alarme/g;
 	1 s/TipoCausa/tipo_causa/g;
 	1 s/TipoCausa/tipo_causa/g' $comb_file.csv
+
+#Add a timestamp for the data of ICNF. This allows us to know which version of the data we use.
+sed -i 's/$/,'$icnf_version'/' $comb_file.csv
+#Add a nice name to the header
+sed -i '1 s/'$icnf_version'/icnf_version/g' $comb_file.csv
+
 
 #Create 2 leaner CSVs for mapping purposes.
 #...first we're cutting out most columns
