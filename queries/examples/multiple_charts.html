@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="http://cdn.oesmith.co.uk/morris-0.4.1.min.css">
+</head>
+<style>
+  .chart-wrapper {
+    width: 150px;
+    float: left;
+  }
+  .chart {
+    width: 150px;
+    height: 100px;
+  }
+</style>
+<body>
+  <header id="header">
+    <div class="container">
+      <h1 class="site-name">IF Project</h1>
+    </div>
+  </header>
+  <div id="content-wrapper" class="container cf">
+    <div id="main-content">
+      <article>
+        <h2>Multiple</h2>
+        <div class="chart-wrapper">
+        	<h3 class="chart-title-2001"></h3>
+        	<div class="chart" id="chart2001"></div>
+        </div>
+        <div class="chart-wrapper">
+        	<h3 class="chart-title-2002"></h3>
+        	<div class="chart" id="chart2002"></div>
+        </div>
+        <div class="chart-wrapper">
+        	<h3 class="chart-title-2003"></h3>
+        	<div class="chart" id="chart2003"></div>
+        </div>
+        <div class="chart-wrapper">
+        	<h3 class="chart-title-2004"></h3>
+        	<div class="chart" id="chart2004"></div>
+        </div>
+        <div class="chart-wrapper">
+        	<h3 class="chart-title-2005"></h3>
+        	<div class="chart" id="chart2005"></div>
+        </div>
+        <div class="chart-wrapper">
+        	<h3 class="chart-title-2006"></h3>
+        	<div class="chart" id="chart2006"></div>
+        </div>
+        <div class="chart-wrapper">
+        	<h3 class="chart-title-2007"></h3>
+        	<div class="chart" id="chart2007"></div>
+        </div>
+        <div class="chart-wrapper">
+        	<h3 class="chart-title-2008"></h3>
+        	<div class="chart" id="chart2008"></div>
+        </div>
+        <div class="chart-wrapper">
+        	<h3 class="chart-title-2009"></h3>
+        	<div class="chart" id="chart2009"></div>
+        </div>
+        <div class="chart-wrapper">
+        	<h3 class="chart-title-2010"></h3>
+        	<div class="chart" id="chart2010"></div>
+        </div>
+        <div class="chart-wrapper">
+        	<h3 class="chart-title-2011"></h3>
+        	<div class="chart" id="chart2011"></div>
+        </div>
+        
+        <br style="clear:both"/>
+      </article>
+    </div>
+  </div>
+  <footer id="footer">
+    <div class="container">
+      Being built by Flipside
+    </div>
+  </footer>
+  
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+  <script src="http://cdn.oesmith.co.uk/morris-0.4.1.min.js"></script>
+  
+  <script>
+  $(document).ready(function(){
+    $.ajax({
+      url: 'fires_month.json',
+      async: false,
+      dataType: "json"
+      
+    }).done(function(json_data, status){
+      
+      var parsed = {};
+      json_data.forEach(function(doc){
+        if (!(doc.year in parsed)){
+          parsed[doc.year] = [];
+        }
+        parsed[doc.year].push(doc);
+      });
+      
+      // Sort each year.
+      for (var year in parsed) {
+        parsed[year].sort(function(a1, a2){
+          return a1.month - a2.month;
+        });
+        
+        // Set title.
+        $('.chart-title-' + year).text(year);
+        
+        // Create the charts
+        new Morris.Bar({
+          // ID of the element in which to draw the chart.
+          element: 'chart' + year,
+          // Chart data records -- each entry in this array corresponds to a point on
+          // the chart.
+          data: parsed[year],
+          // The name of the data record attribute that contains x-values.
+          xkey: 'month',
+          // A list of names of data record attributes that contain y-values.
+          ykeys: ['total'],
+          // Labels for the ykeys -- will be displayed when you hover over the
+          // chart.
+          labels: ['Total'],
+          
+          padding : 10,
+          
+          axes : false,
+          
+          barSizeRatio : 0.8,
+          
+          ymax : 12000,
+          
+          hideHover : 'auto',
+          
+          hoverCallback: function (index, options) {
+            var row = options.data[index];
+            
+            var m = row.month;
+            var monthNames = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ]
+            
+            var output = '<div class="morris-hover-row-label">' + monthNames[m-1] + '</div>';
+            output += '<div class="morris-hover-point" style="color: #0b62a4"> Total: ' + row.total + '</div>';
+            
+            return output;
+          }
+          
+        });
+      }
+
+    });
+  });
+  </script>
+    
+</body>
+</html>
