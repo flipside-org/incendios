@@ -21,9 +21,9 @@
 start_time=$SECONDS
 
 #Giving the final files a nice name. Make sure to add the right version
-comb_file=ifdata_detailed-0.2
-condensed_file=ifdata_detailed_condensed-0.2
-condensed_incendios_file=ifdata_detailed_condensed_incendios-0.2
+comb_file=ifdata_detailed-02
+condensed_file=ifdata_detailed_condensed-02
+condensed_incendios_file=ifdata_detailed_condensed_incendios-02
 icnf_version=1210
 
 #Change Internal Field Separator to new line. Otherwise, it will think spaces in filenames are field separators
@@ -79,6 +79,7 @@ cd $folder
 #Make sure if we didn't accidentily leave files behind
 find $comb_file.json -type f -exec rm '{}' \;
 find *.sqlite3 -type f -exec rm '{}' \;
+find *.csvt -type f -exec rm '{}' \;
 
 #We first need to unzip each folder.
 for file in *.zip
@@ -225,14 +226,18 @@ echo "<OGRVRTDataSource>
 	</OGRVRTLayer>
 </OGRVRTDataSource>" > $condensed_file.vrt
 
-#Create a SQLite file
-ogr2ogr -f SQLite -nlt POINT $condensed_file.sqlite3 $condensed_file.vrt
+#Generate a CSVT that contains the structure of the CSV, so each column in the SQLite contains the correct data-type
+echo \"Real\",\"Real\",\"Integer\",\"String\",\"String\",\"Integer\",\"Real\",\"Real\" > $condensed_file.csvt
+#Create a SQLite file. -gt is set to optimize performance (http://www.gdal.org/ogr/drv_sqlite.html)
+ogr2ogr -f SQLite -gt 65536 -nlt POINT $condensed_file.sqlite3 $condensed_file.vrt
 
 elapsed_time=$(($SECONDS - $start_time))
-echo $elapsed_time seconds. Generating the JSON file...
+echo $elapsed_time seconds. Converting the full dataset to GeoJSON and SQLlite
 
+#Generate a CSVT that contains the structure of the CSV, so each column in the SQLite contains the correct data-type
+echo \"Real\",\"Real\",\"Integer\",\"String\",\"String\",\"String\",\"String\",\"String\",\"String\",\"String\",\"String\",\"String\",\"String\",\"String\",\"String\",\"String\",\"String\",\"String\",\"Real\",\"Real\",\"Real\",\"Real\",\"Real\",\"Integer\",\"Integer\",\"Integer\",\"Integer\",\"Integer\",\"Integer\",\"String\",\"String\",\"String\",\"String\",\"String\",\"String\",\"String\" > $comb_file.csvt
 #Finally convert the full dataset to geoJSON & SQLite
-ogr2ogr -f SQLite -nlt POINT $comb_file.sqlite3 $comb_file.vrt
+ogr2ogr -f SQLite -gt 65536 -nlt POINT $comb_file.sqlite3 $comb_file.vrt
 ogr2ogr -f geoJSON -nlt POINT $comb_file.json $comb_file.vrt
 
 elapsed_time=$(($SECONDS - $start_time))
@@ -245,10 +250,6 @@ find . -type f \( -name "*.xls*" -or -name "20*.csv" -or -name "*.vrt" \) -exec 
 elapsed_time=$(($SECONDS - $start_time))
 
 echo Your files are ready to use. The whole process took around $elapsed_time seconds. Enjoy.
-
-#TODO:
-# Make sure we export INE as a string
-# ENHANCEMENT: any cleanup we want to do on the columns
 
 exit
 done
