@@ -6,9 +6,8 @@
 # - ifdata_detailed.csv - Full dataset in CSV, slightly cleaned up and improved
 # - ifdata_detailed.json - Full dataset in GeoJSON
 # - ifdata_detailed.sqlite3 - Full dataset in SQLite
-# - ifdata_detailed_condensed.csv - Condensed version of dataset for mapping. Excludes False Alarms
+# - ifdata_detailed_condensed.csv - Condensed version of dataset for mapping purposes.
 # - ifdata_detailed_condensed.sqlite3 - Condensed version for use in Tilemill
-# - ifdata_detailed_condensed_incendios.csv - Condensed version for mapping, showing only incendios
 
 # INSTRUCTIONS
 # Place all the ZIP files in one folder and run the script on it.
@@ -20,7 +19,7 @@
 
 start_time=$SECONDS
 
-#Giving the final files a nice name. Make sure to add the right version
+#Giving the final files a nice name. Make sure to add the right version number, without the point 
 comb_file=ifdata_detailed-02
 condensed_file=ifdata_detailed_condensed-02
 condensed_incendios_file=ifdata_detailed_condensed_incendios-02
@@ -198,20 +197,10 @@ sed -i 's/$/,'$icnf_version'/' $comb_file.csv
 sed -i '1 s/'$icnf_version'/icnf_version/g' $comb_file.csv
 
 
-#Create 2 leaner CSVs for mapping purposes.
+#Create a leaner CSV for mapping purposes.
 #...first we're cutting out most columns
-csvcut --columns 1,2,3,4,5,10,22,23,26,28 $comb_file.csv > $condensed_file-tmp.csv
-#...then we are removing those rows that are False Alarms
-sed -i '/^[^,]*,[^,]*,[^,]*,[^,]*,[^,]*,[^,]*,[^,]*,[^,]*,1,[^,]*/d' $condensed_file-tmp.csv
-#...then we create a copy for the CSV with only incendios
-cp $condensed_file-tmp.csv $condensed_incendios_file-tmp.csv
-#...and cut out the rows that are not Incendios
-sed -i '/^[^,]*,[^,]*,[^,]*,[^,]*,[^,]*,[^,]*,[^,]*,[^,]*,[^,]*,0/d' $condensed_incendios_file-tmp.csv
-#...and remove the False Alarm and Incendio columns since it now only contains '0'
-csvcut --not-columns 9,10 $condensed_file-tmp.csv > $condensed_file.csv
-csvcut --not-columns 9,10 $condensed_incendios_file-tmp.csv > $condensed_incendios_file.csv
-rm $condensed_file-tmp.csv
-rm $condensed_incendios_file-tmp.csv
+csvcut --columns 1,2,3,4,5,10,22,23 $comb_file.csv > $condensed_file-tmp.csv
+mv $condensed_file-tmp.csv $condensed_file.csv
 
 elapsed_time=$(($SECONDS - $start_time))
 echo $elapsed_time seconds. Generate a SQLite file...
