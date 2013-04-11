@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="http://cdn.oesmith.co.uk/morris-0.4.1.min.css">
+</head>
+<body>
+  <header id="header">
+    <div class="container">
+      <h1 class="site-name">IF Project</h1>
+    </div>
+  </header>
+  <div id="content-wrapper" class="container cf">
+    <div id="main-content">
+      <article>
+        <p>This shows data for fires that started in this administratie area. The fire might have spread outside this administrative area. This is merely the origin point.</p>
+        <h2>Administrative Area</h2>
+        <div id="chart"></div>
+        <h2>Burnt Area</h2>
+        <div id="chart2"></div>
+        </article>
+    </div>
+  </div>
+  <footer id="footer">
+    <div class="container">
+      Being built by Flipside
+    </div>
+  </footer>
+  
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+  <script src="http://cdn.oesmith.co.uk/morris-0.4.1.min.js"></script>
+  
+  <script>
+  $(document).ready(function(){
+    var area = window.location.hash.replace('#','');
+    
+    if (area == '') {
+      alert('Please use an administrative area. Append #[ine] to the url');
+      return;
+    }
+      
+    $.ajax({
+      url: 'admin_types.json',
+      async: false,
+      dataType: "json"
+      
+    }).done(function(json_data, status){
+      var object = {};
+      var parsed = new Array();
+      
+      $.each(json_data, function(index, val) {
+        if (val.ine == area) {
+          object = val;
+        }
+      });
+      
+      for (var year in object.data) {
+        var temp = object.data[year];
+        temp['year'] = year;
+        
+        parsed.push(temp);
+      }
+      
+
+      new Morris.Bar({
+        // ID of the element in which to draw the chart.
+        element: 'chart',
+        // Chart data records -- each entry in this array corresponds to a point on
+        // the chart.
+        data: parsed,
+        // The name of the data record attribute that contains x-values.
+        xkey: 'year',
+        // A list of names of data record attributes that contain y-values.
+        ykeys: ['incendio', 'fogacho', 'agricola', 'queimada', 'falso_alarme'],
+        // Labels for the ykeys -- will be displayed when you hover over the
+        // chart.
+        labels: ['Incendio', 'Fogacho', 'Agricola', 'Queimada', 'Falso Alarme'],
+                
+        stacked: true
+      });
+      
+      new Morris.Area({
+        // ID of the element in which to draw the chart.
+        element: 'chart2',
+        // Chart data records -- each entry in this array corresponds to a point on
+        // the chart.
+        data: parsed,
+        // The name of the data record attribute that contains x-values.
+        xkey: 'year',
+        // A list of names of data record attributes that contain y-values.
+        ykeys: ['aa_total'],
+        // Labels for the ykeys -- will be displayed when you hover over the
+        // chart.
+        labels: ['Burnt Area'],
+        
+        postUnits : ' Ha'
+      });
+
+    });
+  });
+  </script>
+    
+</body>
+</html>
