@@ -4,6 +4,9 @@ var $breadcrumbs = $('#breadcrumbs')
   , pointer_child = pointer
   , count = 1;
 
+// hide sample select list
+var $sample_select = $('#breadcrumb-select-sample').hide();
+
 // get data and populate
 while (pointer != null) {
   breadcrumb_do(pointer);
@@ -16,8 +19,12 @@ while (pointer != null) {
 function breadcrumb_do(aaid) {
 
   // creates the breadcrumb select list
+  // clone step element
+  var $select_template = $sample_select.clone(true).removeAttr('id');
+  // set the correct ID
   var breadcrumb_id = 'breadcrumb-select-' + aaid;
-  $breadcrumbs.prepend('<select id="' + breadcrumb_id + '" class="chzn-select" data-placeholder="Choose a Place..."><option value=""></option></select>');
+  $select_template.attr('id', breadcrumb_id);
+  $breadcrumbs.prepend($select_template);
 
   // load the admin areas for that pointer and process them
   $.ajax({

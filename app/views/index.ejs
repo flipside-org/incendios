@@ -10,10 +10,21 @@
   </head>
   <body>
     <h1><%= title %></h1>
-    <div id="breadcrumbs"></div>
+
+    <!-- location breadcrumbs -->
+    <div id="breadcrumbs">
+      <select id="breadcrumb-select-sample" class="chzn-select" data-placeholder="Choose a Place...">
+        <option value=""></option>
+      </select>
+    </div>
+    <!-- / location breadcrumbs -->
+
+    <!-- content -->
     <div id="content">
       <p>We are now visualising the data for <%= title %></p>
     </div>
+    <!-- / content -->
+
     <!-- Scripts -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" type="text/javascript"></script>
     <script src="/lib/chosen/chosen/chosen.jquery.min.js" type="text/javascript"></script>
