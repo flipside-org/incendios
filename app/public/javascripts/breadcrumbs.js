@@ -1,6 +1,6 @@
 // global vars
 var $breadcrumbs = $('#breadcrumbs')
-  , pointer = get_requested_location()
+  , pointer = get_requested_aaid()
   , pointer_child = pointer
   , count = 1;
 
@@ -68,7 +68,7 @@ function breadcrumb_do(aaid) {
 
   });
 
-
+  // we are updating the pointer_child to select in the next iteration
   pointer_child = pointer;
 
   // get own object and update pointer
@@ -90,6 +90,13 @@ function breadcrumb_do(aaid) {
 
 }
 
-function get_requested_location() {
+
+/**
+ * Get the aaid from the URL
+ * @return aaid [int]
+ *
+ * @todo change this when we have final API paths
+ */
+function get_requested_aaid() {
   return window.location.pathname.split('/')[2];
 }
