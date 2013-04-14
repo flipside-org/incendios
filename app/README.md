@@ -20,7 +20,15 @@ Collections, specific to the app, *cannot be different*:
 
 ## Installation
 
-After the first `git clone`, you need to have **MongoDB running** and install node dependencies:
+After the first `git clone`, you need to install submodules as follows:
+```
+$ git submodule init
+$ git submodule update
+```
+This step will need to be repeated everytime a new submodule is added. Please do include it in release notes, if necessary.
+
+
+Make to have **MongoDB running** and install node dependencies:
 ```
 $ cd /path/to/app && npm install
 ```
