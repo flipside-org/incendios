@@ -7,6 +7,7 @@
 
 #Assumptions
 # - stylesheet = style.mss
+# - selector = ano
 
 project=${1%/}
 #Make sure the field separator is a ','
@@ -21,6 +22,16 @@ fi
 
 for year in $range
 do
+	#Change the selector to the year we want to export
 	sed -i -r -e 's/ano=2[0-9]{3}/ano='$year'/g' ~/Documents/MapBox/project/$project/style.mss
+	#Change the project name and description to include indication of year
+	sed -i -r -e 's/\"name\": \"IF Occurrences\"/\"name\": \"IF Occurrences '$year'\"/g' ~/Documents/MapBox/project/$project/project.mml
+	sed -i -r -e 's/\"description\": \"IF - occurrences per admin area\"/\"description\": \"IF - occurrences per admin area '$year'\"/g' ~/Documents/MapBox/project/$project/project.mml
+	
+	#Do the actual export and upload it
 	/usr/share/tilemill/index.js export if_occurrences ~/Documents/if_occurrences-$year.mbtiles --bbox='-10.2063,36.5361,-5.8557,42.4640' --format=mbtiles --minzoom=4 --maxzoom=13 --metatile=2
+
+	#Change the project name and description back to original
+	sed -i -r -e 's/\"name\": \"IF Occurrences [0-9]{4}\"/\"name\": \"IF Occurrences\"/g' ~/Documents/MapBox/project/$project/project.mml
+	sed -i -r -e 's/\"description\": \"IF - occurrences per admin area [0-9]{4}\"/\"description\": \"IF - occurrences per admin area\"/g' ~/Documents/MapBox/project/$project/project.mml  
 done
