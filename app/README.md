@@ -15,7 +15,7 @@ At the moment, the DB needs to have the following specifications:
 As part of improving the system, we will read these values from a JSON. You can edit `db.js` if you have a different setup, but please *do not commit it*.
 
 Collections, specific to the app, *cannot be different*:
-- geoadminarea
+- geoadminareas
 
 
 ## Installation
