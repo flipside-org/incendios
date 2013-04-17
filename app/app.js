@@ -14,7 +14,8 @@ var express = require('express')
   , http = require('http')
   , path = require('path')
   , engine = require('ejs-locals')
-  , mongoose = require('mongoose');
+  , mongoose = require('mongoose')
+  , fs = require('fs');
 
 // mongoose setup
 // @todo use read config instead!
@@ -47,10 +48,13 @@ app.configure('development', function(){
 
 
 /**
- * Bootstrap models.
+ * Bootstrap all models.
+ * A model is defined in the folder `./app/models`, e.g. `./app/models/users.js`
  */
 var models_path = __dirname + '/app/models';
-require(models_path + '/' + 'geoadminareas.js');
+fs.readdirSync(models_path).forEach(function (file) {
+  require(models_path + '/' + file);
+})
 
 
 /**
