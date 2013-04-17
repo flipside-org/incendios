@@ -13,10 +13,12 @@
 var express = require('express')
   , http = require('http')
   , path = require('path')
-  , engine = require('ejs-locals');
+  , engine = require('ejs-locals')
+  , mongoose = require('mongoose');
 
 // mongoose setup
-require( './db' );
+// @todo use read config instead!
+mongoose.connect('mongodb://localhost/incendios');
 
 
 /**
@@ -45,9 +47,10 @@ app.configure('development', function(){
 
 
 /**
- * Models.
+ * Bootstrap models.
  */
-
+var models_path = __dirname + '/app/models';
+require(models_path + '/' + 'geoadminareas.js');
 
 
 /**
