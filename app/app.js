@@ -1,7 +1,7 @@
 /**
  * @file
  * Main application entry file. Please note, the order of loading is important.
- * Configuration loading and booting of controllers and custom error handlers
+ * Configuration loading and booting of controllers and custom error handlers.
  *
  * @author Nuno Veloso (nunoveloso18@gmail.com)
  */
@@ -49,7 +49,8 @@ app.configure('development', function(){
 
 /**
  * Bootstrap all models.
- * A model is defined in the folder `./app/models`, e.g. `./app/models/users.js`
+ * Models are defined in the folder `./app/models`.
+ * e.g. `./app/models/users.js`
  */
 var models_path = __dirname + '/app/models';
 fs.readdirSync(models_path).forEach(function (file) {

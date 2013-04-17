@@ -1,11 +1,9 @@
 
-/*
- * GET users listing.
+/**
+ * Module dependencies.
  */
-
 var mongoose = require('mongoose');
 var GeoAdminArea = mongoose.model('GeoAdminArea');
-var utils = require('connect').utils;
 
 
 exports.get_children = function(req, res){

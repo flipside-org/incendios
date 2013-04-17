@@ -10,7 +10,7 @@ module.exports = function (app) {
   /**
    * GeoAdminAreas
    */
-  var geoadminarea = require('../routes/geoadminarea');
+  var geoadminarea = require('../app/controllers/geoadminarea');
   app.get( '/geo/:aaid', geoadminarea.index );
   app.get( '/geo/:aaid/json/children', geoadminarea.get_children );
   app.get( '/geo/:aaid/json', geoadminarea.get );
@@ -18,7 +18,7 @@ module.exports = function (app) {
   /**
    * Users
    */
-  var user = require('../routes/user');
+  var user = require('../app/controllers/user');
   app.get('/users', user.list);
 
   /**
