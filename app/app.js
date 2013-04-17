@@ -1,21 +1,31 @@
+/**
+ * @file
+ * Main application entry file. Please note, the order of loading is important.
+ * Configuration loading and booting of controllers and custom error handlers
+ *
+ * @author Nuno Veloso (nunoveloso18@gmail.com)
+ */
+
 
 /**
  * Module dependencies.
  */
+var express = require('express')
+  , http = require('http')
+  , path = require('path')
+  , engine = require('ejs-locals');
 
 // mongoose setup
 require( './db' );
 
-var express = require('express')
-  , routes = require('./routes')
-  , user = require('./routes/user')
-  , geoadminarea = require('./routes/geoadminarea')
-  , http = require('http')
-  , path = require('path');
 
+/**
+ * Config and settings.
+ */
 var app = express();
 
-
+// use ejs-locals for all ejs templates:
+app.engine('ejs', engine);
 
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
@@ -33,6 +43,19 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
+
+/**
+ * Models.
+ */
+var user = require('./routes/user')
+  , geoadminarea = require('./routes/geoadminarea');
+
+
+/**
+ * Routes.
+ */
+var routes = require('./routes');
+
 app.get('/', routes.index);
 app.get('/users', user.list);
 app.get( '/geo/:aaid', geoadminarea.index );
@@ -40,7 +63,9 @@ app.get( '/geo/:aaid/json/children', geoadminarea.get_children );
 app.get( '/geo/:aaid/json', geoadminarea.get );
 
 
-
+/**
+ * App start.
+ */
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
 });
