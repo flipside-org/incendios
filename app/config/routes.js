@@ -24,5 +24,5 @@ module.exports = function (app) {
   /**
    * home / front page route
    */
-  app.get('/', geoadminarea.index);
+  app.get('/', geoadminareas.index);
 }
