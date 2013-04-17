@@ -47,20 +47,13 @@ app.configure('development', function(){
 /**
  * Models.
  */
-var user = require('./routes/user')
-  , geoadminarea = require('./routes/geoadminarea');
+
 
 
 /**
  * Routes.
  */
-var routes = require('./routes');
-
-app.get('/', routes.index);
-app.get('/users', user.list);
-app.get( '/geo/:aaid', geoadminarea.index );
-app.get( '/geo/:aaid/json/children', geoadminarea.get_children );
-app.get( '/geo/:aaid/json', geoadminarea.get );
+require('./config/routes')(app);
 
 
 /**
