@@ -12,7 +12,7 @@ module.exports = function (app) {
    */
   var geoadminareas = require('../app/controllers/geoadminareas');
   app.get( '/geo/:aaid', geoadminareas.view );
-  app.get( '/geo/:aaid/json/children', geoadminareas.get_children );
+  app.get( '/geo/:aaid/json/children', geoadminareas.json_children );
   app.get( '/geo/:aaid/json', geoadminareas.json );
 
   app.param('aaid', geoadminareas.geoadminarea)
@@ -26,5 +26,5 @@ module.exports = function (app) {
   /**
    * home / front page route
    */
-  app.get('/', geoadminareas.view);
+  app.get('/', geoadminareas.json);
 }
