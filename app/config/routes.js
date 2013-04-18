@@ -17,11 +17,13 @@ module.exports = function (app) {
 
   app.param('aaid', geoadminareas.geoadminarea)
 
+
   /**
    * Users
    */
   var users = require('../app/controllers/users');
   app.get('/users', users.list);
+
 
   /**
    * home / front page route
