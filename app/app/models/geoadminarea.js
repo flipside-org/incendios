@@ -25,6 +25,7 @@ var GeoAdminArea = new Schema({
     parent_id : Number
 });
 
+// maintain indexes
 GeoAdminArea.index({aaid: 1});
 
 
@@ -36,7 +37,19 @@ GeoAdminArea.index({aaid: 1});
 /**
  * Statics
  */
-
+GeoAdminArea.statics = {
+  /**
+   * Find AdminArea by aaid
+   *
+   * @param [int] aaid
+   * @param [function] cb
+   * @api public
+   */
+  load: function (aaid, cb) {
+    this.findOne({ aaid : aaid })
+      .exec(cb)
+  },
+}
 
 /**
  * expose model

@@ -72,21 +72,27 @@ function breadcrumb_do(aaid) {
   pointer_child = pointer;
 
   // get own object and update pointer
-  $.ajax({
-    type: "GET",
-    url: '/geo/' + aaid + '/json',
-    async: false,
-    dataType: "json",
-    context: document.body
-  }).done(function(admin_area) {
-    if (admin_area && 'parent_id' in admin_area) {
-      pointer = admin_area.parent_id
-    }
-    else {
-     pointer = null;
-    }
+  if (aaid != 0) {
+    $.ajax({
+      type: "GET",
+      url: '/geo/' + aaid + '/json',
+      async: false,
+      dataType: "json",
+      context: document.body
+    }).done(function(admin_area) {
+      if (admin_area && 'parent_id' in admin_area) {
+        pointer = admin_area.parent_id
+      }
+      else {
+       pointer = null;
+      }
 
-  });
+    });
+  }
+  else {
+    pointer = null;
+  }
+
 
 }
 

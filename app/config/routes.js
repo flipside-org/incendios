@@ -11,9 +11,11 @@ module.exports = function (app) {
    * GeoAdminAreas
    */
   var geoadminareas = require('../app/controllers/geoadminareas');
-  app.get( '/geo/:aaid', geoadminareas.index );
+  app.get( '/geo/:aaid', geoadminareas.view );
   app.get( '/geo/:aaid/json/children', geoadminareas.get_children );
-  app.get( '/geo/:aaid/json', geoadminareas.get );
+  app.get( '/geo/:aaid/json', geoadminareas.json );
+
+  app.param('aaid', geoadminareas.geoadminarea)
 
   /**
    * Users
@@ -24,5 +26,5 @@ module.exports = function (app) {
   /**
    * home / front page route
    */
-  app.get('/', geoadminareas.index);
+  app.get('/', geoadminareas.view);
 }
