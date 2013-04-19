@@ -1,29 +1,202 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-    <link rel="stylesheet" href="/lib/chosen/chosen/chosen.css" />
-    <!--[if lt IE 9]>
-    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-  </head>
-  <body>
-    <h1><%= title %></h1>
+<head>
+  <title><%= title %></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="stylesheet" href="/stylesheets/normalize.css">
+  <link rel="stylesheet/less" type="text/css" href="/stylesheets/styles.less" />
+  
+  <link rel="stylesheet" href="/lib/chosen/chosen/chosen.css" />
+  <link href='http://api.tiles.mapbox.com/mapbox.js/v1.0.0/mapbox.css' rel='stylesheet' />
+  <!--[if lte IE 8]>
+    <link href='http://api.tiles.mapbox.com/mapbox.js/v1.0.0/mapbox.ie.css' rel='stylesheet' />
+  <![endif]-->
+  
+  <!-- Scripts -->
+  <script type="text/javascript">
+  less = {
+        env: "development", // or "production"
+        async: false,       // load imports async
+        fileAsync: false,   // load imports async when in a page under
+                            // a file protocol
+        poll: 1000,         // when in watch mode, time in ms between polls
+        functions: {},      // user functions, keyed by name
+        dumpLineNumbers: "comments", // or "mediaQuery" or "all"
+        relativeUrls: false,// whether to adjust url's to be relative
+                            // if false, url's are already relative to the
+                            // entry less file
+        rootpath: "/stylesheets/"// a path to add on to the start of every url
+                            //resource
+  };
+  </script>
+  <script src="https://raw.github.com/cloudhead/less.js/master/dist/less-1.3.3.min.js" type="text/javascript"></script>
+  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" type="text/javascript"></script>
+  <script src='http://api.tiles.mapbox.com/mapbox.js/v1.0.0/mapbox.js'></script>
+  
+</head>
+<body>
+  <header class="container-fluid">
+    <h1 class="site-name">IF Project</h1>
+  </header>
+  <div class="container-fluid cf">
+    <div class="row-fluid">
+      <div id="map" class="span8 map">
+      </div>
+      <div class="span4">
+        <div class="overview">
+          <h2><%= title %></h2>
+          
+          <!-- location breadcrumbs -->
+          <%-partial('breadcrumbs') %>
+          <!-- / location breadcrumbs -->
+          
+          <ul>
+            <li>Category Title</li>
+            <li><span>Very Good: </span><span>9% </span></li>
+            <li><span>Good: </span><span>29% </span></li>
+            <li><span>Basic: </span><span>22% </span></li>
+            <li><span>None: </span><span>40% </span></li>
+          </ul>
+          <ul>
+            <li>Electricity</li>
+            <li><span>79% </span></li>
+          </ul>
+          <ul class="graphs">
+            <li>Population</li>
+            <li><span>360,900</span></li>
+            <li><span>Urban </span></li>
+            <li><span>Rural </span></li>
+          </ul>
+        </div>
 
-    <!-- location breadcrumbs -->
-    <%-partial('breadcrumbs') %>
-    <!-- / location breadcrumbs -->
+        <div class="box">
+          <h3>Fires</h3>
+          <div>
+            <h5>Global number of fires</h5>
+            <span>8</span>
+          </div>
+          <div>
+            <table>
+              <thead>
+                <tr>
+                  <th class="first">
+                    <h5>Location</h5>
+                  </th>
+                  <th>Urban/Suburb</th>
+                  <th>Rural</th>
+                  <th>Overall</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th>Daily</th>
+                  <td>15%</td>
+                  <td>10%</td>
+                  <td>13%</td>
+                </tr>
+                <tr>
+                  <th>Never</th>
+                  <td>62%</td>
+                  <td>61%</td>
+                  <td>62%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
 
-    <!-- content -->
-    <div id="content">
-      <p>We are now visualising the data for <%= title %></p>
+        <div class="box">
+          <h3>Box with simple paragraph</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque mauris lorem, scelerisque sed pellentesque a, accumsan non <a href="#">neque</a>. Vestibulum in eros nisl.</p>
+        </div>
+
+      </div>
     </div>
-    <!-- / content -->
+  </div>
+  <div class="container-fluid">
+    <div class="row content-break">
 
-    <!-- Scripts -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" type="text/javascript"></script>
-    <script src="/lib/chosen/chosen/chosen.jquery.min.js" type="text/javascript"></script>
-    <script src="/javascripts/breadcrumbs.js" type="text/javascript"></script>
-  </body>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="limiter">
+        <div class="span3">
+          <h2>Project Information</h2>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque mauris lorem, scelerisque sed pellentesque a, accumsan non neque. Vestibulum in eros nisl. Praesent ac erat non mauris sodales tempus. Suspendisse imperdiet dignissim neque, et lacinia libero aliquet eu. Sed consectetur sollicitudin orci ut ultrices. In enim turpis, vehicula nec ultrices sit amet, suscipit in dolor. Vestibulum in <a href="#">link in text</a> quam. Donec ultricies augue id magna molestie interdum. Aliquam metus libero, elementum nec fermentum nec, aliquet ut urna. Phasellus a sodales odio. Sed fringilla, magna commodo euismod ornare, augue dui congue urna, a dapibus dolor velit quis diam.</p>
+        </div>
+        <div class="span6">
+          <div class="chart first">
+            <h3>Content title<span>, 2001-2012</span></h3>
+            <div class=""><img src="" width="430" height="225" alt=""></div>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque mauris lorem, scelerisque sed pellentesque a, accumsan non neque.</p>
+          </div>
+          <div class="chart">
+            <h3>Lorem ipsum H3 title long long long with linebreak</h3>
+            <div class=""><img src="" width="430" height="225" alt=""></div>
+            <ul class="icons-25">
+                <li>pos 1</li>
+                <li>pos 2</li>
+                <li>pos 3</li>
+                <li>pos 4</li>
+                <li>pos 5</li>
+                <li>pos 6</li>
+            </ul>
+          </div>
+        </div>
+        <div class="span3">
+          <div>
+            <h4>Sidebar title for paragraphs</h4>
+            <p class="bignum">354</p>
+            <p class="infoheader">Info header</p>
+            <p class="smallnum">2011 (72)</p>
+            <p class="infoheader">Info header</p>
+            <p class="mediumnum">January (40)</p>
+          </div>
+          <div>
+            <h4>Sidebar title for list</h4>
+            <ul id="bnOrgs">
+              <li class="smallnum">List item 1</li>
+              <li class="smallnum">List item 2</li>
+              <li class="smallnum">List item 3</li>
+              <li class="smallnum">list item with line break to long text yeah</li>
+              <li class="smallnum">more list items</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="span4">
+        <h2>Open Data</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque mauris lorem, scelerisque sed pellentesque a, accumsan non neque.</p>
+      </div>
+      <div class="span4">
+        <h3>Download</h3>
+        <p>Download a .csv document containing all reports visible on this site for use in a spreadsheet program or <a href="#">Link</a>.</p>
+      </div>
+      <div class="span4">
+        <h3>More Content Box with line break</h3>
+        <p><a href="#" title="">API Data Feed</a></p>
+        <p>Access this data as a JSON API feed for programmatic use in a web application.</p>
+      </div>
+    </div>
+  </div>
+  <footer id="footer">
+    <div class="container">
+      <div class="row">
+        <div class="span12">
+          <p>Being built by Flipside</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+  
+  <!-- Scripts -->
+  <script src="/lib/chosen/chosen/chosen.jquery.min.js" type="text/javascript"></script>
+  <script src="/javascripts/breadcrumbs.js" type="text/javascript"></script>
+  <script src="/javascripts/scripts.js" type="text/javascript"></script>
+</body>
 </html>
