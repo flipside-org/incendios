@@ -3,6 +3,9 @@
 <head>
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet/less" type="text/css" href="css/styles.less" />
+  
+  <link rel="stylesheet" href="http://cdn.oesmith.co.uk/morris-0.4.1.min.css">
+  
   <script type="text/javascript">
   less = {
         env: "development", // or "production"
@@ -31,67 +34,27 @@
   </header>
   <div class="container-fluid cf">
     <div class="row-fluid">
-      <div id="map" class="span8 map">
-        <script>
-        mapbox.auto('map', 'examples.map-vyofok3q');
-        </script>
-      </div>
+      <div id="map" class="span8 map"> <!-- Map --></div>
       <div class="span4">
         <div class="overview">
-          <h2>Box Title</h2>
-          <ul>
-            <li>Category Title</li>
-            <li><span>Very Good: </span><span>9% </span></li>
-            <li><span>Good: </span><span>29% </span></li>
-            <li><span>Basic: </span><span>22% </span></li>
-            <li><span>None: </span><span>40% </span></li>
-          </ul>
-          <ul>
-            <li>Electricity</li>
-            <li><span>79% </span></li>
-          </ul>
-          <ul class="graphs">
-            <li>Population</li>
-            <li><span>360,900</span></li>
-            <li><span>Urban </span></li>
-            <li><span>Rural </span></li>
-          </ul>
+          <h2>Viseu</h2>
+          <select>
+          	<option value="d">Viseu</option>
+          </select>
+          <select>
+          	<option value="c">Concelho</option>
+          </select>
+          <select>
+          	<option value="f">Freguesia</option>
+          </select>
+          <p>This shows data for fires that started in this administratie area. The fire might have spread outside this administrative area. This is merely the origin point.</p>
         </div>
 
         <div class="box">
-          <h3>Fires</h3>
-          <div>
-            <h5>Global number of fires</h5>
-            <span>8</span>
-          </div>
-          <div>
-            <table>
-              <thead>
-                <tr>
-                  <th class="first">
-                    <h5>Location</h5>
-                  </th>
-                  <th>Urban/Suburb</th>
-                  <th>Rural</th>
-                  <th>Overall</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th>Daily</th>
-                  <td>15%</td>
-                  <td>10%</td>
-                  <td>13%</td>
-                </tr>
-                <tr>
-                  <th>Never</th>
-                  <td>62%</td>
-                  <td>61%</td>
-                  <td>62%</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+          <h3>Fire type per year</h3>
+          <div id="fires-year"></div>
+          <h3>Burnt area per year</h3>
+          <div id="burnt-area"></div>
         </div>
 
         <div class="box">
@@ -181,5 +144,93 @@
       </div>
     </div>
   </footer>
+  
+  
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+  <script src="http://cdn.oesmith.co.uk/morris-0.4.1.min.js"></script>
+  <script>
+  $(document).ready(function(){
+    
+    // Create the map.
+    var map = mapbox.map('map');
+    
+    map.addLayer(mapbox.layer().id('flipside.map-epnw0q4t'));
+    
+    // Add occurrences.
+    map.addLayer(mapbox.layer().id('flipside.if_occurrences-2005'));
+    
+    map.zoom(8);
+    map.center({ lat: 40.7168, lon: -7.8674 });
+    
+    
+    
+    
+    
+    var area = 18;
+      
+    $.ajax({
+      url: 'viseu.json',
+      async: false,
+      dataType: "json"
+      
+    }).done(function(json_data, status){
+      var object = {};
+      var parsed = new Array();
+      
+      $.each(json_data, function(index, val) {
+        if (val.ine == area) {
+          object = val;
+        }
+      });
+      
+      for (var year in object.data) {
+        var temp = object.data[year];
+        temp['year'] = year;
+        
+        parsed.push(temp);
+      }
+      
+
+      new Morris.Bar({
+        // ID of the element in which to draw the chart.
+        element: 'fires-year',
+        // Chart data records -- each entry in this array corresponds to a point on
+        // the chart.
+        data: parsed,
+        // The name of the data record attribute that contains x-values.
+        xkey: 'year',
+        // A list of names of data record attributes that contain y-values.
+        ykeys: ['incendio', 'fogacho', 'agricola', 'queimada', 'falso_alarme'],
+        // Labels for the ykeys -- will be displayed when you hover over the
+        // chart.
+        labels: ['Incendio', 'Fogacho', 'Agricola', 'Queimada', 'Falso Alarme'],
+                
+        stacked: true,
+        hideHover : 'auto'
+      });
+      
+      new Morris.Area({
+        // ID of the element in which to draw the chart.
+        element: 'burnt-area',
+        // Chart data records -- each entry in this array corresponds to a point on
+        // the chart.
+        data: parsed,
+        // The name of the data record attribute that contains x-values.
+        xkey: 'year',
+        // A list of names of data record attributes that contain y-values.
+        ykeys: ['aa_total'],
+        // Labels for the ykeys -- will be displayed when you hover over the
+        // chart.
+        labels: ['Burnt Area'],
+        
+        postUnits : ' Ha',
+        hideHover : 'auto'
+      });
+
+    });
+  });
+  </script>
+  
 </body>
 </html>

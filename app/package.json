@@ -1,0 +1,16 @@
+{
+  "name": "incendios",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "dependencies": {
+    "connect"  : "1.8.7",
+    "express": "3.1.0",
+    "ejs": "*",
+    "ejs-locals": "*",
+    "nodemon": "latest",
+    "mongoose" : "3.3.1"
+  }
+}
