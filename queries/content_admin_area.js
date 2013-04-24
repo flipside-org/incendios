@@ -50,6 +50,24 @@ function reducer(curr, result) {
   // Total burnt area per year.
   result.data[year]['aa_total'] += parseFloat(curr.aa_total);
   
+  // Get the worst occurrence by comparing aa.
+  if (curr.aa_total > result.top.incendio.aa_total ) {
+    result.top.incendio.aa_total = curr.aa_total;
+    result.top.incendio.date = curr.data_alerta;
+  }
+  
+  // Get the worst year.
+  if (result.top.year == 0) {
+    result.top.year = year;
+  }
+  else {
+    var top_year = result.top.year;
+    // If the current aa id greater than the aa of the stored year.
+    if (result.data[year]['aa_total'] > result.data[top_year]['aa_total']) {
+      result.top.year = year;
+    }
+  }
+  
   // Increment type.
   for (var i = 0; i < types.length; i++) {
     var type = types[i];
@@ -63,7 +81,6 @@ function reducer(curr, result) {
   
   // If it gets here it's null.
   result.data[year]['nulls']++;
-  
 }
   
 
@@ -90,13 +107,21 @@ var group_dist = db.detailed.group({
     
     // Group by distrito.
     return {
-      ine : distrito,
+      // Change from ine to aaid
+      aaid : distrito,
     };
   },
   reduce : reducer,
   initial : {
     total : 0,
     aa_total : 0,
+    top : {
+      incendio : {
+        date : 0,
+        aa_total : 0,
+      },
+      year : 0,
+    },
     data : {}
   },
   finalize: function(result) {
@@ -110,8 +135,6 @@ for (var i = 0; i < group_dist.length; i++) {
     db.admin_types.save(group_dist[i]);
   }
 }
-
-
 
 print('Grouping data by Concelho...');
 
@@ -132,13 +155,21 @@ var group_con = db.detailed.group({
     
     // Group by concelho.
     return {
-      ine : concelho,
+      // Change from ine to aaid
+      aaid : concelho,
     };
   },
   reduce : reducer,
   initial : {
     total : 0,
     aa_total : 0,
+    top : {
+      incendio : {
+        date : 0,
+        aa_total : 0,
+      },
+      year : 0,
+    },
     data : {}
   },
   finalize: function(result) {
@@ -161,13 +192,21 @@ var group_freg = db.detailed.group({
   keyf : function(doc) {
     // Group by Freguesia.
     return {
-      ine : doc.ine.toString(),
+      // Change from ine to aaid
+      aaid : doc.ine.toString(),
     };
   },
   reduce : reducer,
   initial : {
     total : 0,
     aa_total : 0,
+    top : {
+      incendio : {
+        date : 0,
+        aa_total : 0,
+      },
+      year : 0,
+    },
     data : {}
   },
   finalize: function(result) {
