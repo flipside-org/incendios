@@ -28,8 +28,11 @@ do
 	sed -i -r -e 's/\"name\": \"IF Occurrences\"/\"name\": \"IF Occurrences '$year'\"/g' ~/Documents/MapBox/project/$project/project.mml
 	sed -i -r -e 's/\"description\": \"IF - occurrences per admin area\"/\"description\": \"IF - occurrences per admin area '$year'\"/g' ~/Documents/MapBox/project/$project/project.mml
 	
-	#Do the actual export and upload it
-	/usr/share/tilemill/index.js export if_occurrences ~/Documents/if_occurrences-$year.mbtiles --bbox='-10.2063,36.5361,-5.8557,42.4640' --format=mbtiles --minzoom=4 --maxzoom=13 --metatile=2
+	#Do the actual export
+	/usr/share/tilemill/index.js export $project ~/Documents/if_occurrences-$year.mbtiles --bbox='-10.2063,36.5361,-5.8557,42.4640' --format=mbtiles --minzoom=4 --maxzoom=13 --metatile=2
+
+	#and upload it. On project we have to specify a unique name, otherwise MapBox will just overwrite the project each time you upload
+	/usr/share/tilemill/index.js export $project-$year ~/Documents/if_occurrences-$year.mbtiles --format=upload --syncAccount="flipside" --syncAccessToken=""
 
 	#Change the project name and description back to original
 	sed -i -r -e 's/\"name\": \"IF Occurrences [0-9]{4}\"/\"name\": \"IF Occurrences\"/g' ~/Documents/MapBox/project/$project/project.mml
