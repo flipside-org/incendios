@@ -19,10 +19,9 @@
 
 start_time=$SECONDS
 
-#Giving the final files a nice name. Make sure to add the right version number, without the point 
-comb_file=ifdata_detailed-02
-condensed_file=ifdata_detailed_condensed-02
-condensed_incendios_file=ifdata_detailed_condensed_incendios-02
+#Giving the final files a nice name. Make sure to add the right version number. 
+comb_file=ifdata_detailed-03
+condensed_file=ifdata_detailed_condensed-03
 icnf_version=1210
 
 #Change Internal Field Separator to new line. Otherwise, it will think spaces in filenames are field separators
@@ -141,7 +140,7 @@ echo $elapsed_time seconds. Reproject the coordinate system
 
 #Reproject the CSV coordinates to a more useful format.
 #http://gis-lab.info/docs/gdal/gdal_ogr_user_docs.html#ogrinfo
-ogr2ogr -f CSV -nlt POINT tmp $comb_file.vrt -lco GEOMETRY=AS_XY -t_srs EPSG:900913 -skipfailures
+ogr2ogr -f CSV -nlt POINT tmp $comb_file.vrt -lco GEOMETRY=AS_XY -t_srs EPSG:4326 -skipfailures
 
 #Housekeeping
 rm $comb_file.csv
@@ -153,7 +152,7 @@ echo "<OGRVRTDataSource>
 	<OGRVRTLayer name=\"$comb_file\">
 		<SrcDataSource>$comb_file.csv</SrcDataSource>
     	<GeometryType>wkbPoint</GeometryType>
-    	<LayerSRS>EPSG:900913</LayerSRS>
+    	<LayerSRS>EPSG:4326</LayerSRS>
     	<GeometryField encoding=\"PointFromColumns\" x=\"X\" y=\"Y\"/>
 	</OGRVRTLayer>
 </OGRVRTDataSource>" > $comb_file.vrt
@@ -210,7 +209,7 @@ echo "<OGRVRTDataSource>
 	<OGRVRTLayer name=\"$condensed_file\">
 		<SrcDataSource>$condensed_file.csv</SrcDataSource>
     	<GeometryType>wkbPoint</GeometryType>
-    	<LayerSRS>EPSG:900913</LayerSRS>
+    	<LayerSRS>EPSG:4326</LayerSRS>
     	<GeometryField encoding=\"PointFromColumns\" x=\"X\" y=\"Y\"/>
 	</OGRVRTLayer>
 </OGRVRTDataSource>" > $condensed_file.vrt
