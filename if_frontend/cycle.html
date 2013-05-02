@@ -2,27 +2,7 @@
 <html>
 <head>
   <link rel="stylesheet" href="css/normalize.css">
-  <link rel="stylesheet/less" type="text/css" href="css/styles.less" />
-  
-  <link rel="stylesheet" href="http://cdn.oesmith.co.uk/morris-0.4.1.min.css">
-  
-  <script type="text/javascript">
-  less = {
-        env: "development", // or "production"
-        async: false,       // load imports async
-        fileAsync: false,   // load imports async when in a page under
-                            // a file protocol
-        poll: 1000,         // when in watch mode, time in ms between polls
-        functions: {},      // user functions, keyed by name
-        dumpLineNumbers: "comments", // or "mediaQuery" or "all"
-        relativeUrls: false,// whether to adjust url's to be relative
-                            // if false, url's are already relative to the
-                            // entry less file
-        rootpath: "/incendios/if_frontend/css/"// a path to add on to the start of every url
-                            //resource
-  };
-  </script>
-  <script src="https://raw.github.com/cloudhead/less.js/master/dist/less-1.3.3.min.js" type="text/javascript"></script>
+  <link rel="stylesheet" type="text/css" href="css/styles.css" />
 
   <script src='http://api.tiles.mapbox.com/mapbox.js/v0.6.7/mapbox.js'></script>
   <link href='http://api.tiles.mapbox.com/mapbox.js/v0.6.7/mapbox.css' rel='stylesheet' />
@@ -145,8 +125,8 @@
       </div>
     </div>
   </footer>
-  
-  
+
+
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
   <script src="http://cdn.oesmith.co.uk/morris-0.4.1.min.js"></script>
@@ -215,11 +195,11 @@
         map: 'flipside.if_occurrences-2011'
       }
     ];
-    
+
     // Create the map.
     var map = mapbox.map('map');
     map.addLayer(mapbox.layer().id(base_map).composite(false));
-    
+
     // Add Layers
     for (var i = 0; i < layers.length; i++) {
       var l = mapbox.layer().id(layers[i].map);
@@ -230,28 +210,28 @@
       // Set composite to false to be able to control each layer's oapcity.
       l.composite(false);
       map.addLayer(l);
-      
-      
+
+
       // Map links
       // TODO: properly format.
       var $a = $('<a href="' + layers[i].map + '">');
       $a.text(layers[i].year);
       $a.css('display', 'block');
-      
+
       // Click handler for map links
       $a.click(function(){
         sliding = false;
         $control_link.text('play');
-        
+
         // Vars.
         var map_to_show = $(this).attr('href');
         var current_map = map.getLayer(map_to_show);
         var current_map_map = current_map.id();
-        
+
         for (var j = 0; j < layers.length; j++) {
           // Disable all layers.
           map.getLayer(layers[j].map).disable();
-          
+
           // Store the active layer index.
           if (layers[j].map == current_map_map) {
             active_layer = j;
@@ -260,15 +240,15 @@
 
         // Enable and set opacity to max.
         current_map.enable().parent.style.opacity = 1;
-        
+
         return false;
       });
-      
+
       $('.map-links').append($a);
     }
-    
-    
-    
+
+
+
     // TODO: add properly.
     var $control_link = $('<a href="#">').text('stop');
     $control_link.click(function(){
@@ -288,8 +268,8 @@
       return false;
     });
     $('.map-links').append($control_link);
-    
-    
+
+
 
     map.zoom(8);
     map.center({ lat: 40.7168, lon: -7.8674 });
@@ -313,22 +293,22 @@
       l_in.enable();
       // Fade in layer.
       layer_in(l_in);
-      
+
       // Recursive Call.
       if (sliding && focused) {
         timeout = setTimeout(layer_slider, 2500);
       }
     };
     timeout = setTimeout(layer_slider, 2500);
-    
+
     /**
      * Fade out layer.
      */
     function layer_out(l){
       l.parent.style.opacity -= 0.1;
-      
+
       console.debug('decreasing opacity: ' + l.parent.style.opacity);
-      
+
       if (l.parent.style.opacity <= 0) {
         l.parent.style.opacity = 0;
         l.disable();
@@ -340,15 +320,15 @@
         }
       }
     }
-    
+
     /**
      * Fade in layer.
      */
     function layer_in(l){
       l.parent.style.opacity = parseFloat(l.parent.style.opacity) + 0.1;
-      
+
       console.debug('increasing opacity: ' + l.parent.style.opacity);
-      
+
       if (l.parent.style.opacity >= 1) {
         l.parent.style.opacity = 1;
       }
@@ -359,7 +339,7 @@
         }
       }
     }
-    
+
     // Corrects bug with changing window.
     // http://stackoverflow.com/questions/6032429/chrome-timeouts-interval-suspended-in-background-tabs
     window.addEventListener('focus', function(){
@@ -370,7 +350,7 @@
         timeout = setTimeout(layer_slider, 2500);
       }
     });
-    
+
     window.addEventListener('blur', function(){
       focused = false;
       // Clear all timeouts.
@@ -382,9 +362,9 @@
         l_out.disable();
       }
     });
-    
+
   });
   </script>
-  
+
 </body>
 </html>
