@@ -770,9 +770,6 @@ header h1 {
   background: ;
   padding: 20px 0px 5px 100px;
 }
-header h1 small {
-  color: #000000;
-}
 footer {
   color: #ffffff;
   background: #000000;
@@ -881,6 +878,24 @@ cite {
 .container-fluid h3,
 .container-fluid h4 {
   font-family: 'OstrichSans';
+}
+.container-fluid h3,
+.container-fluid h4 {
+  font-weight: normal;
+}
+.container-fluid.dark {
+  background: #000;
+  border-bottom: 1px solid #fff;
+}
+.container-fluid.dark h1,
+.container-fluid.dark h2,
+.container-fluid.dark h3,
+.container-fluid.dark h4 {
+  color: #fff;
+}
+.container-fluid.dark em {
+  font-style: normal;
+  color: #fff;
 }
 #overlay {
   position: absolute;
