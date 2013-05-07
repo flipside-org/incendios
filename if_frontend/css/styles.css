@@ -766,9 +766,12 @@ body {
 }
 header h1 {
   margin: 0;
-  color: #ffffff;
-  background: #000000;
-  padding: 10px 30px;
+  color: #000000;
+  background: ;
+  padding: 20px 0px 5px 100px;
+}
+header h1 small {
+  color: #000000;
 }
 footer {
   color: #ffffff;
@@ -786,11 +789,10 @@ h1,
 h2,
 h3,
 h4 {
-  font-family: 'OstrichSans';
   font-weight: bold;
 }
 h1 {
-  font-size: 26px;
+  font-size: 30px;
   line-height: auto;
 }
 h2 {
@@ -869,13 +871,16 @@ cite {
 -------------------------------------------------------------- */
 .container-fluid {
   background: #fff;
-  color: #666;
+  border-bottom: 1px solid #000;
 }
 .container-fluid .row-fluid {
   position: relative;
 }
-.container-fluid a {
-  color: #666;
+.container-fluid h1,
+.container-fluid h2,
+.container-fluid h3,
+.container-fluid h4 {
+  font-family: 'OstrichSans';
 }
 #overlay {
   position: absolute;
@@ -886,24 +891,26 @@ cite {
   overflow: hidden;
 }
 #overlay.dark {
-  background: rgba(0, 0, 0, 0.9);
+  background: rgba(0, 0, 0, 0.85);
   color: #ddd;
-}
-.map-links {
-  background: #000;
-}
-.map-links a {
-  display: inline-block !important;
-  color: #fff;
-  font-family: 'OstrichSans';
-  font-size: 28px;
-  margin: 15px 10px;
-}
-.map-links a:first-child {
-  margin-left: 50px;
 }
 .map {
   height: 800px;
+}
+.map-links {
+  background: #fff;
+  border-top: 1px solid #000;
+}
+.map-links a {
+  display: inline-block !important;
+  color: #000;
+  font-family: 'OstrichSans';
+  font-size: 28px;
+  margin: 15px 10px 8px 10px;
+}
+.map-links a:first-child {
+  margin-left: 50px;
+  color: #268bd2;
 }
 .overview,
 .box {
@@ -936,6 +943,9 @@ cite {
 }
 /* Bottom
 -------------------------------------------------------------- */
+.limiter {
+  margin-top: 50px;
+}
 @media screen and (max-width: 600px) {
   .map,
   .map-content {
