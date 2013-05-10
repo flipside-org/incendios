@@ -14,7 +14,6 @@ module.exports = function (app) {
   app.get( '/geo/:aaid', geoadminareas.view );
   app.get( '/geo/:aaid/json/children', geoadminareas.json_children );
   app.get( '/geo/:aaid/json', geoadminareas.json );
-  app.get( '/geo/:aaid/json/breadcrumb', geoadminareas.breadcrumb );
 
   app.param('aaid', geoadminareas.geoadminarea)
 

@@ -32,46 +32,6 @@ exports.geoadminarea = function(req, res, next, aaid){
  * Renders the page for a GeoAdminArea.
  */
 exports.view = function(req, res){
-  res.render('index', { title: req.geoadminarea.name });
-};
-
-
-/**
- * API: sends JSON of a given GeoAdminArea.
- */
-exports.json = function(req, res){
-  res.send(req.geoadminarea)
-}
-
-
-/**
- * API: sends JSON of all the chidren of a given GeoAdminArea
- */
-exports.json_children = function(req, res){
-  // query criteria
-  var options = {
-    criteria: { parent_id: req.params.aaid },
-    fields: { aaid: 1, name: 1 }
-  }
-
-  // get the list of requested elements
-  GeoAdminArea.list(options, function(err, geoadminareas) {
-    // error handling
-    if (err) return res.render('500')
-
-    // execute!
-    GeoAdminArea.count().exec(function (err, count) {
-      // send JSON
-      res.send(geoadminareas)
-    })
-  })
-};
-
-
-/**
- * API: sends JSON of
- */
-exports.breadcrumb = function(req, res){
   // variables
   var breadcrumbs = []
 
@@ -108,9 +68,33 @@ exports.breadcrumb = function(req, res){
             list : sibling_aa,
           });
 
+          // ok, trail is completed, now we will provide children selection and render
           if (aa_trail.parent_id == 0) {
-            res.render('index', { title: req.geoadminarea.name, breadcrumbs: breadcrumbs });
-            // res.send(breadcrumbs)
+            // query criteria
+            var options = {
+              criteria: { parent_id: req.params.aaid },
+              fields: { aaid: 1, name: 1 }
+            }
+
+            // get the list of requested elements
+            GeoAdminArea.list(options, function(err, children_aa) {
+              // error handling
+              if (err) return res.render('500')
+
+              // execute!
+              GeoAdminArea.count().exec(function (err, count) {
+                breadcrumbs.push({
+                  select: { type: 'new' },
+                  list: children_aa,
+                })
+
+                // render!
+                res.render('index', { title: req.geoadminarea.name, breadcrumbs: breadcrumbs });
+                // send JSON
+                // res.send(breadcrumbs)
+              })
+            })
+
           }
           else {
             breadcumb_trail(aa_trail.parent_id)
@@ -121,5 +105,38 @@ exports.breadcrumb = function(req, res){
     })
   }
 };
+
+
+/**
+ * API: sends JSON of a given GeoAdminArea.
+ */
+exports.json = function(req, res){
+  res.send(req.geoadminarea)
+}
+
+
+/**
+ * API: sends JSON of all the chidren of a given GeoAdminArea
+ */
+exports.json_children = function(req, res){
+  // query criteria
+  var options = {
+    criteria: { parent_id: req.params.aaid },
+    fields: { aaid: 1, name: 1 }
+  }
+
+  // get the list of requested elements
+  GeoAdminArea.list(options, function(err, geoadminareas) {
+    // error handling
+    if (err) return res.render('500')
+
+    // execute!
+    GeoAdminArea.count().exec(function (err, count) {
+      // send JSON
+      res.send(geoadminareas)
+    })
+  })
+};
+
 
 
