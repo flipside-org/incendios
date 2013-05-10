@@ -956,6 +956,17 @@ cite {
   font-size: 28px;
   font-weight: normal;
 }
+
+
+
+
+#footer {
+  height: 100px;
+}
+
+
+
+
 /* Bottom
 -------------------------------------------------------------- */
 .limiter {
