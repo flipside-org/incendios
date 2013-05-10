@@ -9,7 +9,7 @@ mongoimport -d incendios -c adminstats --jsonArray < adminstats.json
 
 #### Example object
 
-```
+```json
 {
     "_id": {
         "$oid": "5177acf603f671df33a419db"
