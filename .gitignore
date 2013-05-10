@@ -3,3 +3,6 @@
 
 # Files generated in test folder
 data_wrangling/tests/ifdata*
+
+# Aptana .project
+.project
