@@ -12,7 +12,9 @@
     <h1><%= title %></h1>
 
     <!-- location breadcrumbs -->
-    <%-partial('breadcrumbs') %>
+    <% if (breadcrumbs.length) { %>
+      <%-partial('breadcrumbs') %>
+    <% } %>
     <!-- / location breadcrumbs -->
 
     <!-- content -->
