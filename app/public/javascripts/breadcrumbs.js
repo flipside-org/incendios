@@ -14,10 +14,3 @@ $breadcrumbs.each(function() {
       window.location.href = url;
     });
 });
-
-// UI: now make sure new ones are unselected
-// @todo this is working but Chosen keeps showing default!!
-var $new_chosen = $('#breadcrumb_select_new_chzn');
-
-$new_chosen.find('.result-selected').removeClass('result-selected');
-
