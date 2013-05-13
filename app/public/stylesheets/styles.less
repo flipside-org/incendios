@@ -74,23 +74,13 @@
 
 }
 @font-face {
-  font-family: 'OstrichSans';
+  font-family: 'OstrichSansMedium';
   src: url('../fonts/ostrich-regular-webfont.eot');
   src: url('../fonts/ostrich-regular-webfont.eot?#iefix') format('embedded-opentype'),
   url('../fonts/ostrich-regular-webfont.woff') format('woff'),
   url('../fonts/ostrich-regular-webfont.ttf') format('truetype'),
-  url('../fonts/ostrich-regular-webfont.svg#OstrichSans') format('svg');
+  url('../fonts/ostrich-regular-webfont.svg#OstrichSansMedium') format('svg');
   font-weight: normal;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'OstrichSans';
-  src: url('../fonts/ostrich-black-webfont.eot');
-  src: url('../fonts/ostrich-black-webfont.eot?#iefix') format('embedded-opentype'),
-  url('../fonts/ostrich-black-webfont.woff') format('woff'),
-  url('../fonts/ostrich-black-webfont.ttf') format('truetype'),
-  url('../fonts/ostrich-black-webfont.svg#OstrichSans') format('svg');
-  font-weight: bold;
   font-style: normal;
 }
 
@@ -98,16 +88,15 @@
 /*  BASICS AND TYPOGRAPHY
 * ------------------------------- */
 body {
-  -webkit-font-smoothing: subpixel-antialiased;
   font-family: 'DroidSans', Arial, sans-serif;
 }
 
 header {
   h1 {
     margin: 0;
-    color: @black;
-    background: ;
-    padding: 20px 0px 5px 100px;
+    color: @white;
+    background: @black;
+    padding: 10px 30px;
   }
 }
 
@@ -129,13 +118,12 @@ footer {
 // Headings
 // -------------------------
 h1, h2, h3, h4 {
-  font-weight: bold;
-}
 
-h1 { font-size: 30px; line-height: auto; }
-h2 { font-size: 40px; line-height: auto; }
-h3 { font-size: 30px; line-height: auto; }
-h4 { font-size: 20px; line-height: auto; }
+}
+h1 { font-size: 21px; line-height: auto; }
+h2 { font-size: 35px; line-height: auto; }
+h3 { font-size: 21px; line-height: auto; }
+h4 { font-size: 18px; line-height: auto; }
 
 h1 small { font-size: 0.8em; }
 h2 small { font-size: 0.8em; }
@@ -192,128 +180,11 @@ cite {
   margin-top: 100px;
 }
 
-/* TOP AREA: Map and Sidebar
--------------------------------------------------------------- */
 
-.container-fluid {
-  background: #fff;
-  border-bottom: 1px solid #000;
 
-  .row-fluid {
-    position: relative;
-  }
-
-  h1, h2, h3, h4 {
-    font-family: 'OstrichSans';
-  }
-
-  h3, h4 {
-    font-weight: normal;
-  }
-
-  a {
-  }
-  &.dark {
-    background: #000;
-    border-bottom: 1px solid #fff;
-
-    h1, h2, h3, h4 {
-      color: #fff;
-    }
-    em {
-    font-style: normal;
-    color: #fff;
-  }
-  }
-}
-
-#overlay {
-  position: absolute;
-  height: 100%;
-  top: 0px;
-  right: 0px;
-  background: rgba(255, 255, 255, 0.8);
-  overflow: hidden;
-
-  &.dark {
-    background: rgba(0, 0, 0, 0.85);
-    color: #ddd;
-  }
-}
-
-// Map
-// -------------------------
 .map {
-  height: 800px;
+  height: 550px;
 }
-
-.map-links {
-  background: #fff;
-  border-top: 1px solid #000;
-
-  a {
-    display: inline-block !important;
-    color: #000;
-    font-family: 'OstrichSans';
-    font-size: 28px;
-    margin: 15px 10px 8px 10px;
-
-    &:first-child {
-      margin-left: 50px;
-      color: #268bd2;
-    }
-  }
-}
-
-
-// Sidebar
-// -------------------------
-
-.overview, .box{
-  margin: 0px 20px;
-
-  h2, h3{
-    margin-top: 0.7em;
-  }
-
-  select {
-    margin-bottom: 15px;
-  }
-}
-
-#fires-year{
-  height: 300px;
-}
-
-#burnt-area{
-  height: 200px;
-}
-
-.morris-hover.morris-default-style {
-  font-size: 14px;
-  font-family: 'DroidSans', Arial, sans-serif;
-
-  .morris-hover-row-label{
-    font-family: 'OstrichSans';
-    font-size: 28px;
-    font-weight: normal;
-  }
-}
-
-/* Bottom
--------------------------------------------------------------- */
-
-.limiter {
-  margin-top: 50px;
-}
-
-
-
-
-
-
-
-
 
 
 @media screen and (max-width: 600px) {

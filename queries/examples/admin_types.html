@@ -2,6 +2,7 @@
 <html>
 <head>
     <link rel="stylesheet" href="http://cdn.oesmith.co.uk/morris-0.4.1.min.css">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
 <body>
   <header id="header">
@@ -13,6 +14,7 @@
     <div id="main-content">
       <article>
         <p>This shows data for fires that started in this administratie area. The fire might have spread outside this administrative area. This is merely the origin point.</p>
+        <p id="statistics"></p>
         <h2>Administrative Area</h2>
         <div id="chart"></div>
         <h2>Burnt Area</h2>
@@ -49,10 +51,36 @@
       var parsed = new Array();
       
       $.each(json_data, function(index, val) {
-        if (val.ine == area) {
+        if (val.aaid == area) {
           object = val;
         }
       });
+      
+      // Set statistics.
+      var sentence = 'Entre 2001 e 2011 registaram-se :occurrences ocorências :pp_admin_area de :admin_area. :top_year_year foi o ano mais grave tendo ardido :top_year_ha hectares. O maior incêndio que teve início :pd_admin_area ocorreu a :top_incendio_date consumindo :top_incendio_ha hectares.';
+      
+      // Date calculation.
+      var top_incendio_date = new Date(object.top.incendio.date);
+      var day = top_incendio_date.getDay();
+      var month = top_incendio_date.getMonth();
+      var year = top_incendio_date.getFullYear();
+      var monthNames = [ "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro" ]
+            
+      
+      var args = {
+        ':occurrences' : 1200,
+        // Pronome pessoal and admin area.
+        ':pp_admin_area' : ((object.admin == 'freguesia') ? 'na ' : 'no ') + object.admin,
+        ':top_year_year' : object.top.year,
+        ':top_year_ha' : object.data[object.top.year].aa_total,
+        // Pronome demonstrativo and admin area.
+        ':pd_admin_area' : ((object.admin == 'freguesia') ? 'nesta ' : 'neste ') + object.admin,
+        ':top_incendio_date' :  day + ' de ' + monthNames[month] + ' de ' + year,
+        ':top_incendio_ha' : object.top.incendio.aa_total
+        
+      };
+      
+      $('#statistics').text(string_format(sentence, args));
       
       for (var year in object.data) {
         var temp = object.data[year];
@@ -60,6 +88,7 @@
         
         parsed.push(temp);
       }
+      
       
 
       new Morris.Bar({
@@ -98,6 +127,14 @@
 
     });
   });
+  
+  function string_format(string, args) {
+    for (var arg in args) {
+      var regExp = new RegExp(arg, 'g');
+      string = string.replace(regExp, args[arg]);
+    }
+    return string;
+  }
   </script>
     
 </body>
