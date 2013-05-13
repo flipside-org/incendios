@@ -22,7 +22,25 @@ var GeoAdminArea = new Schema({
     aaid : {type :Number, unique: true},
     name    : String,
     type    : Number,
-    parent_id : Number
+    parent_id : Number,
+    freguesia: String,
+    municipio: String,
+    distrito: String,
+    geo : {
+      area : Number,
+      min : {
+        x : Number,
+        y : Number
+      },
+      max : {
+        x : Number,
+        y : Number
+      },
+      center : {
+        x : Number,
+        y : Number
+      }
+    }
 });
 
 // maintain indexes
