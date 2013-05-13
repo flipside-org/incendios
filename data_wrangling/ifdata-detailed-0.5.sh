@@ -20,8 +20,8 @@
 start_time=$SECONDS
 
 #Giving the final files a nice name. Make sure to add the right version number. 
-comb_file=ifdata_detailed-03
-condensed_file=ifdata_detailed_condensed-03
+comb_file=ifdata_detailed-05
+condensed_file=ifdata_detailed_condensed-05
 icnf_version=1210
 
 #Change Internal Field Separator to new line. Otherwise, it will think spaces in filenames are field separators
@@ -177,6 +177,7 @@ sed -i '1 s/\(.*\)/\L\1/' $comb_file.csv
 #With -i we're acting on the same file, the '1' makes sure we only replace on first line
 sed -i '
 	1 s/código/codigo/g;
+	1 s/ine/aaid_freguesia/g;
 	1 s/dataalerta/data_alerta/g;
 	1 s/horaalerta/hora_alerta/g;
 	1 s/dataextinção/data_extincao/g;
@@ -190,6 +191,22 @@ sed -i '
 	1 s/TipoCausa/tipo_causa/g;
 	1 s/TipoCausa/tipo_causa/g' $comb_file.csv
 
+#Add two columns: aaid_municipio and aaid_distrito with the municipal and district codes.
+#First we duplicate the aaid_freguesia and remove the last four characters
+awk 'BEGIN { FS=","; OFS=","; } { col = substr($10,1, length($10) - 4) "," $10; $10 = col; print }' $comb_file.csv > tmp_$comb_file.csv
+#Replace column header
+sed -i '1 s/aaid_fregu,/aaid_distrito,/g' tmp_$comb_file.csv
+
+#We repeat the same procedure for Municipio, this time only cutting the last two characters.
+awk 'BEGIN { FS=","; OFS=","; } { col = substr($11,1, length ($11) - 2) "," $11; $11 = col; print }' tmp_$comb_file.csv > tmp2_$comb_file.csv
+sed -i '1 s/aaid_fregues,/aaid_municipio,/g' tmp2_$comb_file.csv
+
+#Cleaning up
+rm tmp_$comb_file.csv
+rm $comb_file.csv
+mv tmp2_$comb_file.csv $comb_file.csv
+exit
+
 #Add a timestamp for the data of ICNF. This allows us to know which version of the data we use.
 sed -i 's/$/,'$icnf_version'/' $comb_file.csv
 #Add a nice name to the header
@@ -198,7 +215,7 @@ sed -i '1 s/'$icnf_version'/icnf_version/g' $comb_file.csv
 
 #Create a leaner CSV for mapping purposes.
 #...first we're cutting out most columns
-csvcut --columns 1,2,3,4,5,10,22,23 $comb_file.csv > $condensed_file-tmp.csv
+csvcut --columns 1,2,3,4,5,10,11,12,24,2 $comb_file.csv > $condensed_file-tmp.csv
 mv $condensed_file-tmp.csv $condensed_file.csv
 
 elapsed_time=$(($SECONDS - $start_time))
