@@ -2,8 +2,8 @@ $(document).ready(function(){
   
   // Create the map.
   var map = L.mapbox.map('map').setView([40, -74.50], 9);
-  //map.addLayer(L.mapbox.tileLayer('flipside.map-epnw0q4t'));
-  map.addLayer(L.mapbox.tileLayer('examples.map-4l7djmvo'));
+  //map.addLayer(L.mapbox.tileLayer('examples.map-4l7djmvo'));
+  map.addLayer(L.mapbox.tileLayer('flipside.map-epnw0q4t'));
   
   var aaid = get_requested_aaid();
   $.ajax({

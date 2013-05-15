@@ -944,9 +944,6 @@ cite {
   font-weight: normal;
 }
 
-
-
-
 #footer {
   height: 100px;
 }
@@ -959,6 +956,45 @@ cite {
   margin-left: 100px;
 }
 
+header h1 {
+  float: left;
+}
+
+/* Main Menu */
+#main-menu {
+  float: right;
+  margin: 20px 100px 0 0;
+}
+#main-menu ul {
+  padding: 0;
+  margin: 0;
+}
+#main-menu ul li{
+  list-style-type: none;
+  display: inline-block;
+  padding: 0 0 0 30px;
+}
+#main-menu ul li a{
+  text-transform: uppercase;
+  color: #999999;
+  font-family: "League Gothic";
+  font-size: 1.5em;
+}
+#main-menu ul li a:hover{
+  text-decoration: none;
+  color: #C0392B;
+}
+
+/**********************************************************/
+/* About page */
+#overlay.center-over {
+  width: auto;
+  height: auto;
+  top: 20px;
+  bottom: 20px;
+  right: 10%;
+  left: 10%;
+}
 
 /* Bottom
 -------------------------------------------------------------- */
@@ -1017,6 +1053,9 @@ cite {
   header h1 {
     padding: 10px 20px 5px;
   }
+  #main-menu {
+    margin-right: 20px;
+  }
   
   #footer .footer-content {
     margin-left: 20px;
@@ -1031,10 +1070,33 @@ cite {
     margin: 0 10px;
   }
   
+  header h1 {
+    float: none;
+  }
+  
+  #main-menu {
+    float: none;
+    margin: 10px 0 10px 20px;
+  }
+  #main-menu ul li{
+    /* Change padding on li to right*/
+    padding: 0 30px 0 0;
+  }
+  
   #overlay {
     position: relative;
     margin: 0;
     width: 100%;
+  }
+  
+  #overlay.center-over {
+    position: absolute;
+    width: auto;
+    height: auto;
+    top: 20px;
+    bottom: 20px;
+    right: 30px;
+    left: 30px;
   }
   
   .chzn-container.chzn-container-single {
