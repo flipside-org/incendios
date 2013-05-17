@@ -23,9 +23,6 @@ var GeoAdminArea = new Schema({
     name    : String,
     type    : Number,
     parent_id : Number,
-    freguesia: String,
-    municipio: String,
-    distrito: String,
     geo : {
       area : Number,
       min : {
