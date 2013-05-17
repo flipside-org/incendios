@@ -19,6 +19,13 @@ module.exports = function (app) {
 
 
   /**
+   * About
+   */
+  var about = require('../app/controllers/about');
+  app.get('/about', about.view);
+
+
+  /**
    * Users
    */
   var users = require('../app/controllers/users');

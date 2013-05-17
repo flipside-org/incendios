@@ -1,31 +1,143 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-    <link rel="stylesheet" href="/lib/chosen/chosen/chosen.css" />
+<head>
+  <title><%= title %></title>
+  <link href='http://fonts.googleapis.com/css?family=Lato:400,700,300' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="/stylesheets/normalize.css">
+  <link rel="stylesheet" href="/stylesheets/styles.css" />
     <!--[if lt IE 9]>
     <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-  </head>
-  <body>
-    <h1><%= title %></h1>
+  
+  <link rel="stylesheet" href="/lib/chosen/chosen/chosen.css" />
+  <link rel="stylesheet" href="http://cdn.oesmith.co.uk/morris-0.4.1.min.css">
+  <script src='http://api.tiles.mapbox.com/mapbox.js/v1.0.2/mapbox.js'></script>
+  <link href='http://api.tiles.mapbox.com/mapbox.js/v1.0.2/mapbox.css' rel='stylesheet' />
+  <!--[if lte IE 8]>
+    <link href='http://api.tiles.mapbox.com/mapbox.js/v1.0.2/mapbox.ie.css' rel='stylesheet' >
+  <![endif]-->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+</head>
+<body>
+  <div class="container-fluid cf">
+    <header class="row-fluid">
+      <h1 class="site-name">Incêndios <small>a project by flipside</small></h1>
+    </header>
+    <div class="row-fluid">
+      <div class="map-wrapper">
+        <div id="map" class="span12 map"> <!-- Map --></div>
+      </div>
+      <div id="overlay" class="span5">
+        <div class="overview">
+          <h2><%= title %></h2>
+          
+          <!-- location breadcrumbs -->
+          <% if (breadcrumbs.length) { %>
+            <%-partial('breadcrumbs') %>
+          <% } %>
+          <!-- / location breadcrumbs -->
+          
+          <p>This shows data for fires that started in this administratie area. The fire might have spread outside this administrative area. This is merely the origin point.</p>
+        </div>
 
-    <!-- location breadcrumbs -->
-    <% if (breadcrumbs.length) { %>
-      <%-partial('breadcrumbs') %>
-    <% } %>
-    <!-- / location breadcrumbs -->
-
-    <!-- content -->
-    <div id="content">
-      <p>We are now visualising the data for <%= title %></p>
+        <div class="box">
+          <h3>Fire type per year</h3>
+          <div id="fires-year"><!-- Chart --></div>
+          <h3>Burnt area per year</h3>
+          <div id="burnt-area"><!-- Chart --></div>
+        </div>
+      </div>
     </div>
-    <!-- / content -->
+  </div>
+  <footer id="footer">
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span12">
+          <div class="footer-content">
+            <p>Built by Flipside, using Express.js, Tilemill, etc, etc <br />
+            Data sources: ICNF</p>
+          </div>  
+        </div>
+      </div>
+    </div>
+  </footer>
 
-    <!-- Scripts -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" type="text/javascript"></script>
-    <script src="/lib/chosen/chosen/chosen.jquery.min.js" type="text/javascript"></script>
-    <script src="/javascripts/breadcrumbs.js" type="text/javascript"></script>
-  </body>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+  <script src="http://cdn.oesmith.co.uk/morris-0.4.1.min.js"></script>
+  <script src="/lib/chosen/chosen/chosen.jquery.min.js" type="text/javascript"></script>
+  <script src="/javascripts/breadcrumbs.js" type="text/javascript"></script>
+  <script src="/javascripts/scripts.js" type="text/javascript"></script>
+  <script>
+  $(document).ready(function(){
+    
+    var area = 18;
+    $.ajax({
+      url: '/viseu.json',
+      async: false,
+      dataType: "json"
+
+    }).done(function(json_data, status){
+      var object = {};
+      var parsed = new Array();
+
+      $.each(json_data, function(index, val) {
+        if (val.ine == area) {
+          object = val;
+        }
+      });
+
+      for (var year in object.data) {
+        var temp = object.data[year];
+        temp['year'] = year;
+
+        parsed.push(temp);
+      }
+
+
+      new Morris.Bar({
+        // ID of the element in which to draw the chart.
+        element: 'fires-year',
+        // Chart data records -- each entry in this array corresponds to a point on
+        // the chart.
+        data: parsed,
+        barColors: ['#c0392b','#f39c12','#e74c3c','#f1c40f', '#1abc9c'],
+        // The name of the data record attribute that contains x-values.
+        xkey: 'year',
+        // A list of names of data record attributes that contain y-values.
+        ykeys: ['incendio', 'fogacho', 'agricola', 'queimada', 'falso_alarme'],
+        // Labels for the ykeys -- will be displayed when you hover over the
+        // chart.
+        labels: ['Incendio', 'Fogacho', 'Agricola', 'Queimada', 'Falso Alarme'],
+
+        stacked: true,
+        hideHover : 'auto'
+      });
+
+      new Morris.Line({
+        // ID of the element in which to draw the chart.
+        element: 'burnt-area',
+        // Chart data records -- each entry in this array corresponds to a point on
+        // the chart.
+        data: parsed,
+        // The name of the data record attribute that contains x-values.
+        xkey: 'year',
+        // A list of names of data record attributes that contain y-values.
+        ykeys: ['aa_total'],
+        // Labels for the ykeys -- will be displayed when you hover over the
+        // chart.
+        labels: ['Burnt Area'],
+
+        postUnits : ' Ha',
+        hideHover : 'auto',
+        lineColors: ['#2aa198'],
+        pointFillColors: ['#268bd2']
+      });
+
+    });
+  });
+  </script>
+
+</body>
 </html>
