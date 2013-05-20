@@ -16,13 +16,16 @@ var mongoose = require('mongoose')
 
 
 /**
- * GeoAdminArea Schema
+ * Page Schema
  */
-var Pages = new Schema({
-    permalink : String,
-    title    : String,
-    content : String
+var Page = new Schema({
+  permalink : String,
+  title : String,
+  content : String
 });
+
+// maintain indexes
+Page.index({permalink: 1});
 
 
 /**
@@ -33,7 +36,7 @@ var Pages = new Schema({
 /**
  * Statics
  */
-Pages.statics = {
+Page.statics = {
   /**
    * Find page by permalink.
    *
@@ -47,7 +50,8 @@ Pages.statics = {
 
 }
 
+
 /**
  * expose model
  */
-mongoose.model('Pages', Pages);
+mongoose.model('Page', Page);

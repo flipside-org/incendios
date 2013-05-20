@@ -1,31 +1,42 @@
 /**
+ * @file
+ * Controller methods for Page objects.
+ *
+ * @author Daniel Silva (daniel@flipside.org)
+ */
+
+
+/**
  * Module dependencies.
  */
 var mongoose = require('mongoose');
-var Pages = mongoose.model('Pages');
+var Page = mongoose.model('Page');
 
-/*
- * GET page.
+
+/**
+ * Load page by id.
  */
-
-exports.page = function(req, res, next, permalik){
-  Pages.load(permalik, function (err, pg) {
+exports.page = function(req, res, next, permalink){
+  Page.load(permalik, function (err, page) {
     if (err){
       return next(err);
     }
-    if (!pg && permalik != ''){
+    if (!page && permalink != ''){
       return next(new Error('Failed to load page: ' + permalik));
     }
-    req.pg = pg;
+    req.page = page;
     next();
   })
 }
 
+
+/**
+ * Renders the page for a Page.
+ */
 exports.view = function(req, res){
-  console.log(req);
   var permalink = req.params.permalink;
-  
-  Pages.load(permalink, function(error, page){
+
+  Page.load(permalink, function(error, page){
     res.render('page', { title: page.title, content: page.content });
   });
 };
