@@ -19,6 +19,15 @@ module.exports = function (app) {
 
 
   /**
+   * StatsAdminArea
+   */
+  var statsadminareas = require('../app/controllers/statsadminareas');
+  app.get( '/stats/:aaid/json', statsadminareas.json );
+
+  app.param('aaid', statsadminareas.statsadminarea)
+
+
+  /**
    * About
    */
   var about = require('../app/controllers/about');
