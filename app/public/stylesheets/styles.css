@@ -936,12 +936,12 @@ cite {
 }
 .morris-hover.morris-default-style {
   font-size: 14px;
-  font-family: 'DroidSans', Arial, sans-serif;
+  font-family: Helvetica,Arial,sans-serif
 }
 .morris-hover.morris-default-style .morris-hover-row-label {
-  font-family: 'OstrichSans';
+  font-family: 'League Gothic';
   font-size: 28px;
-  font-weight: normal;
+  font-weight: 300;
 }
 
 #footer {
