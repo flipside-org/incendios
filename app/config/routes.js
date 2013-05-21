@@ -19,7 +19,7 @@ module.exports = function (app) {
 
 
   /**
-   * StatsAdminArea
+   * StatsAdminAreas
    */
   var statsadminareas = require('../app/controllers/statsadminareas');
   app.get( '/stats/:aaid/json', statsadminareas.json );
@@ -28,10 +28,12 @@ module.exports = function (app) {
 
 
   /**
-   * About
+   * Pages
    */
-  var about = require('../app/controllers/about');
-  app.get('/about', about.view);
+  var pages = require('../app/controllers/pages');
+  app.get('/page/:permalink', pages.view);
+
+  app.param('permalink', pages.page);
 
 
   /**
