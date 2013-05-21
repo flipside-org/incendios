@@ -1,19 +1,15 @@
 /**
+ * @file
+ * Model for Page objects.
+ *
+ * @author Daniel Silva (daniel@flipside.org)
+ */
+
+/**
  * Module dependencies.
  */
 var mongoose = require('mongoose')
   , Schema   = mongoose.Schema;
-
-
-/**
- * Getters
- */
-
-
-/**
- * Setters
- */
-
 
 /**
  * Page Schema
@@ -24,14 +20,8 @@ var Page = new Schema({
   content : String
 });
 
-// maintain indexes
+// Maintain indexes.
 Page.index({permalink: 1});
-
-
-/**
- * Methods
- */
-
 
 /**
  * Statics
@@ -50,8 +40,5 @@ Page.statics = {
 
 }
 
-
-/**
- * expose model
- */
+// Expose Model.
 mongoose.model('Page', Page);
