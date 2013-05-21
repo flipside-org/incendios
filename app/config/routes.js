@@ -19,10 +19,20 @@ module.exports = function (app) {
 
 
   /**
-   * Page
+   * StatsAdminAreas
+   */
+  var statsadminareas = require('../app/controllers/statsadminareas');
+  app.get( '/stats/:aaid/json', statsadminareas.json );
+
+  app.param('aaid', statsadminareas.statsadminarea)
+
+
+  /**
+   * Pages
    */
   var pages = require('../app/controllers/pages');
   app.get('/page/:permalink', pages.view);
+
   app.param('permalink', pages.page);
 
 
