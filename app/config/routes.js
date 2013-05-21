@@ -19,10 +19,11 @@ module.exports = function (app) {
 
 
   /**
-   * About
+   * Page
    */
-  var about = require('../app/controllers/about');
-  app.get('/about', about.view);
+  var pages = require('../app/controllers/pages');
+  app.get('/page/:permalink', pages.view);
+  app.param('permalink', pages.page);
 
 
   /**
