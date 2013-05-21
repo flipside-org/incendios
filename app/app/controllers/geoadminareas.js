@@ -11,6 +11,7 @@
  */
 var mongoose = require('mongoose');
 var GeoAdminArea = mongoose.model('GeoAdminArea');
+var StatsAdminArea = mongoose.model('StatsAdminArea');
 
 
 /**
@@ -22,7 +23,6 @@ exports.geoadminarea = function(req, res, next, aaid){
     if (err) return next(err)
     if (!geoadminarea && aaid != 0) return next(new Error('Failed to load administrative area with the code: ' + aaid))
     req.geoadminarea = geoadminarea
-  // console.log(geoadminarea);
     next()
   })
 }
@@ -88,10 +88,15 @@ exports.view = function(req, res){
                   list: children_aa,
                 })
 
-                // render!
-                res.render('index', { title: req.geoadminarea.name, breadcrumbs: breadcrumbs });
-                // send JSON
-                // res.send(breadcrumbs)
+                // also load stats data
+                StatsAdminArea.load(req.params.aaid, function (err, statsadminarea) {
+                  if (err) statsadminarea = {}
+
+                  // render!
+                  res.render('index', { title: req.geoadminarea.name, breadcrumbs: breadcrumbs, statsadminarea: statsadminarea })
+                  // send JSON
+                  // res.send(breadcrumbs)
+                })
               })
             })
 
