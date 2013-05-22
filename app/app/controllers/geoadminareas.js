@@ -121,7 +121,7 @@ exports.json = function(req, res){
 
 
 /**
- * API: sends JSON of all the chidren of a given GeoAdminArea
+ * API: sends JSON of all the children of a given GeoAdminArea
  */
 exports.json_children = function(req, res){
   // query criteria

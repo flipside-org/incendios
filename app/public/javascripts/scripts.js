@@ -55,6 +55,11 @@ $(document).ready(function() {
 
   // Add features to the map
   map.markerLayer.setGeoJSON(gj);
+  
+  if (stats_admin_area == null) {
+    $('.stats-data').html('You found the most safe place ever. Nothing has ever happened here!');
+    return;
+  }
 
   /**************************************************/
   // Verbose statistics.
