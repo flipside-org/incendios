@@ -755,6 +755,10 @@ header h1 {
   background: ;
   padding: 10px 0px 5px 100px;
 }
+header h1 a,
+header h1 a:hover {
+  color: #000000;
+}
 footer {
   color: #ffffff;
   background: #000000;

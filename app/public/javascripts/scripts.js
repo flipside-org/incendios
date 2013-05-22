@@ -4,7 +4,9 @@ $(document).ready(function() {
   var stats_admin_area = get_json('/stats/' + aaid + '/json');
   var admin_area = get_json('/geo/' + aaid + '/json');
 
+  /**************************************************/
   // Create the map.
+  /**************************************************/
   var map = L.mapbox.map('map').setView([40, -74.50], 9);
   //map.addLayer(L.mapbox.tileLayer('examples.map-4l7djmvo'));
   map.addLayer(L.mapbox.tileLayer('flipside.map-epnw0q4t'));
@@ -14,7 +16,8 @@ $(document).ready(function() {
   var bounds = new L.LatLngBounds(southWest, northEast);
 
   map.fitBounds(bounds);
-
+  
+  // @todo: remove markers.
   var gj = [{
     // this feature is in the GeoJSON format: see geojson.org
     // for the full specification
@@ -55,9 +58,10 @@ $(document).ready(function() {
 
   // Add features to the map
   map.markerLayer.setGeoJSON(gj);
+  // @todo: / remove markers
   
+  // Some areas might not have occurrences. Ex 110615
   if (stats_admin_area == null) {
-    $('.stats-data').html('You found the most safe place ever. Nothing has ever happened here!');
     return;
   }
 
@@ -153,23 +157,15 @@ $(document).ready(function() {
 });
 
 
+/***********************************************************/
+// HELPERS
+/***********************************************************/
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/**
+ * @param string url
+ * @return json data
+ *   The data from the database.
+ */
 function get_json(url) {
   var data = null;
   $.ajax({
