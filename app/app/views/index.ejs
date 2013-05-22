@@ -1,27 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title><%= title %></title>
-  <link rel="stylesheet" href="/stylesheets/normalize.css">
-  <link rel="stylesheet" href="/stylesheets/styles.css" />
-    <!--[if lt IE 9]>
-    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-  
-  <link rel="stylesheet" href="/lib/chosen/chosen/chosen.css" />
-  <link rel="stylesheet" href="http://cdn.oesmith.co.uk/morris-0.4.1.min.css">
-  <script src='http://api.tiles.mapbox.com/mapbox.js/v1.0.2/mapbox.js'></script>
-  <link href='http://api.tiles.mapbox.com/mapbox.js/v1.0.2/mapbox.css' rel='stylesheet' />
-  <!--[if lte IE 8]>
-    <link href='http://api.tiles.mapbox.com/mapbox.js/v1.0.2/mapbox.ie.css' rel='stylesheet' >
-  <![endif]-->
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-</head>
-<body>
+<%-partial('structure/html_start') %>
+
   <div class="container-fluid cf">
-    <header class="row-fluid">
-      <h1 class="site-name">Incêndios <small>a project by flipside</small></h1>
-    </header>
+    <%-partial('structure/header') %>
     <div class="row-fluid">
       <div class="map-wrapper">
         <div id="map" class="span12 map"> <!-- Map --></div>
@@ -31,42 +11,30 @@
           <h2><%= title %></h2>
           
           <!-- location breadcrumbs -->
-          <% if (breadcrumbs.length) { %>
+          <% if (typeof breadcrumbs != "undefined" && breadcrumbs.length) { %>
             <%-partial('breadcrumbs') %>
           <% } %>
           <!-- / location breadcrumbs -->
         </div>
 
-        <div class="box stats-data">
-          <p id="stats_verbose"></p>
-          <h3>Fire type per year</h3>
-          <div id="fires-year"><!-- Chart --></div>
-          <h3>Burnt area per year</h3>
-          <div id="burnt-area"><!-- Chart --></div>
+        <div class="box">
+          <!-- charts and stats -->
+          <% if (typeof statsadminarea != "undefined") { %>
+            <% if (statsadminarea != null) { %>
+              <p id="stats_verbose"></p>
+              <h3>Fire type per year</h3>
+              <div id="fires-year"><!-- Chart --></div>
+              <h3>Burnt area per year</h3>
+              <div id="burnt-area"><!-- Chart --></div>
+            <% } else { %>
+              <p>You found the most safe place ever. Nothing has ever happened here!</p>
+            <% } %>
+          <% } %>
+          <!-- / charts and stats -->
         </div>
       </div>
     </div>
   </div>
-  <footer id="footer">
-    <div class="container-fluid">
-      <div class="row-fluid">
-        <div class="span12">
-          <div class="footer-content">
-            <p>Built by Flipside, using Express.js, Tilemill, etc, etc <br />
-            Data sources: ICNF</p>
-          </div>  
-        </div>
-      </div>
-    </div>
-  </footer>
 
-
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
-  <script src="http://cdn.oesmith.co.uk/morris-0.4.1.min.js"></script>
-  <script src="/lib/chosen/chosen/chosen.jquery.min.js" type="text/javascript"></script>
-  <script src="/javascripts/breadcrumbs.js" type="text/javascript"></script>
-  <script src="/javascripts/scripts.js" type="text/javascript"></script>
-
-</body>
-</html>
+<%-partial('structure/footer') %>
+<%-partial('structure/html_end') %>

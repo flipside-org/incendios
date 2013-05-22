@@ -1,7 +1,13 @@
+<%
+  var admin_types = ['Distrito', 'Concelho', 'Freguesia'];
+  var count = 0;
+
+%>
+
 <div id="breadcrumbs">
   <% breadcrumbs.forEach(function(breadcrumb){ %>
     <% if (breadcrumb.list.length) { %>
-      <select id="breadcrumb-select-<%= breadcrumb.select.type %>" class="chzn-select" data-placeholder="Choose a Place...">
+      <select id="breadcrumb-select-<%= breadcrumb.select.type %>" class="chzn-select" data-placeholder="Seleccione <%= admin_types[count] %>">
         <option value=""></option>
         <% breadcrumb.list.forEach(function(option){ %>
           <option value="<%= option.aaid %>" <% if (breadcrumb.select.aaid == option.aaid) { %>selected="selected"<% } %>>
@@ -9,6 +15,7 @@
           </option>
         <% }) %>
       </select>
+    <% count++; %>
     <% } %>
   <% }) %>
 </div>
