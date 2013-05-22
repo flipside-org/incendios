@@ -46,5 +46,6 @@ module.exports = function (app) {
   /**
    * home / front page route
    */
-  app.get('/', geoadminareas.json);
+  var index = require('../app/controllers/index');
+  app.get('/', index.view);
 }
