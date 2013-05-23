@@ -26,6 +26,24 @@
  * 
  */
 
+.clearfix:after {
+  content: ".";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
+}
+ 
+html[xmlns] .clearfix {
+  display: block;
+}
+ 
+* html .clearfix {
+  height: 1%;
+}
+
+
 /* Structure */
 body {
   font-family: Helvetica, Arial, sans-serif;
@@ -40,9 +58,7 @@ body {
 
 .three-fifths {
   width: 60%;
-  height: 100%;
   float: left;
-  background-color: blue;
 }
 
 .wrapper {
@@ -56,6 +72,21 @@ body {
 
 #header {
   border-bottom: 2px solid #2c3e50; /* Midnight blue */
+}
+
+#header nav {
+  margin-top: 9px;
+  float: right;
+}
+#header nav ul {
+  margin: 0;
+  padding: 0;
+}
+
+#header nav li {
+  display: inline-block;
+  text-decoration: none;
+  padding: 0 0 0 20px;
 }
 
 #footer {
@@ -101,9 +132,78 @@ h2 {
 
 #header h1 {
   font-size: 30px;
+  float: left;
 }
 
 #header h1 small {
   font-size: 20px;
   color: #ecf0f1;
+}
+
+#header nav a{
+  font-size: 20px;
+  font-family: 'League Gothic';
+  color: #ecf0f1; /* Clouds */
+  text-transform: uppercase;
+}
+
+#header nav a:hover{
+  color: #e67e22; /* Carrot */
+  text-decoration: none;
+}
+
+/* Media queries */
+@media screen and (min-width : 851px) and (max-width : 1100px) {
+  /* Same properties as in w<450px */
+  #header h1 {
+    float: none;
+  }
+  
+  #header nav {
+    float: none;
+  }
+  
+  #header nav li {
+    padding: 0 20px 0 0;
+  }  
+  /* / Same properties as in w<450px */
+ 
+}
+
+@media screen and (max-width : 850px) {
+  .two-fifths {
+    width: 100%;
+    float: none;
+  }
+  
+  .three-fifths {
+    width: 100%;
+    float: none;
+  }
+  
+  #map {
+    height: 500px !important;
+    margin: 0 10px;
+  }
+  
+  .wrapper {
+    padding: 10px;
+  }
+
+}
+
+@media screen and (max-width : 450px) {
+  /* Same properties as in 851 < w > 1100 */
+  #header h1 {
+    float: none;
+  }
+  
+  #header nav {
+    float: none;
+  }
+  
+  #header nav li {
+    padding: 0 20px 0 0;
+  }  
+  /* / Same properties as in 851 < w > 1100 */
 }
