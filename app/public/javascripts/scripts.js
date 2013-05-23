@@ -13,8 +13,20 @@ $(document).ready(function() {
   // Create the map.
   /**************************************************/
   var map = L.mapbox.map('map').setView([40, -74.50], 9);
+  map.doubleClickZoom.disable(); 
   //map.addLayer(L.mapbox.tileLayer('examples.map-4l7djmvo'));
   map.addLayer(L.mapbox.tileLayer('flipside.map-epnw0q4t'));
+  map.addLayer(L.mapbox.tileLayer('flipside.pt-admin-areas'));
+  // Interactivity.
+  var grid_layer = L.mapbox.gridLayer('flipside.pt-admin-areas');
+  grid_layer.on('click', function(data){
+    if (map.getZoom() < 10 || typeof data.data == 'undefined') {
+      return;
+    }
+    window.location = '/geo/' + data.data.AAID;
+  });
+  map.addLayer(grid_layer);
+  
 
   var southWest = new L.LatLng(admin_area.geo.min.y, admin_area.geo.min.x);
   var northEast = new L.LatLng(admin_area.geo.max.y, admin_area.geo.max.x);
