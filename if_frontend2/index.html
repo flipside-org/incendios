@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>title</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta charset="utf-8" />
+  <link rel="stylesheet" href="stylesheets/normalize.css">
+  <link rel="stylesheet" href="stylesheets/styles.css" />
+    <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    
+  <link rel="stylesheet" href="lib/chosen/chosen/chosen.css" />
+  <link rel="stylesheet" href="http://cdn.oesmith.co.uk/morris-0.4.1.min.css">
+  <script src='http://api.tiles.mapbox.com/mapbox.js/v1.0.2/mapbox.js'></script>
+  <link href='http://api.tiles.mapbox.com/mapbox.js/v1.0.2/mapbox.css' rel='stylesheet' />
+  <!--[if lte IE 8]>
+    <link href='http://api.tiles.mapbox.com/mapbox.js/v1.0.2/mapbox.ie.css' rel='stylesheet' >
+  <![endif]-->
+</head>
+<body>
+  <header id="header" class="two-fifths">
+    <div class="wrapper">
+      <h1><a href="/">Incêndios</a> <small>A project by Flipside</small></h1>
+    </div>
+  </header>
+  <section class="three-fifths">The map</section>
+  <aside class="two-fifths">    
+    <div class="wrapper">
+      <header>
+        <h1>Viseu</h1>
+        bread crumbs
+        
+        <p>Entre 2001 e 2011 registaram-se 60 ocorências na freguesia de Ansião. 2011 foi o ano mais grave tendo ardido 16 hectares. O maior incêndio que teve início nesta freguesia ocorreu a 1 de Outubro de 2011 consumindo 15.6 hectares.</p>
+      </header>
+      <section>
+        <h2>Fire type per year</h2>
+        <div id="fires-year"><!-- Chart --></div>
+        <h2>Burnt area per year</h2>
+        <div id="burnt-area"><!-- Chart --></div>
+      </section>
+    </div>
+  </aside>
+  <footer id="footer" class="two-fifths">
+    <div class="wrapper">
+      Built by Flipside, using Express.js, Tilemill, etc, etc<br />
+      Data sources: ICNF
+    </div>
+  </footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+  <script src="http://cdn.oesmith.co.uk/morris-0.4.1.min.js"></script>
+  <script src="lib/chosen/chosen/chosen.jquery.min.js" type="text/javascript"></script>
+
+</body>
+</html>
