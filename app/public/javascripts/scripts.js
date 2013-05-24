@@ -91,7 +91,7 @@ $(document).ready(function() {
   }];
 
   // Add features to the map
-  map.markerLayer.setGeoJSON(gj);
+  //map.markerLayer.setGeoJSON(gj);
   // @todo: / remove markers
   
   // Some areas might not have occurrences. Ex 110615

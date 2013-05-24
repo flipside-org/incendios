@@ -1,0 +1,40 @@
+<%-partial('structure/html_start') %>
+
+  <div class="container-fluid cf">
+    <%-partial('structure/header') %>
+    <div class="row-fluid">
+      <div class="map-wrapper">
+        <div id="map" class="span12 map"> <!-- Map --></div>
+      </div>
+      <div id="overlay" class="span5">
+        <div class="overview">
+          <h2><%= title %></h2>
+          
+          <!-- location breadcrumbs -->
+          <% if (typeof breadcrumbs != "undefined" && breadcrumbs.length) { %>
+            <%-partial('breadcrumbs') %>
+          <% } %>
+          <!-- / location breadcrumbs -->
+        </div>
+
+        <div class="box">
+          <!-- charts and stats -->
+          <% if (typeof statsadminarea != "undefined") { %>
+            <% if (statsadminarea != null) { %>
+              <p id="stats_verbose"></p>
+              <h3>Fire type per year</h3>
+              <div id="fires-year"><!-- Chart --></div>
+              <h3>Burnt area per year</h3>
+              <div id="burnt-area"><!-- Chart --></div>
+            <% } else { %>
+              <p>You found the most safe place ever. Nothing has ever happened here!</p>
+            <% } %>
+          <% } %>
+          <!-- / charts and stats -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+<%-partial('structure/footer') %>
+<%-partial('structure/html_end') %>
