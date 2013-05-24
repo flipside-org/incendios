@@ -7,7 +7,11 @@
     <div class="wrapper">
       
       <header>
-        <h1><%= title %> <small><%= type_verbose %></small></h1>
+        <h1><%= title %> 
+          <% if (typeof type_verbose != "undefined") { %>
+            <small><%= type_verbose %></small>
+          <% } %>
+        </h1>
         
         <!-- location breadcrumbs -->
         <% if (typeof breadcrumbs != "undefined" && breadcrumbs.length) { %>
@@ -16,7 +20,7 @@
         <!-- / location breadcrumbs -->
         
         <!-- verbose stats -->
-        <% if (verbose_statistics != null) { %>
+        <% if (typeof verbose_statistics != "undefined" && verbose_statistics != null) { %>
           <p id="stats_verbose"><%= verbose_statistics %></p>
         <% } %>
         <!-- / verbose stats -->
