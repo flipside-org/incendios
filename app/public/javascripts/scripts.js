@@ -17,6 +17,7 @@ $(document).ready(function() {
   //map.addLayer(L.mapbox.tileLayer('examples.map-4l7djmvo'));
   map.addLayer(L.mapbox.tileLayer('flipside.map-epnw0q4t'));
   map.addLayer(L.mapbox.tileLayer('flipside.pt-admin-areas'));
+  map.addLayer(L.mapbox.tileLayer('flipside.if_occurrences'));
   // Interactivity.
   var grid_layer = L.mapbox.gridLayer('flipside.pt-admin-areas');
   grid_layer.on('click', function(data){
