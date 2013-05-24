@@ -7,7 +7,7 @@
     <div class="wrapper">
       
       <header>
-        <h1><%= title %></h1>
+        <h1><%= title %> <small><%= type_verbose %></small></h1>
         
         <!-- location breadcrumbs -->
         <% if (typeof breadcrumbs != "undefined" && breadcrumbs.length) { %>
@@ -15,20 +15,16 @@
         <% } %>
         <!-- / location breadcrumbs -->
         
-        <!-- charts and stats -->
-        <% if (typeof statsadminarea != "undefined") { %>
-          <% if (statsadminarea != null) { %>
-            <p id="stats_verbose"><!-- Stats verbose --></p>
-          <% } else { %>
-            <p>Encontrou o local mais seguro de Portugal. Nunca aconteceu nada aqui.</p>
-          <% } %>
+        <!-- verbose stats -->
+        <% if (verbose_statistics != null) { %>
+          <p id="stats_verbose"><%= verbose_statistics %></p>
         <% } %>
-        <!-- / charts and stats -->
+        <!-- / verbose stats -->
           
       </header>
       <section>
         <!-- charts and stats -->
-        <% if (typeof statsadminarea != "undefined" && statsadminarea != null) { %>
+        <% if (typeof show_charts != "undefined" && show_charts) { %>
           <h2>Fire type per year</h2>
           <div id="fires-year"><!-- Chart --></div>
           <h2>Burnt area per year</h2>

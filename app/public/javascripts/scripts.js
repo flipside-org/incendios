@@ -20,10 +20,27 @@ $(document).ready(function() {
   // Interactivity.
   var grid_layer = L.mapbox.gridLayer('flipside.pt-admin-areas');
   grid_layer.on('click', function(data){
-    if (map.getZoom() < 10 || typeof data.data == 'undefined') {
+    if (typeof data.data == 'undefined') {
+      //Nothing to do here!
       return;
     }
-    window.location = '/geo/' + data.data.AAID;
+    
+    // We assume that the aaid always has 6 digits.
+    var destination = null;
+    if (map.getZoom() <= 7) {
+      // Distrito.
+      destination = data.data.AAID.substring(0,2);
+    }
+    else if (map.getZoom() >= 8 && map.getZoom() <= 9) {
+      // Conselho.
+      destination = data.data.AAID.substring(0,4);
+    }
+    else {
+      // Freguesia.
+      destination = data.data.AAID;
+    }
+    
+    window.location = '/geo/' + destination;
   });
   map.addLayer(grid_layer);
   
@@ -83,47 +100,6 @@ $(document).ready(function() {
   }
 
   /**************************************************/
-  // Verbose statistics.
-  /**************************************************/
-  var $stats_verbose = $('#stats_verbose');
-  var sentence = 'Entre 2001 e 2011 registaram-se :occurrences ocorências :pp_admin_area de :admin_area. :top_year_year foi o ano mais grave tendo ardido :top_year_ha hectares. O maior incêndio que teve início :pd_admin_area ocorreu a :top_incendio_date consumindo :top_incendio_ha hectares.';
-
-  // Date calculation.
-  var top_incendio_date = new Date(stats_admin_area.top.incendio.date);
-  var day = top_incendio_date.getDate();
-  var month = top_incendio_date.getMonth();
-  var year = top_incendio_date.getFullYear();
-  var monthNames = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"]
-  
-  var admin_divisions = ['distrito', 'conselho', 'freguesia'];
-
-  var args = {
-    ':occurrences' : stats_admin_area.total,  
-    ':admin_area' : admin_area.name,
-    // Pronome pessoal and admin area.
-    // 3 stands for freguesia
-    ':pp_admin_area' : ((admin_area.type == 3) ? 'na ' : 'no ') + admin_divisions[admin_area.type-1],
-    ':top_year_year' : stats_admin_area.top.year,
-    // Pronome demonstrativo and admin area.
-    // 3 stands for freguesia
-    ':pd_admin_area' : ((admin_area.type == 3) ? 'nesta ' : 'neste ') + admin_divisions[admin_area.type-1],
-    ':top_incendio_date' : day + ' de ' + monthNames[month] + ' de ' + year,
-    ':top_incendio_ha' : stats_admin_area.top.incendio.aa_total
-  };
-  
-  // Get area for top incêndio
-  // Loop through data array to get correct year.
-  $.each(stats_admin_area.data, function(index, data_year) {
-    if (data_year.year == stats_admin_area.top.year) {
-      args[':top_year_ha'] = Math.round(data_year.aa_total);
-      return;
-    }
-  });
-  
-  $stats_verbose.text(string_format(sentence, args));
-
-
-  /**************************************************/
   // Charts.
   /**************************************************/
   new Morris.Bar({
@@ -132,7 +108,7 @@ $(document).ready(function() {
     // Chart data records -- each entry in this array corresponds to a point on
     // the chart.
     data: stats_admin_area.data,
-    barColors: ['#c0392b','#f39c12','#e74c3c','#f1c40f', '#1abc9c'],
+    barColors: ['#782121','#c0392b','#e67e22','#f1c40f', '#1abc9c'],
     // The name of the data record attribute that contains x-values.
     xkey: 'year',
     // A list of names of data record attributes that contain y-values.
@@ -168,8 +144,8 @@ $(document).ready(function() {
   
     postUnits : ' Ha',
     hideHover : 'auto',
-    lineColors: ['#2aa198'],
-    pointFillColors: ['#268bd2']
+    lineColors: ['#782121'],
+    pointFillColors: ['#c0392b']
   });
   
   // This must be the last thing to do because the
