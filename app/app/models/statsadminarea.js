@@ -23,6 +23,14 @@ var StatsAdminArea = new Schema({
     aaid_data : { type : Schema.Types.ObjectId, ref : 'GeoAdminArea' },
     total : Number,
     aa_total : Number,
+    top : {
+      incendio : {
+        aa_total: Number,
+        date : String
+      },
+      year: Number
+    },
+    data : [ Schema.Types.Mixed ]
 });
 
 // maintain indexes

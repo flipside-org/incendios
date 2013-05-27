@@ -24,11 +24,6 @@
  * #34495e - Wet asphalt
  * #2c3e50 - Midnight blue
  * 
- * #782121 - Old Wine
- * #c0392b - Pomegranate
- * #f1c40f - Sunflower
- * #1abc9c - Turquoise
- * 
  */
 
 .clearfix:after {
@@ -157,56 +152,6 @@ h2 {
   text-decoration: none;
 }
 
-#sidebar h1 small {
-  font-size: 20px;
-  font-family: 'League Gothic';
-  color: #7f8c8d; /* Asbestos */
-  text-transform: uppercase;
-}
-
-/* Chosen Overrides */
-.chzn-container-single {
-  margin: 5px 0;
-}
-.chzn-container-single .chzn-single,
-.chzn-container .chzn-drop {
-  background-color: #ecf0f1; /* Clouds */
-  border: 1px solid #bdc3c7; /* Silver */
-  border-radius: 3px;
-  box-shadow: none;
-  background-image: none;
-}
-.chzn-container-active .chzn-single-with-drop {
-  border-bottom-left-radius: 0;  
-  border-bottom-right-radius: 0;
-}
-.chzn-container .chzn-drop {
-  border-top: none;
-  border-top-left-radius: 0;  
-  border-top-right-radius: 0;  
-}
-.chzn-container .chzn-results .highlighted {
-  background-image: none;
-  background-color: #e67e22; /* Carrot */
-}
-
-/* / Chosen Overrides */
-
-/* Morris Overrides */
-.morris-hover.morris-default-style {
-    background-color: #FFFFFF;
-    border-radius: 3px;
-    text-align: left;
-}
-.morris-hover.morris-default-style .morris-hover-row-label {
-  font-family: 'League Gothic';
-  font-weight: normal;
-  margin:  0;
-  font-size: 25px;
-}
-/* / Morris Overrides */
-
-
 /* Media queries */
 @media screen and (min-width : 851px) and (max-width : 1100px) {
   /* Same properties as in w<450px */
@@ -226,9 +171,6 @@ h2 {
 }
 
 @media screen and (max-width : 850px) {
-  body {
-    font-size: 16px;
-  }
   .two-fifths {
     width: 100%;
     float: none;
@@ -237,10 +179,6 @@ h2 {
   .three-fifths {
     width: 100%;
     float: none;
-  }
-  
-  #sidebar {
-    margin: 10px 0 0 0;
   }
   
   #map {

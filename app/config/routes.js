@@ -30,21 +30,17 @@ module.exports = function (app) {
   /**
    * Pages
    */
+  /*
   var pages = require('../app/controllers/pages');
   app.get('/page/:permalink', pages.view);
 
   app.param('permalink', pages.page);
-
-
-  /**
-   * Users
-   */
-  var users = require('../app/controllers/users');
-  app.get('/users', users.list);
+  */
 
 
   /**
    * home / front page route
    */
-  app.get('/', geoadminareas.json);
+  var index = require('../app/controllers/index');
+  app.get('/', index.view);
 }

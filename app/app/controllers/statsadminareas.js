@@ -20,11 +20,19 @@ exports.statsadminarea = function(req, res, next, aaid){
 
   // load the object in the request
   StatsAdminArea.load(aaid, function (err, statsadminarea) {
-    if (err) return next(err)
-    if (!statsadminarea && aaid != 0) return next(new Error('Failed to load administrative area with the code: ' + aaid))
-    req.statsadminarea = statsadminarea
-
-    next()
+    if (err) {
+      return next(err);
+    }
+    
+    // There are admin areas without occurrences. Ex: aaid: 110615
+    // Return empty object.
+    if (!statsadminarea && aaid != 0){
+      req.statsadminarea = null;
+    }
+    else {
+      req.statsadminarea = statsadminarea;
+    }
+    next();
   })
 }
 
@@ -33,7 +41,6 @@ exports.statsadminarea = function(req, res, next, aaid){
  * API: sends JSON of a given GeoAdminArea.
  */
 exports.json = function(req, res){
-
-  res.send(req.statsadminarea)
+  res.send(req.statsadminarea);
 }
 
