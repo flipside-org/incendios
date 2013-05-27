@@ -20,8 +20,8 @@ var mongoose = require('mongoose')
  */
 var GeoAdminArea = new Schema({
     aaid : {type :Number, unique: true},
-    name    : String,
-    type    : Number,
+    name : String,
+    type : Number,
     parent_id : Number,
     geo : {
       area : Number,
