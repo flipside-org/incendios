@@ -157,11 +157,16 @@ h2 {
   text-decoration: none;
 }
 
-#sidebar h1 small {
-  font-size: 20px;
+#sidebar small {
+  font-size: 0.5em;
   font-family: 'League Gothic';
   color: #7f8c8d; /* Asbestos */
   text-transform: uppercase;
+}
+
+#sidebar h2 small {
+  font-size: 16px;
+  margin: 0 0 0 3px;
 }
 
 /* Chosen Overrides */
