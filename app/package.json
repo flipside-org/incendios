@@ -11,6 +11,7 @@
     "ejs": "*",
     "ejs-locals": "*",
     "nodemon": "latest",
-    "mongoose" : "3.3.1"
+    "mongoose" : "3.3.1",
+    "async" : "latest"
   }
 }
