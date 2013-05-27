@@ -10,10 +10,13 @@
  * Module dependencies.
  */
 var mongoose = require('mongoose');
+var async = require('async');
+var moment = require('moment');
+
+
 var GeoAdminArea = mongoose.model('GeoAdminArea');
 var GeoAdminDivision = mongoose.model('GeoAdminDivision');
 var StatsAdminArea = mongoose.model('StatsAdminArea');
-var async = require('async');
 
 /**
  * Find GeoAdminArea by id
@@ -125,13 +128,7 @@ exports.view = function(req, res){
                       // Render the statistics verbose.
                       var sentence = 'Entre 2001 e 2011 registaram-se :occurrences ocorências :pp_admin_area de :admin_area. :top_year_year foi o ano mais grave tendo ardido :top_year_ha hectares. O maior incêndio que teve início :pd_admin_area ocorreu a :top_incendio_date consumindo :top_incendio_ha hectares.';
 
-                      // Date calculation.
-                      var top_incendio_date = new Date(statsadminarea.top.incendio.date);
-                      var day = top_incendio_date.getDate();
-                      var month = top_incendio_date.getMonth();
-                      var year = top_incendio_date.getFullYear();
-                      var monthNames = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"]
-
+                      moment.lang('pt');
                       var args = {
                         ':occurrences' : statsadminarea.total,
                         ':admin_area' : admin_area.name,
@@ -142,7 +139,7 @@ exports.view = function(req, res){
                         // Pronome demonstrativo and admin area.
                         // 3 stands for freguesia
                         ':pd_admin_area' : ((admin_area.type == 3) ? 'nesta ' : 'neste ') + r.admin_divisions[admin_area.type],
-                        ':top_incendio_date' : day + ' de ' + monthNames[month] + ' de ' + year,
+                        ':top_incendio_date' : moment(statsadminarea.top.incendio.date, "YYYY-MM-DD").format('LL'),
                         ':top_incendio_ha' : statsadminarea.top.incendio.aa_total
                       };
 
