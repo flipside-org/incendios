@@ -1,4 +1,14 @@
 /**
+ * @file
+ * Model declaration for GeoAdminDivision objects.
+ *
+ * A GeoAdminDivision is metadata related to GeoAdminArea type field.
+ *
+ * @author Nuno Veloso (nunoveloso18@gmail.com)
+ */
+
+
+/**
  * Module dependencies.
  */
 var mongoose = require('mongoose')
@@ -18,30 +28,13 @@ var mongoose = require('mongoose')
 /**
  * GeoAdminArea Schema
  */
-var GeoAdminArea = new Schema({
-    aaid : {type :Number, unique: true},
-    name : String,
-    type : Number,
-    parent_id : Number,
-    geo : {
-      area : Number,
-      min : {
-        x : Number,
-        y : Number
-      },
-      max : {
-        x : Number,
-        y : Number
-      },
-      center : {
-        x : Number,
-        y : Number
-      }
-    }
+var GeoAdminDivision = new Schema({
+  name : String,
+  type : Number
 });
 
 // maintain indexes
-GeoAdminArea.index({aaid: 1});
+GeoAdminDivision.index({type: 1});
 
 
 /**
@@ -52,21 +45,21 @@ GeoAdminArea.index({aaid: 1});
 /**
  * Statics
  */
-GeoAdminArea.statics = {
+GeoAdminDivision.statics = {
   /**
-   * Find AdminArea by aaid.
+   * Find GeoAdminDivision by type.
    *
    * @param [int] aaid
    * @param [function] cb
    * @api public
    */
-  load: function (aaid, cb) {
-    this.findOne({ aaid : aaid })
+  load: function (type, cb) {
+    this.findOne({ type : type })
       .exec(cb);
   },
 
   /**
-   * List AdminArea according to passed options.
+   * List GeoAdminDivisions according to passed options.
    *
    * @param [object] options for the query
    * @param [function] cb
@@ -85,5 +78,5 @@ GeoAdminArea.statics = {
 /**
  * expose model
  */
-mongoose.model('GeoAdminArea', GeoAdminArea);
+mongoose.model('GeoAdminDivision', GeoAdminDivision);
 
