@@ -1,33 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title><%= title %></title>
-  <link href='http://fonts.googleapis.com/css?family=Lato:400,700,300' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" href="/stylesheets/normalize.css">
-  <link rel="stylesheet" href="/stylesheets/styles.css" />
-    <!--[if lt IE 9]>
-    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-  
-  <script src='http://api.tiles.mapbox.com/mapbox.js/v1.0.2/mapbox.js'></script>
-  <link href='http://api.tiles.mapbox.com/mapbox.js/v1.0.2/mapbox.css' rel='stylesheet' />
-  <!--[if lte IE 8]>
-    <link href='http://api.tiles.mapbox.com/mapbox.js/v1.0.2/mapbox.ie.css' rel='stylesheet' >
-  <![endif]-->
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-</head>
-<body>
+<%-partial('structure/html_start') %>
+
   <div class="container-fluid cf">
-    <header class="row-fluid">
-      <h1 class="site-name">Incêndios <small>a project by flipside</small></h1>
-      
-      <nav id="main-menu">
-      	<ul>
-      		<li><a href="/about">About</a></li>
-      		<li><a href="/about">Link2</a></li>
-      	</ul>
-      </nav>
-    </header>
+    <%-partial('structure/header') %>
     <div class="row-fluid">
       <div class="map-wrapper">
         <div id="map" class="span12 map"> <!-- Map --></div>
@@ -40,22 +14,6 @@
       </div>
     </div>
   </div>
-  <footer id="footer">
-    <div class="container-fluid">
-      <div class="row-fluid">
-        <div class="span12">
-          <div class="footer-content">
-            <p>Built by Flipside, using Express.js, Tilemill, etc, etc <br />
-            Data sources: ICNF</p>
-          </div>  
-        </div>
-      </div>
-    </div>
-  </footer>
 
-
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script src="/javascripts/scripts.js" type="text/javascript"></script>
-
-</body>
-</html>
+<%-partial('structure/footer') %>
+<%-partial('structure/html_end') %>
