@@ -12,10 +12,8 @@ $(document).ready(function() {
   /**************************************************/
   // Create the map.
   /**************************************************/
-  var map = L.mapbox.map('map').setView([40, -74.50], 9);
+  var map = L.mapbox.map('map', 'flipside.map-epnw0q4t', {minZoom: 7, maxZoom: 14}).setView([40, -74.50], 9);
   map.doubleClickZoom.disable(); 
-  //map.addLayer(L.mapbox.tileLayer('examples.map-4l7djmvo'));
-  map.addLayer(L.mapbox.tileLayer('flipside.map-epnw0q4t'));
   map.addLayer(L.mapbox.tileLayer('flipside.pt-admin-areas'));
   map.addLayer(L.mapbox.tileLayer('flipside.if_occurrences'));
   // Interactivity.
@@ -52,49 +50,6 @@ $(document).ready(function() {
 
   map.fitBounds(bounds);
   
-  // @todo: remove markers.
-  var gj = [{
-    // this feature is in the GeoJSON format: see geojson.org
-    // for the full specification
-    type : 'Feature',
-    geometry : {
-      type : 'Point',
-      // coordinates here are in longitude, latitude order because
-      // x, y is the standard for GeoJSON and many formats
-      coordinates : [admin_area.geo.min.x, admin_area.geo.min.y]
-    },
-    properties : {
-      title : 'A Single Marker',
-      description : 'Just one of me',
-      // one can customize markers by adding simplestyle properties
-      // http://mapbox.com/developers/simplestyle/
-      'marker-size' : 'large',
-      'marker-color' : '#0AF'
-    }
-  }, {
-    // this feature is in the GeoJSON format: see geojson.org
-    // for the full specification
-    type : 'Feature',
-    geometry : {
-      type : 'Point',
-      // coordinates here are in longitude, latitude order because
-      // x, y is the standard for GeoJSON and many formats
-      coordinates : [admin_area.geo.max.x, admin_area.geo.max.y]
-    },
-    properties : {
-      title : 'A Single Marker',
-      description : 'Just one of me',
-      // one can customize markers by adding simplestyle properties
-      // http://mapbox.com/developers/simplestyle/
-      'marker-size' : 'large',
-      'marker-color' : '#0AF'
-    }
-  }];
-
-  // Add features to the map
-  //map.markerLayer.setGeoJSON(gj);
-  // @todo: / remove markers
-  
   // Some areas might not have occurrences. Ex 110615
   if (stats_admin_area == null) {
     return;
@@ -119,7 +74,11 @@ $(document).ready(function() {
     labels: ['Incendio', 'Fogacho', 'Agricola', 'Queimada', 'Falso Alarme'],
   
     stacked: true,
-    hideHover : 'auto'
+    hideHover : 'auto',
+    
+    yLabelFormat : function(y){
+      return number_format(y);
+    }
   });
   
   // Morris issue #242. With the line chart the years must be strings
@@ -146,7 +105,11 @@ $(document).ready(function() {
     postUnits : ' Ha',
     hideHover : 'auto',
     lineColors: ['#782121'],
-    pointFillColors: ['#c0392b']
+    pointFillColors: ['#c0392b'],
+    
+    yLabelFormat : function(y){
+      return number_format(y);
+    }
   });
   
   // This must be the last thing to do because the
@@ -246,4 +209,24 @@ function string_format(string, args) {
     string = string.replace(regExp, args[arg]);
   }
   return string;
+}
+
+/**
+ * Formats numbers according to the Portuguese notation:
+ * 1 000 000,25
+ * 
+ * @param Number num
+ * @return Number
+ */
+function number_format(num) {
+  var regexp = /(?=(?:\d{3})+$)(?!^)/g;
+  var integer = /^[0-9]+$/;
+  if (integer.test(num)) {
+    return num.toString().replace(regexp, ' ');    
+  }
+  else {
+    var pieces = num.toString().split('.');
+    var formatted = pieces[0].replace(regexp, ' ');    
+    return formatted + ',' + pieces[1];
+  }
 }
