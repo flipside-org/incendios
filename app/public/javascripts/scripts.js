@@ -1,9 +1,4 @@
-$(window).resize(function(){ set_map_height(); });
-
 $(document).ready(function() {
-  // Init!
-  set_sidebar_height();
-  set_map_height();
 
   var aaid = get_requested_aaid();
   var stats_admin_area = get_json('/stats/' + aaid + '/json');

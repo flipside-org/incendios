@@ -1,3 +1,12 @@
+// Stuff to always run:
+$(window).resize(function(){ set_map_height(); });
+$(document).ready(function() {
+  // Init!
+  set_sidebar_height();
+  set_map_height();
+  
+});
+
 /***********************************************************/
 // HELPERS
 /***********************************************************/
