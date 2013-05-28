@@ -35,5 +35,5 @@ exports.page = function(req, res, next, permalink){
  */
 exports.view = function(req, res){
   var page = req.page;
-  res.render('page', { title: page.title, content: page.content, is_page: true });
+  res.render('page', { title: page.title, content: page.content, type: 'page' });
 };
