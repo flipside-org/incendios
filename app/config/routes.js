@@ -45,6 +45,7 @@ module.exports = function (app) {
   app.get('/story/:permalink_story', stories.view);
   app.param('permalink_story', stories.story);
 
+
   /**
    * home / front page route
    */
