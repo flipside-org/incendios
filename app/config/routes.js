@@ -35,8 +35,15 @@ module.exports = function (app) {
   app.get('/page/:permalink', pages.view);
 
   app.param('permalink', pages.page);
-  
 
+
+  /**
+   * Stories
+   */
+  
+  var stories = require('../app/controllers/stories');
+  app.get('/story/:permalink_story', stories.view);
+  app.param('permalink_story', stories.story);
 
   /**
    * home / front page route
