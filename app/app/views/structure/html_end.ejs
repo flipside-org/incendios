@@ -3,7 +3,13 @@
   <script src="http://cdn.oesmith.co.uk/morris-0.4.1.min.js"></script>
   <script src="/lib/chosen/chosen/chosen.jquery.min.js" type="text/javascript"></script>
   <script src="/javascripts/breadcrumbs.js" type="text/javascript"></script>
-  <script src="/javascripts/scripts.js" type="text/javascript"></script>
+  <script src="/javascripts/helpers.js" type="text/javascript"></script>
+  
+  <% if (typeof is_page != "undefined" && is_page) { %>
+    <script src="/javascripts/scripts_pages.js" type="text/javascript"></script>
+  <% } else { %>
+    <script src="/javascripts/scripts.js" type="text/javascript"></script>
+  <% } %>
 
 </body>
 </html>

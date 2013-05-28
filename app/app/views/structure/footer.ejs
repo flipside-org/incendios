@@ -1,4 +1,12 @@
-  <footer id="footer" class="two-fifths">
+  <% 
+    if (typeof is_page != "undefined" && is_page) {
+      var classes = 'four-fifths';
+    }
+    else {
+      var classes = 'two-fifths';
+    }
+  %>
+  <footer id="footer" class="<%= classes %>">
     <div class="wrapper">
       Built by Flipside, using Express.js, Tilemill, etc, etc<br />
       Data sources: ICNF
