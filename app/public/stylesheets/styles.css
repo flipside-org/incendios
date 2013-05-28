@@ -228,14 +228,14 @@ h2 {
 /* Media queries */
 @media screen and (min-width : 851px) {
   /* Animation only on large screens */
-  #map-container, #header, #sidebar, #footer {
+  #map-container.one-fifths, #header.four-fifths, #sidebar.four-fifths, #footer.four-fifths {
     animation-duration: 2s;
     animation-delay: 0.5s;
   }
-  #map-container {
+  #map-container.one-fifths {
     animation-name: slide-map;
   }
-  #header, #sidebar, #footer {
+  #header.four-fifths, #sidebar.four-fifths, #footer.four-fifths {
     animation-name: slide-sidebar;
   }
   
