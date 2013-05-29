@@ -56,6 +56,11 @@ body {
   color: #2C3E50;
 }
 
+.one-fifths {
+  width: 20%;
+  float: left;
+}
+
 .two-fifths {
   width: 40%;
   float: right;
@@ -64,6 +69,10 @@ body {
 .three-fifths {
   width: 60%;
   float: left;
+}
+.four-fifths {
+  width: 80%;
+  float: right;
 }
 
 .wrapper {
@@ -157,11 +166,20 @@ h2 {
   text-decoration: none;
 }
 
-#sidebar h1 small {
-  font-size: 20px;
+#sidebar small {
+  font-size: 0.5em;
   font-family: 'League Gothic';
   color: #7f8c8d; /* Asbestos */
   text-transform: uppercase;
+}
+
+#sidebar h2 small {
+  font-size: 16px;
+  margin: 0 0 0 3px;
+}
+
+#map-container {
+  background-color: white;
 }
 
 /* Chosen Overrides */
@@ -208,17 +226,48 @@ h2 {
 
 
 /* Media queries */
+@media screen and (min-width : 851px) {
+  /* Animation only on large screens */
+  #map-container.one-fifths, #header.four-fifths, #sidebar.four-fifths, #footer.four-fifths {
+    animation-duration: 2s;
+    animation-delay: 0.5s;
+  }
+  #map-container.one-fifths {
+    animation-name: slide-map;
+  }
+  #header.four-fifths, #sidebar.four-fifths, #footer.four-fifths {
+    animation-name: slide-sidebar;
+  }
+  
+  @keyframes slide-sidebar {
+    0% {
+      width: 40%;
+    }
+    100% {
+      width: 80%;
+    }
+  }
+  @keyframes slide-map {
+    0% {
+      width: 60%;
+    }
+    100% {
+      width: 20%;
+    }
+  }
+  /* / End animations */
+}
 @media screen and (min-width : 851px) and (max-width : 1100px) {
   /* Same properties as in w<450px */
-  #header h1 {
+  #header.two-fifths h1 {
     float: none;
   }
   
-  #header nav {
+  #header.two-fifths nav {
     float: none;
   }
   
-  #header nav li {
+  #header.two-fifths nav li {
     padding: 0 20px 0 0;
   }  
   /* / Same properties as in w<450px */
@@ -229,12 +278,22 @@ h2 {
   body {
     font-size: 16px;
   }
+  .one-fifths {
+    width: 100%;
+    float: none;
+  }
+  
   .two-fifths {
     width: 100%;
     float: none;
   }
   
   .three-fifths {
+    width: 100%;
+    float: none;
+  }
+  
+  .four-fifths {
     width: 100%;
     float: none;
   }
@@ -250,6 +309,10 @@ h2 {
   
   .wrapper {
     padding: 10px;
+  }
+  
+  .desktop {
+    display: none;
   }
 
 }

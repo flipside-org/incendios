@@ -44,3 +44,23 @@ $ nodemon app.js
 ```
 
 Open your app in the browser, typically at [http://localhost:3000](http://localhost:3000).
+
+
+---
+
+# Add pages
+The pages must be added to the mongo collection ```pages``` in a object with the following strucutre:
+```json
+{
+    permalink: "about",
+    title: "About the project",
+    content: ""
+}
+```
+
+The permalink will be part of the url:
+```
+/pages/:permalink
+```
+
+After adding the content on mongo the page will be available but a link to it must be added in the navigation. This can be done in views > structure > header.ejs
