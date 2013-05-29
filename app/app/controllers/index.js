@@ -4,5 +4,5 @@
  */
 
 exports.view = function(req, res){
-  res.render('index', { title: 'Incendios' });
+  res.render('index', { title: 'Incendios', type : 'index' });
 };

@@ -7,16 +7,11 @@
     <div class="wrapper">
       
       <header>
-        <h1><%= title %> 
-          <% if (typeof type_verbose != "undefined") { %>
-            <small><%= type_verbose %></small>
-          <% } %>
+        <h1><%= title %> <small><%= type_verbose %></small>
         </h1>
         
         <!-- location breadcrumbs -->
-        <% if (typeof breadcrumbs != "undefined" && breadcrumbs.length) { %>
-          <%-partial('breadcrumbs') %>
-        <% } %>
+        <%-partial('breadcrumbs') %>
         <!-- / location breadcrumbs -->
         
         <!-- verbose stats -->

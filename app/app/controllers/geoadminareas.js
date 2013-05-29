@@ -166,12 +166,13 @@ exports.view = function(req, res){
 
 
                     // render!
-                    res.render('index', {
+                    res.render('geoadminarea', {
                       title: req.geoadminarea.name,
                       type_verbose : r.admin_divisions[req.geoadminarea.type],
                       breadcrumbs: breadcrumbs,
                       verbose_statistics: stats,
-                      show_charts: statsadminarea == null ? false : true
+                      show_charts: statsadminarea == null ? false : true,
+                      type: 'geoadminarea',
                     });
                     // send JSON
                     // res.send(breadcrumbs)
