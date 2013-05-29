@@ -14,18 +14,18 @@ $(document).ready(function() {
   // Interactivity.
   var grid_layer = L.mapbox.gridLayer('flipside.pt-admin-areas');
   grid_layer.on('click', function(data){
-    if (typeof data.data == 'undefined') {
+    if (typeof data.data == 'undefined') {  
       //Nothing to do here!
       return;
     }
     
     // We assume that the aaid always has 6 digits.
     var destination = null;
-    if (map.getZoom() <= 7) {
+    if (map.getZoom() <= 9) {
       // Distrito.
       destination = data.data.AAID.substring(0,2);
     }
-    else if (map.getZoom() >= 8 && map.getZoom() <= 9) {
+    else if (map.getZoom() >= 10 && map.getZoom() <= 12) {
       // Conselho.
       destination = data.data.AAID.substring(0,4);
     }
