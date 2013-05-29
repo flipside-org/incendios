@@ -26,7 +26,7 @@ $(document).ready(function() {
       destination = data.data.AAID.substring(0,2);
     }
     else if (map.getZoom() >= 10 && map.getZoom() <= 12) {
-      // Conselho.
+      // Concelho.
       destination = data.data.AAID.substring(0,4);
     }
     else {
