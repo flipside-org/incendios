@@ -1,7 +1,7 @@
 <%-partial('structure/html_start') %>
 <%-partial('structure/header') %>
 
-  <section id="map-container" class="three-fifths"><div id="map"><!-- The map --></div></section>
+  <section id="map-container" class="three-fifths"><div id="map" class="map"><!-- The map --></div></section>
   
   <aside id="sidebar" class="two-fifths">    
     <div class="wrapper">
@@ -26,12 +26,13 @@
         <!-- / verbose stats -->
           
       </header>
+      
       <section>
         <!-- charts and stats -->
         <% if (typeof show_charts != "undefined" && show_charts) { %>
-          <h2>Fire type per year</h2>
+          <h2>Tipo de incêndio <small>por ano</small></h2>
           <div id="fires-year"><!-- Chart --></div>
-          <h2>Burnt area per year</h2>
+          <h2>Área ardida <small>por ano</small></h2>
           <div id="burnt-area"><!-- Chart --></div>
         <% } %>
         <!-- / charts and stats -->

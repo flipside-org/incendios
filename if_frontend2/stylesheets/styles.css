@@ -24,6 +24,11 @@
  * #34495e - Wet asphalt
  * #2c3e50 - Midnight blue
  * 
+ * #782121 - Old Wine
+ * #c0392b - Pomegranate
+ * #f1c40f - Sunflower
+ * #1abc9c - Turquoise
+ * 
  */
 
 .clearfix:after {
@@ -51,6 +56,11 @@ body {
   color: #2C3E50;
 }
 
+.one-fifths {
+  width: 20%;
+  float: left;
+}
+
 .two-fifths {
   width: 40%;
   float: right;
@@ -59,6 +69,10 @@ body {
 .three-fifths {
   width: 60%;
   float: left;
+}
+.four-fifths {
+  width: 80%;
+  float: right;
 }
 
 .wrapper {
@@ -152,18 +166,104 @@ h2 {
   text-decoration: none;
 }
 
+#sidebar small {
+  font-size: 0.5em;
+  font-family: 'League Gothic';
+  color: #7f8c8d; /* Asbestos */
+  text-transform: uppercase;
+}
+
+#sidebar h2 small {
+  font-size: 16px;
+  margin: 0 0 0 3px;
+}
+
+/* Chosen Overrides */
+.chzn-container-single {
+  margin: 5px 0;
+}
+.chzn-container-single .chzn-single,
+.chzn-container .chzn-drop {
+  background-color: #ecf0f1; /* Clouds */
+  border: 1px solid #bdc3c7; /* Silver */
+  border-radius: 3px;
+  box-shadow: none;
+  background-image: none;
+}
+.chzn-container-active .chzn-single-with-drop {
+  border-bottom-left-radius: 0;  
+  border-bottom-right-radius: 0;
+}
+.chzn-container .chzn-drop {
+  border-top: none;
+  border-top-left-radius: 0;  
+  border-top-right-radius: 0;  
+}
+.chzn-container .chzn-results .highlighted {
+  background-image: none;
+  background-color: #e67e22; /* Carrot */
+}
+
+/* / Chosen Overrides */
+
+/* Morris Overrides */
+.morris-hover.morris-default-style {
+    background-color: #FFFFFF;
+    border-radius: 3px;
+    text-align: left;
+}
+.morris-hover.morris-default-style .morris-hover-row-label {
+  font-family: 'League Gothic';
+  font-weight: normal;
+  margin:  0;
+  font-size: 25px;
+}
+/* / Morris Overrides */
+
+
 /* Media queries */
+@media screen and (min-width : 851px) {
+  /* Animation only on large screens */
+  #map-container, #header, #sidebar, #footer {
+    animation-duration: 2s;
+    animation-delay: 0.5s;
+  }
+  #map-container {
+    animation-name: slide-map;
+  }
+  #header, #sidebar, #footer {
+    animation-name: slide-sidebar;
+  }
+  
+  @keyframes slide-sidebar {
+    0% {
+      width: 40%;
+    }
+    100% {
+      width: 80%;
+    }
+  }
+  @keyframes slide-map {
+    0% {
+      width: 60%;
+    }
+    100% {
+      width: 20%;
+    }
+  }
+  /* / End animations */
+}
 @media screen and (min-width : 851px) and (max-width : 1100px) {
   /* Same properties as in w<450px */
-  #header h1 {
+  #header.two-fifths h1 {
     float: none;
   }
   
-  #header nav {
+  #header.two-fifths nav {
     float: none;
   }
   
-  #header nav li {
+  #header.two-fifths nav li {
     padding: 0 20px 0 0;
   }  
   /* / Same properties as in w<450px */
@@ -171,6 +271,14 @@ h2 {
 }
 
 @media screen and (max-width : 850px) {
+  body {
+    font-size: 16px;
+  }
+  .one-fifths {
+    width: 100%;
+    float: none;
+  }
+  
   .two-fifths {
     width: 100%;
     float: none;
@@ -181,6 +289,15 @@ h2 {
     float: none;
   }
   
+  .four-fifths {
+    width: 100%;
+    float: none;
+  }
+  
+  #sidebar {
+    margin: 10px 0 0 0;
+  }
+  
   #map {
     height: 500px !important;
     margin: 0 10px;
@@ -188,6 +305,10 @@ h2 {
   
   .wrapper {
     padding: 10px;
+  }
+  
+  .desktop {
+    display: none;
   }
 
 }

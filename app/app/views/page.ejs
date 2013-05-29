@@ -1,19 +1,16 @@
 <%-partial('structure/html_start') %>
+<%-partial('structure/header') %>
 
-  <div class="container-fluid cf">
-    <%-partial('structure/header') %>
-    <div class="row-fluid">
-      <div class="map-wrapper">
-        <div id="map" class="span12 map"> <!-- Map --></div>
-      </div>
-      <div id="overlay" class="center-over span5">
-        <div class="overview">
-          <h2><%= title %></h2>
-          <%= content %>
-        </div>
-      </div>
+  <section id="map-container" class="one-fifths desktop"><div id="map_pages" class="map"><!-- The map --></div></section>
+  
+  <aside id="sidebar" class="four-fifths">    
+    <div class="wrapper">
+        <h1><%= title %></h1>
+        <!-- Content -->
+        <%= content %>
     </div>
-  </div>
-
+  </aside>
+  
+  
 <%-partial('structure/footer') %>
 <%-partial('structure/html_end') %>

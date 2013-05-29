@@ -30,12 +30,20 @@ module.exports = function (app) {
   /**
    * Pages
    */
-  /*
+  
   var pages = require('../app/controllers/pages');
   app.get('/page/:permalink', pages.view);
 
   app.param('permalink', pages.page);
-  */
+
+
+  /**
+   * Stories
+   */
+  
+  var stories = require('../app/controllers/stories');
+  app.get('/story/:permalink_story', stories.view);
+  app.param('permalink_story', stories.story);
 
 
   /**

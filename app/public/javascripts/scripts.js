@@ -1,9 +1,4 @@
-$(window).resize(function(){ set_map_height(); });
-
 $(document).ready(function() {
-  // Init!
-  set_sidebar_height();
-  set_map_height();
 
   var aaid = get_requested_aaid();
   var stats_admin_area = get_json('/stats/' + aaid + '/json');
@@ -12,28 +7,26 @@ $(document).ready(function() {
   /**************************************************/
   // Create the map.
   /**************************************************/
-  var map = L.mapbox.map('map').setView([40, -74.50], 9);
+  var map = L.mapbox.map('map', 'flipside.map-epnw0q4t', {minZoom: 7, maxZoom: 14}).setView([40, -74.50], 9);
   map.doubleClickZoom.disable(); 
-  //map.addLayer(L.mapbox.tileLayer('examples.map-4l7djmvo'));
-  map.addLayer(L.mapbox.tileLayer('flipside.map-epnw0q4t'));
   map.addLayer(L.mapbox.tileLayer('flipside.pt-admin-areas'));
   map.addLayer(L.mapbox.tileLayer('flipside.if_occurrences'));
   // Interactivity.
   var grid_layer = L.mapbox.gridLayer('flipside.pt-admin-areas');
   grid_layer.on('click', function(data){
-    if (typeof data.data == 'undefined') {
+    if (typeof data.data == 'undefined') {  
       //Nothing to do here!
       return;
     }
     
     // We assume that the aaid always has 6 digits.
     var destination = null;
-    if (map.getZoom() <= 7) {
+    if (map.getZoom() <= 9) {
       // Distrito.
       destination = data.data.AAID.substring(0,2);
     }
-    else if (map.getZoom() >= 8 && map.getZoom() <= 9) {
-      // Conselho.
+    else if (map.getZoom() >= 10 && map.getZoom() <= 12) {
+      // Concelho.
       destination = data.data.AAID.substring(0,4);
     }
     else {
@@ -51,49 +44,6 @@ $(document).ready(function() {
   var bounds = new L.LatLngBounds(southWest, northEast);
 
   map.fitBounds(bounds);
-  
-  // @todo: remove markers.
-  var gj = [{
-    // this feature is in the GeoJSON format: see geojson.org
-    // for the full specification
-    type : 'Feature',
-    geometry : {
-      type : 'Point',
-      // coordinates here are in longitude, latitude order because
-      // x, y is the standard for GeoJSON and many formats
-      coordinates : [admin_area.geo.min.x, admin_area.geo.min.y]
-    },
-    properties : {
-      title : 'A Single Marker',
-      description : 'Just one of me',
-      // one can customize markers by adding simplestyle properties
-      // http://mapbox.com/developers/simplestyle/
-      'marker-size' : 'large',
-      'marker-color' : '#0AF'
-    }
-  }, {
-    // this feature is in the GeoJSON format: see geojson.org
-    // for the full specification
-    type : 'Feature',
-    geometry : {
-      type : 'Point',
-      // coordinates here are in longitude, latitude order because
-      // x, y is the standard for GeoJSON and many formats
-      coordinates : [admin_area.geo.max.x, admin_area.geo.max.y]
-    },
-    properties : {
-      title : 'A Single Marker',
-      description : 'Just one of me',
-      // one can customize markers by adding simplestyle properties
-      // http://mapbox.com/developers/simplestyle/
-      'marker-size' : 'large',
-      'marker-color' : '#0AF'
-    }
-  }];
-
-  // Add features to the map
-  //map.markerLayer.setGeoJSON(gj);
-  // @todo: / remove markers
   
   // Some areas might not have occurrences. Ex 110615
   if (stats_admin_area == null) {
@@ -119,7 +69,11 @@ $(document).ready(function() {
     labels: ['Incendio', 'Fogacho', 'Agricola', 'Queimada', 'Falso Alarme'],
   
     stacked: true,
-    hideHover : 'auto'
+    hideHover : 'auto',
+    
+    yLabelFormat : function(y){
+      return number_format(y);
+    }
   });
   
   // Morris issue #242. With the line chart the years must be strings
@@ -146,7 +100,11 @@ $(document).ready(function() {
     postUnits : ' Ha',
     hideHover : 'auto',
     lineColors: ['#782121'],
-    pointFillColors: ['#c0392b']
+    pointFillColors: ['#c0392b'],
+    
+    yLabelFormat : function(y){
+      return number_format(y);
+    }
   });
   
   // This must be the last thing to do because the
@@ -154,96 +112,3 @@ $(document).ready(function() {
   set_map_height();
   
 });
-
-/***********************************************************/
-// HELPERS
-/***********************************************************/
-
-/*
- * Resizes the sidebar based on the size of the window.
- */
-function set_sidebar_height() {
-  // Resize only if window > 850
-  var $window = $(window);
-  if ($window.width() <= 850){
-    return false;
-  }
-  
-  var w_height = $window.height();
-  var $sidebar = $('#sidebar');
-  var oh_header = $('#header').outerHeight();
-  var oh_sidebar = $sidebar.outerHeight();
-  var oh_footer = $('#footer').outerHeight();
-  
-  // If all the sidebar elements together don't match the window height
-  // adjust the sidebar.
-  if (oh_header + oh_sidebar + oh_footer < w_height) { console.log(w_height);
-    // We are setting the height for the sidebar. We need to account for
-    // the outer height like padding, border...
-    var final_height = w_height - oh_footer - oh_header - (oh_sidebar - $sidebar.height());
-    $sidebar.css('min-height', final_height);
-  }
-}
-
-/*
- * Resizes the map based on the height of the sidebar.
- */
-function set_map_height() {
-  // Resize only if window > 850
-  if ($(window).width() <= 850){
-    return false;
-  }
-  var oh_header = $('#header').outerHeight();
-  var oh_sidebar = $('#sidebar').outerHeight();
-  var oh_footer = $('#footer').outerHeight();
-  
-  $('#map').height(oh_header + oh_sidebar + oh_footer);
-}
-
-/**
- * @param string url
- * @return json data
- *   The data from the database.
- */
-function get_json(url) {
-  var data = null;
-  $.ajax({
-    type : "GET",
-    url : url,
-    async : false,
-    dataType : "json",
-    context : document.body
-  }).done(function(response) {
-    data = response;
-  });
-
-  return data;
-}
-
-/**
- * Get the aaid from the URL
- * @return aaid [int]
- *
- * @todo change this when we have final API paths
- */
-function get_requested_aaid() {
-  return window.location.pathname.split('/')[2];
-}
-
-/**
- * Replaces args in the string. This does not take into account
- * word boundaries so make sure that a arg does not contain another.
- * :example -- :example_word
- *
- * @param string string
- * @param object args
- *
- * @return string
- */
-function string_format(string, args) {
-  for (var arg in args) {
-    var regExp = new RegExp(arg, 'g');
-    string = string.replace(regExp, args[arg]);
-  }
-  return string;
-}
