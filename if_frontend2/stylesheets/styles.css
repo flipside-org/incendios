@@ -178,6 +178,10 @@ h2 {
   margin: 0 0 0 3px;
 }
 
+#footer {
+  font-size: 12px;
+}
+
 /* Chosen Overrides */
 .chzn-container-single {
   margin: 5px 0;
