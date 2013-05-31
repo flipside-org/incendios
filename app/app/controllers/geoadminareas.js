@@ -122,26 +122,27 @@ exports.view = function(req, res){
                     if (err) return res.render('500')
 
                     // do
-                    var admin_area = req.geoadminarea;
+                    var info = {
+                      aa_name : req.geoadminarea.name,
+                      geodivisionnarea_name_raw : r.admin_divisions[req.geoadminarea.type],
+                    }
 
-                    var stats = '';
                     if (statsadminarea != null && statsadminarea.top.incendio.date != 0) {
                       // Render the statistics verbose.
 
                       moment.lang(i18n.getLocale());
 
-                      var verbose_vars = {
+                      var stats = {
                         occurrences : statsadminarea.total,
-                        admin_area : admin_area.name,
-                        // Pronome pessoal and admin area.
-                        // 3 stands for freguesia
-                        pp_admin_area : ((admin_area.type == 3) ? 'na ' : 'no ') + r.admin_divisions[admin_area.type],
-                        top_year_year : statsadminarea.top.year,
-                        // Pronome demonstrativo and admin area.
-                        // 3 stands for freguesia
-                        pd_admin_area : ((admin_area.type == 3) ? 'nesta ' : 'neste ') + r.admin_divisions[admin_area.type],
-                        top_incendio_date : moment(statsadminarea.top.incendio.date, "YYYY-MM-DD").format('LL'),
-                        top_incendio_ha : statsadminarea.top.incendio.aa_total
+                        top : {
+                          year : {
+                            year : statsadminarea.top.year,
+                          },
+                          fire : {
+                            date : moment(statsadminarea.top.incendio.date, "YYYY-MM-DD").format('LL'),
+                            ha : statsadminarea.top.incendio.aa_total
+                          }
+                        }
                       };
 
                       // Get area for top incêndio.
@@ -149,7 +150,8 @@ exports.view = function(req, res){
                       for (var i = 0; i < statsadminarea.data.length; i++) {
                         var data_year = statsadminarea.data[i];
                         if (data_year.year == statsadminarea.top.year) {
-                          verbose_vars['top_year_ha'] = Math.round(data_year.aa_total);
+                          stats['top_year_ha'] = Math.round(data_year.aa_total);
+                          stats.top.year.ha = Math.round(data_year.aa_total);
                           break;
                         }
                       }
@@ -159,12 +161,11 @@ exports.view = function(req, res){
 
                     // render!
                     res.render('geoadminarea', {
-                      title: req.geoadminarea.name,
-                      type_verbose : r.admin_divisions[req.geoadminarea.type],
+                      title: info.aa_name,
+                      info: info,
                       breadcrumbs: breadcrumbs,
                       show_charts: statsadminarea == null ? false : true,
-                      verbose_vars: verbose_vars,
-                      statsadminarea: statsadminarea,
+                      stats: stats,
                       type: 'geoadminarea',
                     });
                     // send JSON
