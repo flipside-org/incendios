@@ -160,8 +160,6 @@ exports.view = function(req, res){
 
                   }
 
-console.log(req.geoadmindivisions);
-
                   // render!
                   res.render('geoadminarea', {
                     title: info.aa_name,
