@@ -7,35 +7,11 @@
     <div class="wrapper">
       
       <header>
-        <h1><%= title %> 
-          <% if (typeof type_verbose != "undefined") { %>
-            <small><%= type_verbose %></small>
-          <% } %>
-        </h1>
-        
-        <!-- location breadcrumbs -->
-        <% if (typeof breadcrumbs != "undefined" && breadcrumbs.length) { %>
-          <%-partial('breadcrumbs') %>
-        <% } %>
-        <!-- / location breadcrumbs -->
-        
-        <!-- verbose stats -->
-        <% if (typeof verbose_statistics != "undefined" && verbose_statistics != null) { %>
-          <p id="stats_verbose"><%= verbose_statistics %></p>
-        <% } %>
-        <!-- / verbose stats -->
-          
+        <h1><%= title %></h1>
       </header>
       
       <section>
-        <!-- charts and stats -->
-        <% if (typeof show_charts != "undefined" && show_charts) { %>
-          <h2>Tipo de incêndio <small>por ano</small></h2>
-          <div id="fires-year"><!-- Chart --></div>
-          <h2>Área ardida <small>por ano</small></h2>
-          <div id="burnt-area"><!-- Chart --></div>
-        <% } %>
-        <!-- / charts and stats -->
+        
       </section>
       
     </div>

@@ -97,13 +97,12 @@ $(document).ready(function() {
     // chart.
     labels: ['Burnt Area'],
   
-    postUnits : ' Ha',
     hideHover : 'auto',
     lineColors: ['#782121'],
     pointFillColors: ['#c0392b'],
     
     yLabelFormat : function(y){
-      return number_format(y);
+      return number_format(y) + ' Ha';
     }
   });
   
