@@ -9,9 +9,10 @@
 /**
  * Module dependencies.
  */
-var mongoose = require('mongoose');
-var async = require('async');
-var moment = require('moment');
+var mongoose = require('mongoose')
+  , async = require('async')
+  , i18n = require('i18n')
+  , moment = require('moment')
 
 
 var GeoAdminArea = mongoose.model('GeoAdminArea');
@@ -126,21 +127,21 @@ exports.view = function(req, res){
                     var stats = '';
                     if (statsadminarea != null && statsadminarea.top.incendio.date != 0) {
                       // Render the statistics verbose.
-                      var sentence = 'Entre 2001 e 2011 registaram-se :occurrences ocorências :pp_admin_area de :admin_area. :top_year_year foi o ano mais grave tendo ardido :top_year_ha hectares. O maior incêndio que teve início :pd_admin_area ocorreu a :top_incendio_date consumindo :top_incendio_ha hectares.';
 
-                      moment.lang('pt');
-                      var args = {
-                        ':occurrences' : statsadminarea.total,
-                        ':admin_area' : admin_area.name,
+                      moment.lang(i18n.getLocale());
+
+                      var verbose_vars = {
+                        occurrences : statsadminarea.total,
+                        admin_area : admin_area.name,
                         // Pronome pessoal and admin area.
                         // 3 stands for freguesia
-                        ':pp_admin_area' : ((admin_area.type == 3) ? 'na ' : 'no ') + r.admin_divisions[admin_area.type],
-                        ':top_year_year' : statsadminarea.top.year,
+                        pp_admin_area : ((admin_area.type == 3) ? 'na ' : 'no ') + r.admin_divisions[admin_area.type],
+                        top_year_year : statsadminarea.top.year,
                         // Pronome demonstrativo and admin area.
                         // 3 stands for freguesia
-                        ':pd_admin_area' : ((admin_area.type == 3) ? 'nesta ' : 'neste ') + r.admin_divisions[admin_area.type],
-                        ':top_incendio_date' : moment(statsadminarea.top.incendio.date, "YYYY-MM-DD").format('LL'),
-                        ':top_incendio_ha' : statsadminarea.top.incendio.aa_total
+                        pd_admin_area : ((admin_area.type == 3) ? 'nesta ' : 'neste ') + r.admin_divisions[admin_area.type],
+                        top_incendio_date : moment(statsadminarea.top.incendio.date, "YYYY-MM-DD").format('LL'),
+                        top_incendio_ha : statsadminarea.top.incendio.aa_total
                       };
 
                       // Get area for top incêndio.
@@ -148,20 +149,11 @@ exports.view = function(req, res){
                       for (var i = 0; i < statsadminarea.data.length; i++) {
                         var data_year = statsadminarea.data[i];
                         if (data_year.year == statsadminarea.top.year) {
-                          args[':top_year_ha'] = Math.round(data_year.aa_total);
+                          verbose_vars['top_year_ha'] = Math.round(data_year.aa_total);
                           break;
                         }
                       }
 
-                      stats = string_format(sentence, args);
-                    }
-                    else if (statsadminarea != null && statsadminarea.top.incendio.date == 0) {
-                      // There wasn't an occurrence with burnt area over 1 ha.
-
-                    }
-                    else {
-                      // Nothing ever happened.
-                      stats = 'Encontrou o local mais seguro de Portugal. Nunca aconteceu nada aqui.';
                     }
 
 
@@ -170,8 +162,9 @@ exports.view = function(req, res){
                       title: req.geoadminarea.name,
                       type_verbose : r.admin_divisions[req.geoadminarea.type],
                       breadcrumbs: breadcrumbs,
-                      verbose_statistics: stats,
                       show_charts: statsadminarea == null ? false : true,
+                      verbose_vars: verbose_vars,
+                      statsadminarea: statsadminarea,
                       type: 'geoadminarea',
                     });
                     // send JSON
