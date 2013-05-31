@@ -9,9 +9,10 @@
 /**
  * Module dependencies.
  */
-var mongoose = require('mongoose');
-var async = require('async');
-var moment = require('moment');
+var mongoose = require('mongoose')
+  , async = require('async')
+  , i18n = require('i18n')
+  , moment = require('moment')
 
 
 var GeoAdminArea = mongoose.model('GeoAdminArea');
@@ -36,8 +37,32 @@ exports.geoadminarea = function(req, res, next, aaid){
  * Renders the page for a GeoAdminArea.
  */
 exports.view = function(req, res){
+
   // variables
   var breadcrumbs = []
+
+  async.series({
+    // get all the GeoAdminDivisions
+    admin_divisions: function(state){
+      // get the list of requested elements
+      GeoAdminDivision.list({}, function(err, gads) {
+        var geoadmindivisions = {};
+        // loop to accomodate the data
+        for (var gad in gads) {
+          geoadmindivisions[gads[gad].type] = gads[gad].name;
+        };
+        // execute!
+        state(err, geoadmindivisions);
+      })
+    }
+  },
+  function(err, r) {
+    // error handling
+    if (err) return res.render('500')
+    // do
+    req.geoadmindivisions = r.admin_divisions;
+  });
+
 
   // recursively generates the breadcumb trail
   breadcumb_trail(req.params.aaid);
@@ -88,96 +113,65 @@ exports.view = function(req, res){
               // execute!
               GeoAdminArea.count().exec(function (err, count) {
                 breadcrumbs.push({
-                  select: { type: 'new' },
+                  select: {
+                    type: req.geoadminarea.type + 1
+                  },
                   list: children_aa,
                 })
 
                 // also load stats data
                 StatsAdminArea.load(req.params.aaid, function (err, statsadminarea) {
-                  if (err) {statsadminarea = null;}
+                  if (err) { statsadminarea = null; }
 
-                  // this is to execute synchronously function (example, as here it's not doing anything)
-                  async.series({
-                    admin_divisions: function(state){
-                      // get the list of requested elements
-                      GeoAdminDivision.list({}, function(err, gads) {
-                        var geoadmindivisions = {};
-                        // loop to accomodate the data
-                        for (var gad in gads) {
-                          geoadmindivisions[gads[gad].type] = gads[gad].name;
-                        };
-                        // execute!
-                        state(err, geoadmindivisions);
-                      })
-                    },
-                    two: function(state){
-                      setTimeout(function(){
-                        state(null, 2);
-                      }, 100);
-                    }
-                  },
-                  function(err, r) {
-                    // error handling
-                    if (err) return res.render('500')
+                  // do
+                  var info = {
+                    aa_name : req.geoadminarea.name,
+                    geoadmindivision_name_raw : req.geoadmindivisions[req.geoadminarea.type],
+                  }
 
-                    // do
-                    var admin_area = req.geoadminarea;
+                  if (statsadminarea != null && statsadminarea.top.incendio.date != 0) {
+                    // Render the statistics verbose.
 
-                    var stats = '';
-                    if (statsadminarea != null && statsadminarea.top.incendio.date != 0) {
-                      // Render the statistics verbose.
-                      var sentence = 'Entre 2001 e 2011 registaram-se :occurrences ocorências :pp_admin_area de :admin_area. :top_year_year foi o ano mais grave tendo ardido :top_year_ha hectares. O maior incêndio que teve início :pd_admin_area ocorreu a :top_incendio_date consumindo :top_incendio_ha hectares.';
+                    moment.lang(i18n.getLocale());
 
-                      moment.lang('pt');
-                      var args = {
-                        ':occurrences' : statsadminarea.total,
-                        ':admin_area' : admin_area.name,
-                        // Pronome pessoal and admin area.
-                        // 3 stands for freguesia
-                        ':pp_admin_area' : ((admin_area.type == 3) ? 'na ' : 'no ') + r.admin_divisions[admin_area.type],
-                        ':top_year_year' : statsadminarea.top.year,
-                        // Pronome demonstrativo and admin area.
-                        // 3 stands for freguesia
-                        ':pd_admin_area' : ((admin_area.type == 3) ? 'nesta ' : 'neste ') + r.admin_divisions[admin_area.type],
-                        ':top_incendio_date' : moment(statsadminarea.top.incendio.date, "YYYY-MM-DD").format('LL'),
-                        ':top_incendio_ha' : statsadminarea.top.incendio.aa_total
-                      };
-
-                      // Get area for top incêndio.
-                      // Loop through data array to get correct year.
-                      for (var i = 0; i < statsadminarea.data.length; i++) {
-                        var data_year = statsadminarea.data[i];
-                        if (data_year.year == statsadminarea.top.year) {
-                          args[':top_year_ha'] = Math.round(data_year.aa_total);
-                          break;
+                    var stats = {
+                      occurrences : statsadminarea.total,
+                      top : {
+                        year : {
+                          year : statsadminarea.top.year,
+                        },
+                        fire : {
+                          date : moment(statsadminarea.top.incendio.date, "YYYY-MM-DD").format('LL'),
+                          ha : statsadminarea.top.incendio.aa_total
                         }
                       }
+                    };
 
-                      stats = string_format(sentence, args);
+                    // Get area for top incêndio.
+                    // Loop through data array to get correct year.
+                    for (var i = 0; i < statsadminarea.data.length; i++) {
+                      var data_year = statsadminarea.data[i];
+                      if (data_year.year == statsadminarea.top.year) {
+                        stats['top_year_ha'] = Math.round(data_year.aa_total);
+                        stats.top.year.ha = Math.round(data_year.aa_total);
+                        break;
+                      }
                     }
-                    else if (statsadminarea != null && statsadminarea.top.incendio.date == 0) {
-                      // There wasn't an occurrence with burnt area over 1 ha.
 
-                    }
-                    else {
-                      // Nothing ever happened.
-                      stats = 'Encontrou o local mais seguro de Portugal. Nunca aconteceu nada aqui.';
-                    }
+                  }
 
-
-                    // render!
-                    res.render('geoadminarea', {
-                      title: req.geoadminarea.name,
-                      type_verbose : r.admin_divisions[req.geoadminarea.type],
-                      breadcrumbs: breadcrumbs,
-                      verbose_statistics: stats,
-                      show_charts: statsadminarea == null ? false : true,
-                      type: 'geoadminarea',
-                    });
-                    // send JSON
-                    // res.send(breadcrumbs)
-
+                  // render!
+                  res.render('geoadminarea', {
+                    title: info.aa_name,
+                    info: info,
+                    breadcrumbs: breadcrumbs,
+                    show_charts: statsadminarea == null ? false : true,
+                    stats: stats,
+                    type: 'geoadminarea',
+                    admin_divisions: req.geoadmindivisions
                   });
+                  // send JSON
+                  // res.send(breadcrumbs)
 
                 })
               })
