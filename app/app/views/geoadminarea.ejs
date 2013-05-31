@@ -2,40 +2,79 @@
 <%-partial('structure/header') %>
 
   <section id="map-container" class="three-fifths"><div id="map" class="map"><!-- The map --></div></section>
-  
-  <aside id="sidebar" class="two-fifths">    
+
+  <aside id="sidebar" class="two-fifths">
     <div class="wrapper">
-      
+
       <header>
         <h1><%= title %> <small><%= type_verbose %></small>
         </h1>
-        
+
         <!-- location breadcrumbs -->
         <%-partial('breadcrumbs') %>
         <!-- / location breadcrumbs -->
-        
+
         <!-- verbose stats -->
+
+        <% if (typeof statsadminarea != "undefined" && statsadminarea != null) { %>
+          <% if (statsadminarea.top.incendio.date != 0) { %>
+            <p id="stats_verbose">
+              <%= tn(
+                'Between 2001 and 2011, there was %d fire occurrence in the %%s of %%s.',
+                'Between 2001 and 2011, there were %d fire occurrences in the %%s of %%s.',
+                verbose_vars.occurrences,
+                verbose_vars.pp_admin_area,
+                verbose_vars.admin_area
+              ) %>
+              <%= t(
+                '%d was the year with severest fires, burning a total of %d hectares.',
+                verbose_vars.top_year_year,
+                verbose_vars.top_year_ha
+              ) %>
+              <%= t(
+                'The biggest fire that started in this %s occurred on %s, consuming %d hectares.',
+                verbose_vars.pd_admin_area,
+                verbose_vars.top_incendio_date,
+                verbose_vars.top_incendio_ha
+              ) %>
+            </p>
+          <% } else { %>
+            <p id="stats_verbose">
+              <%= t(
+                'Congratualtions, you just found the safest area in Portugal. Between 2001 and 2011 there were no fires here.'
+              ) %>
+            </p>
+          <% } %>
+        <% } else { %>
+          <%= t(
+            'Sorry, but we do not have any data for %s.',
+            'HERE'
+          ) %>
+        <% } %>
+
+        <hr>
+
         <% if (typeof verbose_statistics != "undefined" && verbose_statistics != null) { %>
           <p id="stats_verbose"><%= verbose_statistics %></p>
         <% } %>
         <!-- / verbose stats -->
-          
+
       </header>
-      
+
       <section>
         <!-- charts and stats -->
         <% if (typeof show_charts != "undefined" && show_charts) { %>
-          <h2>Tipo de incêndio <small>por ano</small></h2>
+          <h2><%= t('Type of fire') %> <small><%= t('by year') %></small></h2>
           <div id="fires-year"><!-- Chart --></div>
-          <h2>Área ardida <small>por ano</small></h2>
+          <h2><%= t('Burnt area') %> <small><%= t('by year') %></small></h2>
           <div id="burnt-area"><!-- Chart --></div>
         <% } %>
         <!-- / charts and stats -->
       </section>
-      
+
     </div>
   </aside>
-  
-  
+
+
 <%-partial('structure/footer') %>
 <%-partial('structure/html_end') %>
