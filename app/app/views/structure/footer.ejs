@@ -1,4 +1,4 @@
-  <% 
+  <%
     if (typeof type != "undefined" && type == 'page') {
       var classes = 'four-fifths';
     }
@@ -8,8 +8,11 @@
   %>
   <footer id="footer" class="<%= classes %>">
     <div class="wrapper">
-      Built by <a href="http://flipside.org/">Flipside</a>, using Express, Tilemill, Morris and <a href="/about#technology">much more</a>.<br />
-      Data sources: ICNF & Igeo. Find out more <a href="/data">about the data</a>.
+      <%= t('Built by') %> <a href="http://flipside.org/">Flipside</a>, <%= t('using Express, Tilemill, Morris and ') %>
+        <a href="/about#technology"><%= t('much more') %></a>.
+      <br />
+      <%= t('Data sources: ICNF & Igeo. Find out more') %> <a href="/data"><%= t('about the data') %></a>
+      <br />
     </div>
   </footer>
-  
+
