@@ -7,7 +7,7 @@
     <div class="wrapper">
 
       <header>
-        <h1><%= info.aa_name %> <small><%= t(info.geodivisionnarea_name_raw) %></small>
+        <h1><%= info.aa_name %> <small><%= t(info.geoadmindivision_name_raw) %></small>
         </h1>
 
         <!-- location breadcrumbs -->
@@ -22,7 +22,7 @@
               'Between 2001 and 2011, there was %d fire occurrence in %%s of %%s.',
               'Between 2001 and 2011, there were %d fire occurrences in %%s of %%s.',
               stats.occurrences,
-              t('the ' + info.geodivisionnarea_name_raw),
+              t('the ' + info.geoadmindivision_name_raw),
               info.aa_name
             ) %>
             <%= t(
@@ -32,7 +32,7 @@
             ) %>
             <%= t(
               'The biggest fire that started in %s occurred on %s, consuming %d hectares.',
-              t('this ' + info.geodivisionnarea_name_raw),
+              t('this ' + info.geoadmindivision_name_raw),
               stats.top.fire.date,
               stats.top.fire.ha
             ) %>
@@ -44,7 +44,7 @@
         <% } else { %>
           <%= t(
             'Sorry, but we do not have any data for %s.',
-            t('this ' + info.geodivisionnarea_name_raw)
+            t('this ' + info.geoadmindivision_name_raw)
           ) %>
         <% } %>
         </p>

@@ -24,6 +24,37 @@ var StatsAdminArea = mongoose.model('StatsAdminArea');
  */
 exports.geoadminarea = function(req, res, next, aaid){
 
+//   // this is to execute synchronously function (example, as here it's not doing anything)
+//   async.series({
+//     admin_area: function(state){
+//       GeoAdminArea.load(aaid, function (err, geoadminarea) {
+//         state(err, geoadminarea);
+//       })
+//     },
+//     admin_divisions: function(state){
+//       // get the list of requested elements
+//       GeoAdminDivision.list({}, function(err, gads) {
+//         var geoadmindivisions = {};
+//         // loop to accomodate the data
+//         for (var gad in gads) {
+//           geoadmindivisions[gads[gad].type] = gads[gad].name;
+//         };
+//         // execute!
+//         state(err, geoadmindivisions);
+//       })
+//     }
+//   },
+//   function(err, r) {
+//     // error handling
+//     if (err) return res.render('500')
+// // console.log(r);
+//     // do
+//     req.geoadminarea = r.admin_area;
+//     req.geoadmindivisions = r.admin_divisions;
+//   });
+
+//     next()
+
   GeoAdminArea.load(aaid, function (err, geoadminarea) {
     if (err) return next(err)
     if (!geoadminarea && aaid != 0) return next(new Error('Failed to load administrative area with the code: ' + aaid))
@@ -37,8 +68,32 @@ exports.geoadminarea = function(req, res, next, aaid){
  * Renders the page for a GeoAdminArea.
  */
 exports.view = function(req, res){
+
   // variables
   var breadcrumbs = []
+
+  async.series({
+    // get all the GeoAdminDivisions
+    admin_divisions: function(state){
+      // get the list of requested elements
+      GeoAdminDivision.list({}, function(err, gads) {
+        var geoadmindivisions = {};
+        // loop to accomodate the data
+        for (var gad in gads) {
+          geoadmindivisions[gads[gad].type] = gads[gad].name;
+        };
+        // execute!
+        state(err, geoadmindivisions);
+      })
+    }
+  },
+  function(err, r) {
+    // error handling
+    if (err) return res.render('500')
+    // do
+    req.geoadmindivisions = r.admin_divisions;
+  });
+
 
   // recursively generates the breadcumb trail
   breadcumb_trail(req.params.aaid);
@@ -95,83 +150,57 @@ exports.view = function(req, res){
 
                 // also load stats data
                 StatsAdminArea.load(req.params.aaid, function (err, statsadminarea) {
-                  if (err) {statsadminarea = null;}
+                  if (err) { statsadminarea = null; }
 
-                  // this is to execute synchronously function (example, as here it's not doing anything)
-                  async.series({
-                    admin_divisions: function(state){
-                      // get the list of requested elements
-                      GeoAdminDivision.list({}, function(err, gads) {
-                        var geoadmindivisions = {};
-                        // loop to accomodate the data
-                        for (var gad in gads) {
-                          geoadmindivisions[gads[gad].type] = gads[gad].name;
-                        };
-                        // execute!
-                        state(err, geoadmindivisions);
-                      })
-                    },
-                    two: function(state){
-                      setTimeout(function(){
-                        state(null, 2);
-                      }, 100);
-                    }
-                  },
-                  function(err, r) {
-                    // error handling
-                    if (err) return res.render('500')
+                  // do
+                  var info = {
+                    aa_name : req.geoadminarea.name,
+                    geoadmindivision_name_raw : req.geoadmindivisions[req.geoadminarea.type],
+                  }
 
-                    // do
-                    var info = {
-                      aa_name : req.geoadminarea.name,
-                      geodivisionnarea_name_raw : r.admin_divisions[req.geoadminarea.type],
-                    }
+                  if (statsadminarea != null && statsadminarea.top.incendio.date != 0) {
+                    // Render the statistics verbose.
 
-                    if (statsadminarea != null && statsadminarea.top.incendio.date != 0) {
-                      // Render the statistics verbose.
+                    moment.lang(i18n.getLocale());
 
-                      moment.lang(i18n.getLocale());
-
-                      var stats = {
-                        occurrences : statsadminarea.total,
-                        top : {
-                          year : {
-                            year : statsadminarea.top.year,
-                          },
-                          fire : {
-                            date : moment(statsadminarea.top.incendio.date, "YYYY-MM-DD").format('LL'),
-                            ha : statsadminarea.top.incendio.aa_total
-                          }
-                        }
-                      };
-
-                      // Get area for top incêndio.
-                      // Loop through data array to get correct year.
-                      for (var i = 0; i < statsadminarea.data.length; i++) {
-                        var data_year = statsadminarea.data[i];
-                        if (data_year.year == statsadminarea.top.year) {
-                          stats['top_year_ha'] = Math.round(data_year.aa_total);
-                          stats.top.year.ha = Math.round(data_year.aa_total);
-                          break;
+                    var stats = {
+                      occurrences : statsadminarea.total,
+                      top : {
+                        year : {
+                          year : statsadminarea.top.year,
+                        },
+                        fire : {
+                          date : moment(statsadminarea.top.incendio.date, "YYYY-MM-DD").format('LL'),
+                          ha : statsadminarea.top.incendio.aa_total
                         }
                       }
+                    };
 
+                    // Get area for top incêndio.
+                    // Loop through data array to get correct year.
+                    for (var i = 0; i < statsadminarea.data.length; i++) {
+                      var data_year = statsadminarea.data[i];
+                      if (data_year.year == statsadminarea.top.year) {
+                        stats['top_year_ha'] = Math.round(data_year.aa_total);
+                        stats.top.year.ha = Math.round(data_year.aa_total);
+                        break;
+                      }
                     }
 
+                  }
 
-                    // render!
-                    res.render('geoadminarea', {
-                      title: info.aa_name,
-                      info: info,
-                      breadcrumbs: breadcrumbs,
-                      show_charts: statsadminarea == null ? false : true,
-                      stats: stats,
-                      type: 'geoadminarea',
-                    });
-                    // send JSON
-                    // res.send(breadcrumbs)
-
+                  // render!
+                  res.render('geoadminarea', {
+                    title: info.aa_name,
+                    info: info,
+                    breadcrumbs: breadcrumbs,
+                    show_charts: statsadminarea == null ? false : true,
+                    stats: stats,
+                    type: 'geoadminarea',
+                    nuno: req.geoadmindivisions
                   });
+                  // send JSON
+                  // res.send(breadcrumbs)
 
                 })
               })
