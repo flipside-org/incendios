@@ -30,7 +30,7 @@ module.exports = function (app) {
   /**
    * Pages
    */
-  
+
   var pages = require('../app/controllers/pages');
   app.get('/page/:permalink', pages.view);
 
@@ -40,11 +40,18 @@ module.exports = function (app) {
   /**
    * Stories
    */
-  
+
   var stories = require('../app/controllers/stories');
   app.get('/story/:permalink_story', stories.view);
   app.param('permalink_story', stories.story);
 
+
+  /**
+   * OTHER - TEMP
+   */
+  app.post('/t', function(req, res){
+    res.send({translated: t(req.body.raw)});
+  });
 
   /**
    * home / front page route
