@@ -33,6 +33,8 @@ i18n.configure({
   // setup locales
   locales: ['en', 'pt'],
 
+  defaultLocale: 'pt',
+
   // sets cookie to parse locale settings from
   cookie: 'incendios_locale',
 
@@ -47,6 +49,12 @@ app.configure(function(){
   app.set('port', process.env.PORT || 3000);
   app.set('views', __dirname + '/app/views');
   app.set('view engine', 'ejs');
+
+  app.locals({
+      't':  i18n.__
+    , 'tn': i18n.__n
+  });
+
   app.use(express.favicon());
   app.use(express.logger('dev'));
   app.use(express.bodyParser());
@@ -58,10 +66,6 @@ app.configure(function(){
   // i18n init parses req for language headers, cookies, etc.
   app.use(i18n.init);
 
-  app.helpers({
-    't':  i18n.__
-  , 'tn': i18n.__n
-  });
 });
 
 app.configure('development', function(){
