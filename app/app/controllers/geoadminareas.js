@@ -24,37 +24,6 @@ var StatsAdminArea = mongoose.model('StatsAdminArea');
  */
 exports.geoadminarea = function(req, res, next, aaid){
 
-//   // this is to execute synchronously function (example, as here it's not doing anything)
-//   async.series({
-//     admin_area: function(state){
-//       GeoAdminArea.load(aaid, function (err, geoadminarea) {
-//         state(err, geoadminarea);
-//       })
-//     },
-//     admin_divisions: function(state){
-//       // get the list of requested elements
-//       GeoAdminDivision.list({}, function(err, gads) {
-//         var geoadmindivisions = {};
-//         // loop to accomodate the data
-//         for (var gad in gads) {
-//           geoadmindivisions[gads[gad].type] = gads[gad].name;
-//         };
-//         // execute!
-//         state(err, geoadmindivisions);
-//       })
-//     }
-//   },
-//   function(err, r) {
-//     // error handling
-//     if (err) return res.render('500')
-// // console.log(r);
-//     // do
-//     req.geoadminarea = r.admin_area;
-//     req.geoadmindivisions = r.admin_divisions;
-//   });
-
-//     next()
-
   GeoAdminArea.load(aaid, function (err, geoadminarea) {
     if (err) return next(err)
     if (!geoadminarea && aaid != 0) return next(new Error('Failed to load administrative area with the code: ' + aaid))
