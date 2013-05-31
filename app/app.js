@@ -15,7 +15,8 @@ var express = require('express')
   , path = require('path')
   , engine = require('ejs-locals')
   , mongoose = require('mongoose')
-  , fs = require('fs');
+  , fs = require('fs')
+  , i18n = require('i18n');
 
 // mongoose setup
 // @todo use read config instead!
@@ -26,6 +27,18 @@ mongoose.connect('mongodb://localhost/incendios');
  * Config and settings.
  */
 var app = express();
+
+// i18n
+i18n.configure({
+  // setup locales
+  locales: ['en', 'pt'],
+
+  // sets cookie to parse locale settings from
+  cookie: 'incendios_locale',
+
+  // where to the json files will be stored
+  directory: __dirname + '/locales'
+});
 
 // use ejs-locals for all ejs templates:
 app.engine('ejs', engine);
@@ -40,6 +53,15 @@ app.configure(function(){
   app.use(express.methodOverride());
   app.use(app.router);
   app.use(express.static(path.join(__dirname, 'public')));
+  // you will need to use cookieParser to expose cookies to req.cookies
+  app.use(express.cookieParser());
+  // i18n init parses req for language headers, cookies, etc.
+  app.use(i18n.init);
+
+  app.helpers({
+    't':  i18n.__
+  , 'tn': i18n.__n
+  });
 });
 
 app.configure('development', function(){
