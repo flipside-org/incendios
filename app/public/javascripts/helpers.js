@@ -143,5 +143,5 @@ function t(string) {
     response = res;
   });
 
-  return response.translated;
+  return response.translated || string;
 }
