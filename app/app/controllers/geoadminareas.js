@@ -144,7 +144,9 @@ exports.view = function(req, res){
               // execute!
               GeoAdminArea.count().exec(function (err, count) {
                 breadcrumbs.push({
-                  select: { type: 'new' },
+                  select: {
+                    type: req.geoadminarea.type + 1
+                  },
                   list: children_aa,
                 })
 
@@ -189,6 +191,8 @@ exports.view = function(req, res){
 
                   }
 
+console.log(req.geoadmindivisions);
+
                   // render!
                   res.render('geoadminarea', {
                     title: info.aa_name,
@@ -197,7 +201,7 @@ exports.view = function(req, res){
                     show_charts: statsadminarea == null ? false : true,
                     stats: stats,
                     type: 'geoadminarea',
-                    nuno: req.geoadmindivisions
+                    admin_divisions: req.geoadmindivisions
                   });
                   // send JSON
                   // res.send(breadcrumbs)
