@@ -22,6 +22,8 @@ var express = require('express')
 // @todo use read config instead!
 mongoose.connect('mongodb://localhost/incendios');
 
+t = i18n.__;
+tn = i18n.__n;
 
 /**
  * Config and settings.
@@ -33,7 +35,7 @@ i18n.configure({
   // setup locales
   locales: ['en', 'pt'],
 
-  defaultLocale: 'pt',
+  defaultLocale: 'en',
 
   // sets cookie to parse locale settings from
   cookie: 'incendios_locale',
