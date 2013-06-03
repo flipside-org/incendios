@@ -1,3 +1,6 @@
 [submodule "app/public/lib/chosen"]
 	path = app/public/lib/chosen
 	url = git@github.com:harvesthq/chosen.git
+[submodule "app/locales"]
+	path = app/locales
+	url = git@bitbucket.org:flipside-org/incendios-i18n.git

@@ -4,7 +4,7 @@ $(document).ready(function() {
   // Init!
   set_sidebar_height();
   set_map_height();
-  
+
 });
 
 /***********************************************************/
@@ -20,13 +20,13 @@ function set_sidebar_height() {
   if ($window.width() <= 850){
     return false;
   }
-  
+
   var w_height = $window.height();
   var $sidebar = $('#sidebar');
   var oh_header = $('#header').outerHeight();
   var oh_sidebar = $sidebar.outerHeight();
   var oh_footer = $('#footer').outerHeight();
-  
+
   // If all the sidebar elements together don't match the window height
   // adjust the sidebar.
   if (oh_header + oh_sidebar + oh_footer < w_height) {
@@ -48,7 +48,7 @@ function set_map_height() {
   var oh_header = $('#header').outerHeight();
   var oh_sidebar = $('#sidebar').outerHeight();
   var oh_footer = $('#footer').outerHeight();
-  
+
   $('.map').height(oh_header + oh_sidebar + oh_footer);
 }
 
@@ -103,7 +103,7 @@ function string_format(string, args) {
 /**
  * Formats numbers according to the Portuguese notation:
  * 1 000 000,25
- * 
+ *
  * @param Number num
  * @return Number
  */
@@ -111,11 +111,37 @@ function number_format(num) {
   var regexp = /(?=(?:\d{3})+$)(?!^)/g;
   var integer = /^[0-9]+$/;
   if (integer.test(num)) {
-    return num.toString().replace(regexp, ' ');    
+    return num.toString().replace(regexp, ' ');
   }
   else {
     var pieces = num.toString().split('.');
-    var formatted = pieces[0].replace(regexp, ' ');    
+    var formatted = pieces[0].replace(regexp, ' ');
     return formatted + ',' + pieces[1];
   }
+}
+
+
+/**
+ * Translates a string using the server side.
+ *
+ * @param string to be translated
+ * @return translated string
+ *
+ * @todo support arguments
+ * @todo use socket.io?
+ */
+function t(string) {
+  var response = null;
+
+  $.ajax({
+    type : "POST",
+    url : '/t',
+    data : { raw : string },
+    async : false,
+    dataType : "json"
+  }).done(function(res) {
+    response = res;
+  });
+
+  return response.translated || string;
 }

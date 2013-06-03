@@ -2,40 +2,70 @@
 <%-partial('structure/header') %>
 
   <section id="map-container" class="three-fifths"><div id="map" class="map"><!-- The map --></div></section>
-  
-  <aside id="sidebar" class="two-fifths">    
+
+  <aside id="sidebar" class="two-fifths">
     <div class="wrapper">
-      
+
       <header>
-        <h1><%= title %> <small><%= type_verbose %></small>
+        <h1><%= info.aa_name %> <small><%= t(info.geoadmindivision_name_raw) %></small>
         </h1>
-        
+
         <!-- location breadcrumbs -->
         <%-partial('breadcrumbs') %>
         <!-- / location breadcrumbs -->
-        
+
         <!-- verbose stats -->
-        <% if (typeof verbose_statistics != "undefined" && verbose_statistics != null) { %>
-          <p id="stats_verbose"><%= verbose_statistics %></p>
+        <p id="stats-verbose">
+        <% if (typeof show_charts != "undefined" && show_charts) { %>
+          <% if (typeof stats != "undefined" && stats != null) { %>
+            <%= tn(
+              'Between 2001 and 2011, there was %d fire occurrence in %%s of %%s.',
+              'Between 2001 and 2011, there were %d fire occurrences in %%s of %%s.',
+              stats.occurrences,
+              t('the ' + info.geoadmindivision_name_raw),
+              info.aa_name
+            ) %>
+            <%= t(
+              '%d was the year with severest fires, burning a total of %d hectares.',
+              stats.top.year.year,
+              stats.top.year.ha
+            ) %>
+            <%= t(
+              'The biggest fire that started in %s occurred on %s, consuming %d hectares.',
+              t('this ' + info.geoadmindivision_name_raw),
+              stats.top.fire.date,
+              stats.top.fire.ha
+            ) %>
+          <% } else { %>
+            <%= t(
+              'Congratulations, you just found the safest area in Portugal. Between 2001 and 2011 there were no fires here.'
+            ) %>
+          <% } %>
+        <% } else { %>
+          <%= t(
+            'Sorry, but we do not have any data for %s.',
+            t('this ' + info.geoadmindivision_name_raw)
+          ) %>
         <% } %>
+        </p>
         <!-- / verbose stats -->
-          
+
       </header>
-      
+
       <section>
         <!-- charts and stats -->
         <% if (typeof show_charts != "undefined" && show_charts) { %>
-          <h2>Tipo de incêndio <small>por ano</small></h2>
+          <h2><%= t('Type of fire') %> <small><%= t('by year') %></small></h2>
           <div id="fires-year"><!-- Chart --></div>
-          <h2>Área ardida <small>por ano</small></h2>
+          <h2><%= t('Burnt area') %> <small><%= t('by year') %></small></h2>
           <div id="burnt-area"><!-- Chart --></div>
         <% } %>
         <!-- / charts and stats -->
       </section>
-      
+
     </div>
   </aside>
-  
-  
+
+
 <%-partial('structure/footer') %>
 <%-partial('structure/html_end') %>
