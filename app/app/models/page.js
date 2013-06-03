@@ -22,7 +22,7 @@ var Page = new Schema({
 });
 
 // Maintain indexes.
-Page.index({permalink: 1});
+Page.index({permalink: 1, language: 1});
 
 /**
  * Statics
