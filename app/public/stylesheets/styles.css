@@ -261,12 +261,12 @@ nav.dropdown ul li:hover ul { /* Show first level dropdown on hover*/
 
 /* Dropdown specific styling for share button */
 
-li.icon.share {
+li.share-button {
   height: 42px;
   padding-bottom: 7px;
 }
 
-a.icon {
+a.icon.share {
   background-color: #ecf0f1; /* Clouds */
   color: #7f8c8d; /* Asbestos */
   float: right;
@@ -274,11 +274,16 @@ a.icon {
   line-height: 35px;
   margin-top: 7px;
   text-align: center;
-  width: 75px;
+  width: 60px;
 
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
+}
+
+a.icon.share:hover {
+  background-color: #7f8c8d; /* Asbestos */
+  color: #ecf0f1; /* Clouds */
 }
 
 #share-page .level-one {
