@@ -59,7 +59,6 @@ exports.view = function(req, res){
     // menus!
     menus: function(state){
       // query criteria
-      console.log('locale: ' + i18n.getLocale());
       var options = {
         criteria: { menu: 'main', language: i18n.getLocale() },
       }
@@ -73,7 +72,6 @@ exports.view = function(req, res){
           }
           menus[ms[m].menu].push(ms[m]);
         };
-        console.log(ms);
         // execute!
         state(err, menus);
       })
@@ -183,7 +181,7 @@ exports.view = function(req, res){
                     }
 
                   }
-console.log(req.menus);
+
                   // render!
                   res.render('geoadminarea', {
                     title: info.aa_name,
