@@ -274,6 +274,7 @@ a.icon.share {
   line-height: 35px;
   margin-top: 7px;
   text-align: center;
+  text-decoration: none;
   width: 60px;
 
   -webkit-border-radius: 3px;
@@ -282,7 +283,7 @@ a.icon.share {
 }
 
 a.icon.share:hover {
-  background-color: #7f8c8d; /* Asbestos */
+  background-color: #34495e; /* Wet asphalt */
   color: #ecf0f1; /* Clouds */
 }
 
