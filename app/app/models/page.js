@@ -17,7 +17,8 @@ var mongoose = require('mongoose')
 var Page = new Schema({
   permalink : String,
   title : String,
-  content : String
+  content : String,
+  language : String
 });
 
 // Maintain indexes.
