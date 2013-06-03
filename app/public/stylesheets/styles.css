@@ -53,7 +53,7 @@ html[xmlns] .clearfix {
 body {
   font-family: Helvetica, Arial, sans-serif;
   font-size: 14px;
-  color: #2C3E50;
+  color: #34495e;
 }
 
 .one-fifths {
@@ -121,7 +121,7 @@ body {
 /* Typography */
 
 a:link, a:active, a:visited {
-  color: #e67e22; /* Carrot */
+  color: #f1c40f; /* Sun flower */
   text-decoration: none;
 }
 
@@ -163,7 +163,7 @@ h2 {
 }
 
 #header nav a:hover{
-  color: #e67e22; /* Carrot */
+  color: #f1c40f; /* Sun flower */
   text-decoration: none;
 }
 
