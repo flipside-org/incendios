@@ -1,4 +1,4 @@
-  <% 
+  <%
     if (typeof type != "undefined" && type == 'page') {
       var classes = 'four-fifths';
     }
@@ -10,11 +10,15 @@
     <div class="wrapper clearfix">
       <h1><a href="/">Incêndios</a> <small>by Flipside</small></h1>
       <nav>
-        <ul>
-          <li><a href="/stories">Stories</a></li>
-          <li><a href="/about">About</a></li>
-          <li><a href="/data">Data</a></li>
-        </ul>
+        <% if (menus.length) { %>
+          <% var menu = 'main'; if (menus[menu].length) { %>
+            <ul>
+              <% menus[menu].forEach(function(menu_item){ %>
+                <li><a href="<%= menu_item.language %>/<%= menu_item.url %>"><%= menu_item.title %></a></li>
+              <% }) %>
+            </ul>
+          <% } %>
+        <% } %>
       </nav>
     </div>
   </header>
