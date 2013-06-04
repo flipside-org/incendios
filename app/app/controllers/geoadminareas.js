@@ -190,7 +190,10 @@ exports.view = function(req, res){
                     show_charts: statsadminarea == null ? false : true,
                     stats: stats,
                     menus: req.menus,
-                    type: 'geoadminarea',
+                    page_meta : {
+                      type: 'geoadminarea',
+                      url : req.url
+                    },
                     admin_divisions: req.geoadmindivisions
                   });
                   // send JSON
