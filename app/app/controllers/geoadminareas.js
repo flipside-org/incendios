@@ -18,6 +18,7 @@ var mongoose = require('mongoose')
 var GeoAdminArea = mongoose.model('GeoAdminArea');
 var GeoAdminDivision = mongoose.model('GeoAdminDivision');
 var StatsAdminArea = mongoose.model('StatsAdminArea');
+var Menu = mongoose.model('Menu');
 
 /**
  * Find GeoAdminArea by id
@@ -54,6 +55,26 @@ exports.view = function(req, res){
         // execute!
         state(err, geoadmindivisions);
       })
+    },
+    // menus!
+    menus: function(state){
+      // query criteria
+      var options = {
+        criteria: { menu: 'main', language: i18n.getLocale() },
+      }
+      // get the list of requested elements
+      Menu.list(options, function(err, ms) {
+        var menus = {};
+        // loop to accomodate the data
+        for (var m in ms) {
+          if (!(ms[m].menu in menus)) {
+            menus[ms[m].menu] = [];
+          }
+          menus[ms[m].menu].push(ms[m]);
+        };
+        // execute!
+        state(err, menus);
+      })
     }
   },
   function(err, r) {
@@ -61,6 +82,7 @@ exports.view = function(req, res){
     if (err) return res.render('500')
     // do
     req.geoadmindivisions = r.admin_divisions;
+    req.menus = r.menus;
   });
 
 
@@ -167,6 +189,7 @@ exports.view = function(req, res){
                     breadcrumbs: breadcrumbs,
                     show_charts: statsadminarea == null ? false : true,
                     stats: stats,
+                    menus: req.menus,
                     type: 'geoadminarea',
                     admin_divisions: req.geoadmindivisions
                   });

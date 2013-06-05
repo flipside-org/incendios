@@ -35,7 +35,7 @@ i18n.configure({
   // setup locales
   locales: ['en', 'pt'],
 
-  defaultLocale: 'pt',
+  defaultLocale: 'en',
 
   // sets cookie to parse locale settings from
   cookie: 'incendios_locale',
