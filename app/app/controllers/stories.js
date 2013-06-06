@@ -35,5 +35,14 @@ exports.story = function(req, res, next, permalink_story){
  */
 exports.view = function(req, res){
   var story = req.story;
-  res.render('story', { title: story.title, content: story.content, scripts: story.scripts, type: 'story' });
+  res.render('story', {
+    title: story.title,
+    content: story.content,
+    scripts: story.scripts,
+    page_meta : {
+      type: 'story',
+      url : req.url,
+      full_url : req.headers.host + req.url
+    },
+  });
 };
