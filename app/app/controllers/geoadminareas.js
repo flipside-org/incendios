@@ -192,7 +192,8 @@ exports.view = function(req, res){
                     menus: req.menus,
                     page_meta : {
                       type: 'geoadminarea',
-                      url : req.url
+                      url : req.url,
+                      full_url : req.headers.host + req.url
                     },
                     admin_divisions: req.geoadmindivisions
                   });

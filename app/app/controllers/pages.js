@@ -40,7 +40,8 @@ exports.view = function(req, res){
     content: page.content,
     page_meta : {
       type: 'page',
-      url : req.url
+      url : req.url,
+      full_url : req.headers.host + req.url
     },
   });
 };

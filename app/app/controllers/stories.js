@@ -41,7 +41,8 @@ exports.view = function(req, res){
     scripts: story.scripts,
     page_meta : {
       type: 'story',
-      url : req.url
+      url : req.url,
+      full_url : req.headers.host + req.url
     },
   });
 };
