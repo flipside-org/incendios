@@ -133,15 +133,17 @@ function number_format(num) {
 function t(string) {
   var response = null;
 
-  $.ajax({
-    type : "POST",
-    url : '/t',
-    data : { raw : string },
-    async : false,
-    dataType : "json"
-  }).done(function(res) {
-    response = res;
-  });
+  if (string) {
+    $.ajax({
+      type : "POST",
+      url : '/t',
+      data : { raw : string },
+      async : false,
+      dataType : "json"
+    }).done(function(res) {
+      response = res;
+    });
+  }
 
   return response.translated || string;
 }
