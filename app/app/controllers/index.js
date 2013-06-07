@@ -4,5 +4,12 @@
  */
 
 exports.view = function(req, res){
-  res.render('index', { title: 'Incendios', type : 'index' });
+  res.render('index', {
+    title: 'Incendios',
+    page_meta : {
+      type: 'index',
+      url : req.url,
+      full_url : req.headers.host + req.url
+    },
+  });
 };

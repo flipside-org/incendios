@@ -8,7 +8,26 @@
          url('../fonts/leaguegothic-regular-webfont.svg#league_gothicregular') format('svg');
     font-weight: normal;
     font-style: normal;
-
+}
+@font-face {
+    font-family: 'Entypo';
+    src: url('../fonts/entypo.eot');
+    src: url('../fonts/entypo.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/entypo.woff') format('woff'),
+         url('../fonts/entypo.ttf') format('truetype'),
+         url('../fonts/entypo.svg#league_gothicregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Entypo Social';
+    src: url('../fonts/entypo-social.eot');
+    src: url('../fonts/entypo-social.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/entypo-social.woff') format('woff'),
+         url('../fonts/entypo-social.ttf') format('truetype'),
+         url('../fonts/entypo-social.svg#league_gothicregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
 }
 /*
  * COLORS:
@@ -53,7 +72,7 @@ html[xmlns] .clearfix {
 body {
   font-family: Helvetica, Arial, sans-serif;
   font-size: 14px;
-  color: #2C3E50;
+  color: #34495e;
 }
 
 .one-fifths {
@@ -121,7 +140,7 @@ body {
 /* Typography */
 
 a:link, a:active, a:visited {
-  color: #e67e22; /* Carrot */
+  color: #f1c40f; /* Sun flower */
   text-decoration: none;
 }
 
@@ -145,6 +164,15 @@ h2 {
   font-size: 24px;
 }
 
+.icon {
+  font-family: 'Entypo';
+  font-size: 40px;
+}
+
+.icon.social {
+  font-family: 'Entypo Social';
+}
+
 #header h1 {
   font-size: 30px;
   float: left;
@@ -163,7 +191,7 @@ h2 {
 }
 
 #header nav a:hover{
-  color: #e67e22; /* Carrot */
+  color: #f1c40f; /* Sun flower */
   text-decoration: none;
 }
 
@@ -183,6 +211,88 @@ h2 {
   background-color: white;
 }
 
+
+/* Dropdown styling */
+nav.dropdown {
+  float: right;
+  width: 120px;
+}
+
+nav.dropdown ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+nav.dropdown a {
+  display: block;
+}
+
+nav.dropdown .level-one {
+  background-color: #34495e; /* Wet asphalt */
+  display:none;
+  position: absolute;
+  width: 120px;
+  z-index: 100;
+ 
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
+
+.level-one li {
+  padding: 5px;
+}
+
+.level-one a {
+  color: #ecf0f1; /* Clouds */
+  padding: 5px;
+  text-decoration: none;
+}
+
+.level-one li:hover a {
+  background-color: #2c3e50; /* Midnight blue */
+  color: #bdc3c7; /* Silver */
+}
+
+nav.dropdown ul li:hover ul { /* Show first level dropdown on hover*/
+  display:block;
+}
+
+/* Dropdown specific styling for share button */
+
+li.share-button {
+  height: 42px;
+  padding-bottom: 7px;
+}
+
+a.icon.share {
+  background-color: #ecf0f1; /* Clouds */
+  color: #7f8c8d; /* Asbestos */
+  float: right;
+  font-size: 35px;
+  line-height: 35px;
+  margin-top: 7px;
+  text-align: center;
+  text-decoration: none;
+  width: 60px;
+
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
+
+a.icon.share:hover {
+  background-color: #34495e; /* Wet asphalt */
+  color: #ecf0f1; /* Clouds */
+}
+
+#share-page .level-one {
+  margin-top: 49px;
+}
+
+/* / End dropdown styling */
+
 /* Chosen Overrides */
 .chzn-container-single {
   margin: 5px 0;
@@ -191,6 +301,8 @@ h2 {
 .chzn-container .chzn-drop {
   background-color: #ecf0f1; /* Clouds */
   border: 1px solid #bdc3c7; /* Silver */
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
   border-radius: 3px;
   box-shadow: none;
   background-image: none;
@@ -214,6 +326,8 @@ h2 {
 /* Morris Overrides */
 .morris-hover.morris-default-style {
     background-color: #FFFFFF;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
     border-radius: 3px;
     text-align: left;
 }
@@ -224,7 +338,6 @@ h2 {
   font-size: 25px;
 }
 /* / Morris Overrides */
-
 
 /* Media queries */
 @media screen and (min-width : 851px) {

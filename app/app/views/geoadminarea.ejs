@@ -7,8 +7,8 @@
     <div class="wrapper">
 
       <header>
-        <h1><%= info.aa_name %> <small><%= t(info.geoadmindivision_name_raw) %></small>
-        </h1>
+        <%-partial('structure/share_button') %>
+        <h1><%= info.aa_name %> <small><%= t(info.geoadmindivision_name_raw) %></small></h1>
 
         <!-- location breadcrumbs -->
         <%-partial('breadcrumbs') %>

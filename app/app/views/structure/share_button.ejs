@@ -1,0 +1,18 @@
+<nav id="share-page" class="dropdown">
+  <ul class="top-level">
+    <li class="share-button">
+      <a class="icon share">&#59157;</a>
+      <ul class="level-one">
+        <li class="facebook">
+          <a href="https://www.facebook.com/sharer/sharer.php?u=<%= page_meta.full_url %>" target="_blank">Facebook</a>
+        </li>
+        <li class="twitter">
+          <a href="https://twitter.com/share?url=<%= page_meta.full_url %>" target="_blank">Twitter</a>
+        </li>
+        <li class="google-plus">
+          <a href="https://plus.google.com/share?url=<%= page_meta.full_url %>" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600'); return false;">Google+</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
