@@ -2,7 +2,7 @@ $(document).ready(function() {
 
   var aaid = get_requested_aaid();
   var stats_admin_area = get_json('/stats/' + aaid + '/json');
-  var admin_area = get_json('/geo/' + aaid + '/json');
+  var admin_area = get_json('/api/v1/geo/' + aaid + '/json');
 
   /**************************************************/
   // Create the map.
