@@ -23,12 +23,22 @@ var Menu = mongoose.model('Menu');
 /**
  * Find GeoAdminArea by id
  */
-exports.geoadminarea = function(req, res, next, aaid){
+exports.geoadminarea = function(req, res, next, aa){
+  var criteria = {aa : aa};
 
-  GeoAdminArea.load(aaid, function (err, geoadminarea) {
+  // console.log(aa + ' ' + req.route.keys)
+
+  if (req.params.parent_id) {
+    criteria.parent_id = req.params.parent_id;
+  }
+
+  GeoAdminArea.load(criteria, function (err, geoadminarea) {
     if (err) return next(err)
-    if (!geoadminarea && aaid != 0) return next(new Error('Failed to load administrative area with the code: ' + aaid))
+    if (!geoadminarea && aa != 0) return next(new Error('Failed to load administrative area with the code: ' + aa))
     req.geoadminarea = geoadminarea
+    req.params.parent_id = req.params.aaid;
+    req.params.aaid = geoadminarea.aaid;
+
     next()
   })
 }
@@ -38,7 +48,6 @@ exports.geoadminarea = function(req, res, next, aaid){
  * Renders the page for a GeoAdminArea.
  */
 exports.view = function(req, res){
-
   // variables
   var breadcrumbs = []
 
