@@ -5,16 +5,20 @@
  * @author Nuno Veloso (nunoveloso18@gmail.com)
  */
 
+
 module.exports = function (app) {
+  var i18n = require('../app/controllers/i18n');
+
 
   /**
    * GeoAdminAreas
    */
   var geoadminareas = require('../app/controllers/geoadminareas');
-  app.get( '/geo/:aaid', geoadminareas.view );
+  app.get( '/:lang/geo/:aaid', geoadminareas.view );
   app.get( '/geo/:aaid/json/children', geoadminareas.json_children );
   app.get( '/geo/:aaid/json', geoadminareas.json );
 
+  app.param('lang', i18n.overrideLocaleFromPrefix)
   app.param('aaid', geoadminareas.geoadminarea)
 
 
@@ -32,8 +36,9 @@ module.exports = function (app) {
    */
 
   var pages = require('../app/controllers/pages');
-  app.get('/page/:permalink', pages.view);
+  app.get('/:lang/page/:permalink', pages.view);
 
+  app.param('lang', i18n.overrideLocaleFromPrefix)
   app.param('permalink', pages.page);
 
 
@@ -42,16 +47,19 @@ module.exports = function (app) {
    */
 
   var stories = require('../app/controllers/stories');
-  app.get('/story/:permalink_story', stories.view);
+  app.get('/:lang/story/:permalink_story', stories.view);
+
+  app.param('lang', i18n.overrideLocaleFromPrefix)
   app.param('permalink_story', stories.story);
 
 
   /**
-   * OTHER - TEMP
+   * API - i18n for client-side
    */
   app.post('/t', function(req, res){
     res.send({translated: t(req.body.raw)});
   });
+
 
   /**
    * home / front page route
