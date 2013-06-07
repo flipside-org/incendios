@@ -20,23 +20,23 @@ var GeoAdminDivision = mongoose.model('GeoAdminDivision');
 var StatsAdminArea = mongoose.model('StatsAdminArea');
 var Menu = mongoose.model('Menu');
 
+
 /**
  * Find GeoAdminArea by id
  */
 exports.geoadminarea = function(req, res, next, aa){
   var criteria = {aa : aa};
 
-  // console.log(aa + ' ' + req.route.keys)
-
-  if (req.params.parent_id) {
-    criteria.parent_id = req.params.parent_id;
+  // this is to avoid homonym admin area to be pulled
+  if (req.parent_id != null) {
+    criteria.parent_id = req.parent_id;
   }
 
   GeoAdminArea.load(criteria, function (err, geoadminarea) {
     if (err) return next(err)
     if (!geoadminarea && aa != 0) return next(new Error('Failed to load administrative area with the code: ' + aa))
     req.geoadminarea = geoadminarea
-    req.params.parent_id = req.params.aaid;
+    req.parent_id = geoadminarea.aaid;
     req.params.aaid = geoadminarea.aaid;
 
     next()
