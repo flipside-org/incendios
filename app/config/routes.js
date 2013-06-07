@@ -14,12 +14,16 @@ module.exports = function (app) {
    * GeoAdminAreas
    */
   var geoadminareas = require('../app/controllers/geoadminareas');
-  app.get( '/:lang/geo/:aaid', geoadminareas.view );
-  app.get( '/geo/:aaid/json/children', geoadminareas.json_children );
-  app.get( '/geo/:aaid/json', geoadminareas.json );
+  app.get( '/geo/:aa_1/:aa_2?/:aa_3?', geoadminareas.view );
+  app.get( '/api/v1/geo/:aaid/json/children', geoadminareas.json_children );
+  app.get( '/api/v1/geo/:aaid/json', geoadminareas.json );
 
   app.param('lang', i18n.overrideLocaleFromPrefix)
-  app.param('aaid', geoadminareas.geoadminarea)
+
+  app.param(':aaid', geoadminareas.geoadminarea)
+  app.param(':aa_1', geoadminareas.geoadminarea)
+  app.param(':aa_2', geoadminareas.geoadminarea)
+  app.param(':aa_3', geoadminareas.geoadminarea)
 
 
   /**
