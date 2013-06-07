@@ -34,7 +34,7 @@ $(document).ready(function() {
       destination = data.data.AAID;
     }
 
-    window.location = '/geo/' + destination;
+    window.location = destination;
   });
   map.addLayer(grid_layer);
 
