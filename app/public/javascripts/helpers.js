@@ -79,7 +79,7 @@ function get_json(url) {
  * @todo change this when we have final API paths
  */
 function get_requested_aaid() {
-  return window.location.pathname.split('/')[2];
+  return $('section#map-container').data('aaid');
 }
 
 /**

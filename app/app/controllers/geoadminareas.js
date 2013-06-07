@@ -147,6 +147,7 @@ exports.view = function(req, res){
 
                   // do
                   var info = {
+                    aaid : req.geoadminarea.aaid,
                     aa_name : req.geoadminarea.name,
                     geoadmindivision_name_raw : req.geoadmindivisions[req.geoadminarea.type],
                   }
