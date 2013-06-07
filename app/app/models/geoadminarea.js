@@ -19,25 +19,26 @@ var mongoose = require('mongoose')
  * GeoAdminArea Schema
  */
 var GeoAdminArea = new Schema({
-    aaid : {type :Number, unique: true},
-    name : String,
-    type : Number,
-    parent_id : Number,
-    geo : {
-      area : Number,
-      min : {
-        x : Number,
-        y : Number
-      },
-      max : {
-        x : Number,
-        y : Number
-      },
-      center : {
-        x : Number,
-        y : Number
-      }
+  aaid : {type :Number, unique: true},
+  name : String,
+  type : Number,
+  parent_id : Number,
+  geo : {
+    area : Number,
+    min : {
+      x : Number,
+      y : Number
+    },
+    max : {
+      x : Number,
+      y : Number
+    },
+    center : {
+      x : Number,
+      y : Number
     }
+  },
+  transliterated_name: String
 });
 
 // maintain indexes
@@ -56,14 +57,25 @@ GeoAdminArea.statics = {
   /**
    * Find AdminArea by aaid.
    *
-   * @param [int] aaid
+   * @param [int] aaid || alias string
    * @param [function] cb
    * @api public
    */
-  load: function (aaid, cb) {
-    this.findOne({ aaid : aaid })
+  load: function (criteria, cb) {
+    aa = criteria.aa;
+    delete criteria.aa
+
+    if (isNaN(aa)) {
+      criteria.transliterated_name = aa
+    }
+    else {
+      criteria.aaid = aa
+    }
+console.log(criteria)
+    this.findOne(criteria)
       .exec(cb);
   },
+
 
   /**
    * List AdminArea according to passed options.
