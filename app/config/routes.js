@@ -38,7 +38,6 @@ module.exports = function (app) {
   var pages = require('../app/controllers/pages');
   app.get('/:lang/page/:permalink', pages.view);
 
-  app.param('lang', i18n.overrideLocaleFromPrefix)
   app.param('permalink', pages.page);
 
 
@@ -49,7 +48,6 @@ module.exports = function (app) {
   var stories = require('../app/controllers/stories');
   app.get('/:lang/story/:permalink_story', stories.view);
 
-  app.param('lang', i18n.overrideLocaleFromPrefix)
   app.param('permalink_story', stories.story);
 
 
