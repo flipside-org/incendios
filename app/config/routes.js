@@ -21,9 +21,9 @@ module.exports = function (app) {
   app.param('lang', i18n.overrideLocaleFromPrefix)
 
   app.param(':aaid', geoadminareas.geoadminarea)
-  app.param(':aa_1', i18n.transliterateParam, geoadminareas.geoadminarea)
-  app.param(':aa_2', i18n.transliterateParam, geoadminareas.geoadminarea)
-  app.param(':aa_3', i18n.transliterateParam, geoadminareas.geoadminarea)
+  app.param(':aa_1', i18n.transliterateParam, geoadminareas.geoadminarea, geoadminareas.redirect)
+  app.param(':aa_2', i18n.transliterateParam, geoadminareas.geoadminarea, geoadminareas.redirect)
+  app.param(':aa_3', i18n.transliterateParam, geoadminareas.geoadminarea, geoadminareas.redirect)
 
 
   /**

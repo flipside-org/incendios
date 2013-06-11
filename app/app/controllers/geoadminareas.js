@@ -280,4 +280,16 @@ exports.json_children = function(req, res){
 };
 
 
+/**
+ * Redirects to the full path admin area if needed.
+ */
+exports.redirect = function(req, res, next){
+
+  if (req.geoadminarea.type > req.url.split('/').length - 2) {
+    res.redirect(301, '/' + i18n.getLocale() + '/' + req.geoadminarea.breadcrumb);
+  }
+
+  next()
+}
+
 
