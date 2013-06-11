@@ -27,9 +27,9 @@ var Menu = mongoose.model('Menu');
 exports.geoadminarea = function(req, res, next, aa){
   var criteria = {aa : aa};
 
-if (typeof criteria != "object") {
-  next()
-}
+  if (typeof criteria != "object") {
+    next()
+  }
 
   // this is to avoid homonym admin area to be pulled
   if (req.parent_id != null) {
@@ -97,10 +97,9 @@ exports.view = function(req, res){
     req.geoadmindivisions = r.admin_divisions;
     req.menus = r.menus;
   });
-
+  // res.json(req.params.aaid)
   // recursively generates the breadcumb trail
   breadcumb_trail(req.params.aaid);
-
 
   /**
    * Recursively generate the breadcrumb trail, render when done.
@@ -108,7 +107,7 @@ exports.view = function(req, res){
    */
   function breadcumb_trail(aaid) {
     // load current AA trail pointer
-    GeoAdminArea.load(aaid, function (err, aa_trail) {
+    GeoAdminArea.load({ aa : aaid }, function (err, aa_trail) {
       // error handling
       if (err) return res.render('500')
 
@@ -194,7 +193,7 @@ exports.view = function(req, res){
                     }
 
                   }
-
+                  // res.send(breadcrumbs);
                   // render!
                   res.render('geoadminarea', {
                     title: info.aa_name,

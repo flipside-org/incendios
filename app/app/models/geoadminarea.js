@@ -57,12 +57,12 @@ GeoAdminArea.statics = {
   /**
    * Find AdminArea by aaid.
    *
-   * @param [int] aaid || alias string
+   * @param [object] criteria with mandatory aa field
    * @param [function] cb
    * @api public
    */
   load: function (criteria, cb) {
-    aa = criteria.aa;
+    var aa = criteria.aa;
     delete criteria.aa
 
     if (isNaN(aa)) {
@@ -71,7 +71,7 @@ GeoAdminArea.statics = {
     else {
       criteria.aaid = aa
     }
-console.log(criteria)
+
     this.findOne(criteria)
       .exec(cb);
   },
