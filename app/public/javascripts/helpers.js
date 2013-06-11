@@ -79,7 +79,7 @@ function get_json(url) {
  * @todo change this when we have final API paths
  */
 function get_requested_aaid() {
-  return window.location.pathname.split('/')[2];
+  return $('section#map-container').data('aaid');
 }
 
 /**
@@ -133,15 +133,17 @@ function number_format(num) {
 function t(string) {
   var response = null;
 
-  $.ajax({
-    type : "POST",
-    url : '/t',
-    data : { raw : string },
-    async : false,
-    dataType : "json"
-  }).done(function(res) {
-    response = res;
-  });
+  if (string) {
+    $.ajax({
+      type : "POST",
+      url : '/t',
+      data : { raw : string },
+      async : false,
+      dataType : "json"
+    }).done(function(res) {
+      response = res;
+    });
+  }
 
   return response.translated || string;
 }

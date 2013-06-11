@@ -20,15 +20,29 @@ var GeoAdminDivision = mongoose.model('GeoAdminDivision');
 var StatsAdminArea = mongoose.model('StatsAdminArea');
 var Menu = mongoose.model('Menu');
 
+
 /**
  * Find GeoAdminArea by id
  */
-exports.geoadminarea = function(req, res, next, aaid){
+exports.geoadminarea = function(req, res, next, aa){
+  var criteria = {aa : aa};
 
-  GeoAdminArea.load(aaid, function (err, geoadminarea) {
+  if (typeof criteria != "object") {
+    next()
+  }
+
+  // this is to avoid homonym admin area to be pulled
+  if (req.parent_id != null) {
+    criteria.parent_id = req.parent_id;
+  }
+
+  GeoAdminArea.load(criteria, function (err, geoadminarea) {
     if (err) return next(err)
-    if (!geoadminarea && aaid != 0) return next(new Error('Failed to load administrative area with the code: ' + aaid))
+    if (!geoadminarea && aa != 0) return next(new Error('Failed to load administrative area with the code: ' + aa))
     req.geoadminarea = geoadminarea
+    req.parent_id = geoadminarea.aaid;
+    req.params.aaid = geoadminarea.aaid;
+
     next()
   })
 }
@@ -38,7 +52,6 @@ exports.geoadminarea = function(req, res, next, aaid){
  * Renders the page for a GeoAdminArea.
  */
 exports.view = function(req, res){
-
   // variables
   var breadcrumbs = []
 
@@ -75,7 +88,7 @@ exports.view = function(req, res){
         // execute!
         state(err, menus);
       })
-    }
+    },
   },
   function(err, r) {
     // error handling
@@ -84,11 +97,9 @@ exports.view = function(req, res){
     req.geoadmindivisions = r.admin_divisions;
     req.menus = r.menus;
   });
-
-
+  // res.json(req.params.aaid)
   // recursively generates the breadcumb trail
   breadcumb_trail(req.params.aaid);
-
 
   /**
    * Recursively generate the breadcrumb trail, render when done.
@@ -96,14 +107,14 @@ exports.view = function(req, res){
    */
   function breadcumb_trail(aaid) {
     // load current AA trail pointer
-    GeoAdminArea.load(aaid, function (err, aa_trail) {
+    GeoAdminArea.load({ aa : aaid }, function (err, aa_trail) {
       // error handling
       if (err) return res.render('500')
 
       // query criteria
       var options = {
         criteria: { parent_id: aa_trail.parent_id },
-        fields: { aaid: 1, name: 1 }
+        fields: { aaid: 1, name: 1, breadcrumb : 1 }
       }
 
       // get the list of requested elements
@@ -124,7 +135,7 @@ exports.view = function(req, res){
             // query criteria
             var options = {
               criteria: { parent_id: req.params.aaid },
-              fields: { aaid: 1, name: 1 }
+              fields: { aaid: 1, name: 1, breadcrumb : 1 }
             }
 
             // get the list of requested elements
@@ -147,6 +158,7 @@ exports.view = function(req, res){
 
                   // do
                   var info = {
+                    aaid : req.geoadminarea.aaid,
                     aa_name : req.geoadminarea.name,
                     geoadmindivision_name_raw : req.geoadmindivisions[req.geoadminarea.type],
                   }
@@ -193,7 +205,8 @@ exports.view = function(req, res){
                     page_meta : {
                       type: 'geoadminarea',
                       url : req.url,
-                      full_url : req.headers.host + req.url
+                      full_url : req.headers.host + req.url,
+                      lang : i18n.getLocale()
                     },
                     admin_divisions: req.geoadmindivisions
                   });
@@ -266,5 +279,17 @@ exports.json_children = function(req, res){
   })
 };
 
+
+/**
+ * Redirects to the full path admin area if needed.
+ */
+exports.redirect = function(req, res, next){
+
+  if (req.geoadminarea.type > req.url.split('/').length - 2) {
+    res.redirect(301, '/' + i18n.getLocale() + '/' + req.geoadminarea.breadcrumb);
+  }
+
+  next()
+}
 
 

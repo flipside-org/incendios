@@ -41,7 +41,8 @@ exports.view = function(req, res){
     page_meta : {
       type: 'page',
       url : req.url,
-      full_url : req.headers.host + req.url
+      full_url : req.headers.host + req.url,
+      lang : i18n.getLocale()
     },
   });
 };

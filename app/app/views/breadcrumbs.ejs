@@ -1,11 +1,11 @@
-<div id="breadcrumbs">
+  <div id="breadcrumbs">
   <% breadcrumbs.forEach(function(breadcrumb){ %>
     <% if (breadcrumb.list.length) { %>
       <select id="breadcrumb-select-<%= breadcrumb.select.type %>" style="width: 200px;" class="chzn-select"
         data-placeholder="<%= t('Select %s', t('a ' + admin_divisions[breadcrumb.select.type])) %>">
         <option value=""></option>
         <% breadcrumb.list.forEach(function(option){ %>
-          <option value="<%= option.aaid %>" <% if (breadcrumb.select.aaid == option.aaid) { %>selected="selected"<% } %>>
+          <option value="/<%= page_meta.lang %>/<%= option.breadcrumb %>" <% if (breadcrumb.select.aaid == option.aaid) { %>selected="selected"<% } %>>
             <%= option.name %>
           </option>
         <% }) %>

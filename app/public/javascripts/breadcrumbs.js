@@ -8,7 +8,7 @@ $breadcrumbs.first().chosen(
   })
   .change(function(){
     // similar behavior as clicking on a link
-    var url = '/geo/' + $(this).val();
+    var url = $(this).val();
     window.location.href = url;
   });
 
@@ -20,7 +20,7 @@ $breadcrumbs.not(':first').each(function() {
       allow_single_deselect: true,
     })
     .change(function(){
-      var url = '/geo/';
+      var url = '';
       if ($(this).val() == '') {
         url += $(this).prevAll('select:first').val();
       }
