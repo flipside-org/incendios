@@ -30,7 +30,7 @@ module.exports = function (app) {
    * StatsAdminAreas
    */
   var statsadminareas = require('../app/controllers/statsadminareas');
-  app.get( '/stats/:aaid/json', statsadminareas.json );
+  app.get( '/api/v1/stats/:aaid/json', statsadminareas.json );
 
   app.param('aaid', statsadminareas.statsadminarea)
 
