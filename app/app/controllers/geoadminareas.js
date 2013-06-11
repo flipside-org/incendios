@@ -27,6 +27,10 @@ var Menu = mongoose.model('Menu');
 exports.geoadminarea = function(req, res, next, aa){
   var criteria = {aa : aa};
 
+if (typeof criteria != "object") {
+  next()
+}
+
   // this is to avoid homonym admin area to be pulled
   if (req.parent_id != null) {
     criteria.parent_id = req.parent_id;
@@ -84,7 +88,7 @@ exports.view = function(req, res){
         // execute!
         state(err, menus);
       })
-    }
+    },
   },
   function(err, r) {
     // error handling
@@ -93,7 +97,6 @@ exports.view = function(req, res){
     req.geoadmindivisions = r.admin_divisions;
     req.menus = r.menus;
   });
-
 
   // recursively generates the breadcumb trail
   breadcumb_trail(req.params.aaid);
@@ -112,7 +115,7 @@ exports.view = function(req, res){
       // query criteria
       var options = {
         criteria: { parent_id: aa_trail.parent_id },
-        fields: { aaid: 1, name: 1 }
+        fields: { aaid: 1, name: 1, transliterated_name : 1 }
       }
 
       // get the list of requested elements
