@@ -70,33 +70,12 @@ exports.view = function(req, res){
         state(err, geoadmindivisions);
       })
     },
-    // menus!
-    menus: function(state){
-      // query criteria
-      var options = {
-        criteria: { menu: 'main', language: i18n.getLocale() },
-      }
-      // get the list of requested elements
-      Menu.list(options, function(err, ms) {
-        var menus = {};
-        // loop to accomodate the data
-        for (var m in ms) {
-          if (!(ms[m].menu in menus)) {
-            menus[ms[m].menu] = [];
-          }
-          menus[ms[m].menu].push(ms[m]);
-        };
-        // execute!
-        state(err, menus);
-      })
-    },
   },
   function(err, r) {
     // error handling
     if (err) return res.render('500')
     // do
     req.geoadmindivisions = r.admin_divisions;
-    req.menus = r.menus;
   });
   // res.json(req.params.aaid)
   // recursively generates the breadcumb trail
