@@ -42,8 +42,8 @@ exports.transliterateParam = function (req, res, next, string) {
 
     // transliterate!
     var args = req.url.split('/');
-    // skip empty position
-    args.shift();
+    // skip empty position, lang
+    args.shift(); args.shift();
     // map / replace
     for (var i = 1 ; i <= args.length-1 ; i++) {
       if (original_sting == decodeURIComponent(args[i])) {
