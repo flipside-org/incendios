@@ -61,8 +61,9 @@ app.configure(function(){
   app.use(express.logger('dev'));
   app.use(express.bodyParser());
   app.use(express.methodOverride());
-  app.use(app.router);
   app.use(express.static(path.join(__dirname, 'public')));
+  // this needs to come AFTER the static declaration because Middleware get executed in sequential order
+  app.use(app.router);
   // you will need to use cookieParser to expose cookies to req.cookies
   app.use(express.cookieParser());
   // i18n init parses req for language headers, cookies, etc.
