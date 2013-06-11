@@ -14,6 +14,7 @@ var mongoose = require('mongoose')
   , i18n = require('i18n')
   , moment = require('moment')
 
+var path_offset = 2;
 
 var GeoAdminArea = mongoose.model('GeoAdminArea');
 var GeoAdminDivision = mongoose.model('GeoAdminDivision');
@@ -285,7 +286,7 @@ exports.json_children = function(req, res){
  */
 exports.redirect = function(req, res, next){
 
-  if (req.geoadminarea.type > req.url.split('/').length - 2) {
+  if (req.geoadminarea.type > (req.url.split('/').length - path_offset)) {
     res.redirect(301, '/' + i18n.getLocale() + '/' + req.geoadminarea.breadcrumb);
   }
 
