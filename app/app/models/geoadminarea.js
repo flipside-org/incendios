@@ -38,7 +38,8 @@ var GeoAdminArea = new Schema({
       y : Number
     }
   },
-  transliterated_name: String
+  transliterated_name: String,
+  breadcrumb: String
 });
 
 // maintain indexes

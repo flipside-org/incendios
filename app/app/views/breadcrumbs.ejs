@@ -5,7 +5,7 @@
         data-placeholder="<%= t('Select %s', t('a ' + admin_divisions[breadcrumb.select.type])) %>">
         <option value=""></option>
         <% breadcrumb.list.forEach(function(option){ %>
-          <option value="/<%= page_meta.lang %>/geo/<%= option.aaid %>" <% if (breadcrumb.select.aaid == option.aaid) { %>selected="selected"<% } %>>
+          <option value="/<%= page_meta.lang %>/<%= option.breadcrumb %>" <% if (breadcrumb.select.aaid == option.aaid) { %>selected="selected"<% } %>>
             <%= option.name %>
           </option>
         <% }) %>

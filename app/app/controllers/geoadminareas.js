@@ -114,7 +114,7 @@ exports.view = function(req, res){
       // query criteria
       var options = {
         criteria: { parent_id: aa_trail.parent_id },
-        fields: { aaid: 1, name: 1, transliterated_name : 1 }
+        fields: { aaid: 1, name: 1, breadcrumb : 1 }
       }
 
       // get the list of requested elements
@@ -135,7 +135,7 @@ exports.view = function(req, res){
             // query criteria
             var options = {
               criteria: { parent_id: req.params.aaid },
-              fields: { aaid: 1, name: 1 }
+              fields: { aaid: 1, name: 1, breadcrumb : 1 }
             }
 
             // get the list of requested elements
@@ -193,7 +193,7 @@ exports.view = function(req, res){
                     }
 
                   }
-                  // res.send(breadcrumbs);
+
                   // render!
                   res.render('geoadminarea', {
                     title: info.aa_name,
