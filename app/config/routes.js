@@ -14,7 +14,7 @@ module.exports = function (app) {
    * GeoAdminAreas
    */
   var geoadminareas = require('../app/controllers/geoadminareas');
-  app.get( '/geo/:aa_1/:aa_2?/:aa_3?', geoadminareas.view );
+  app.get( '/:lang/:aa_1/:aa_2?/:aa_3?', geoadminareas.view );
   app.get( '/api/v1/geo/:aaid/json/children', geoadminareas.json_children );
   app.get( '/api/v1/geo/:aaid/json', geoadminareas.json );
 
