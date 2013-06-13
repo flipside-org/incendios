@@ -20,8 +20,8 @@
 start_time=$SECONDS
 
 #Giving the final files a nice name. Make sure to add the right version number. 
-comb_file=ifdata_detailed-05
-condensed_file=ifdata_detailed_condensed-05
+comb_file=ifdata_detailed-06
+condensed_file=ifdata_detailed_condensed-06
 icnf_version=1210
 
 #Change Internal Field Separator to new line. Otherwise, it will think spaces in filenames are field separators
@@ -216,7 +216,7 @@ sed -i '1 s/'$icnf_version'/icnf_version/g' $comb_file.csv
 
 #Create a leaner CSV for mapping purposes.
 #...first we're cutting out most columns
-csvcut --columns 1,2,3,4,5,10,11,12,24,25 $comb_file.csv > $condensed_file-tmp.csv
+csvcut --columns 1,2,3,4,5,10,11,12,24,25,27,28,29,30,31 $comb_file.csv > $condensed_file-tmp.csv
 mv $condensed_file-tmp.csv $condensed_file.csv
 
 elapsed_time=$(($SECONDS - $start_time))
