@@ -9,7 +9,9 @@
 /**
  * Module dependencies.
  */
-var mongoose = require('mongoose');
+var mongoose = require('mongoose')
+  , i18n = require('i18n')
+
 var Story = mongoose.model('Story');
 
 
@@ -39,6 +41,7 @@ exports.view = function(req, res){
     title: story.title,
     content: story.content,
     scripts: story.scripts,
+    menus: req.menus,
     page_meta : {
       type: 'story',
       url : req.url,

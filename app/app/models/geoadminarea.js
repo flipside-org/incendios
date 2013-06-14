@@ -82,10 +82,12 @@ GeoAdminArea.statics = {
       criteria.transliterated_name = aa.latinise().toLowerCase().hyphenise()
     }
     else {
-      criteria.aaid = aa
+      criteria.aaid = parseInt(aa)
     }
 
-    this.findOne(criteria)
+    this
+      .findOne(criteria)
+      .sort({ type : 1 })
       .exec(cb);
   },
 

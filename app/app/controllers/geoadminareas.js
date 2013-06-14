@@ -14,6 +14,7 @@ var mongoose = require('mongoose')
   , i18n = require('i18n')
   , moment = require('moment')
 
+var path_offset = 3;
 
 var GeoAdminArea = mongoose.model('GeoAdminArea');
 var GeoAdminDivision = mongoose.model('GeoAdminDivision');
@@ -69,33 +70,12 @@ exports.view = function(req, res){
         state(err, geoadmindivisions);
       })
     },
-    // menus!
-    menus: function(state){
-      // query criteria
-      var options = {
-        criteria: { menu: 'main', language: i18n.getLocale() },
-      }
-      // get the list of requested elements
-      Menu.list(options, function(err, ms) {
-        var menus = {};
-        // loop to accomodate the data
-        for (var m in ms) {
-          if (!(ms[m].menu in menus)) {
-            menus[ms[m].menu] = [];
-          }
-          menus[ms[m].menu].push(ms[m]);
-        };
-        // execute!
-        state(err, menus);
-      })
-    },
   },
   function(err, r) {
     // error handling
     if (err) return res.render('500')
     // do
     req.geoadmindivisions = r.admin_divisions;
-    req.menus = r.menus;
   });
   // res.json(req.params.aaid)
   // recursively generates the breadcumb trail
@@ -285,8 +265,8 @@ exports.json_children = function(req, res){
  */
 exports.redirect = function(req, res, next){
 
-  if (req.geoadminarea.type > req.url.split('/').length - 2) {
-    res.redirect(301, '/' + i18n.getLocale() + '/' + req.geoadminarea.breadcrumb);
+  if (req.geoadminarea.type > (req.url.split('/').length - path_offset)) {
+    res.redirect(301, '/' + i18n.getLocale() + '/por/' + req.geoadminarea.breadcrumb);
   }
 
   next()

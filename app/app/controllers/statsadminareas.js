@@ -9,7 +9,10 @@
 /**
  * Module dependencies.
  */
-var mongoose = require('mongoose');
+var mongoose = require('mongoose')
+  , i18n = require('i18n')
+
+
 var StatsAdminArea = mongoose.model('StatsAdminArea');
 var GeoAdminArea = mongoose.model('GeoAdminArea');
 
@@ -23,7 +26,7 @@ exports.statsadminarea = function(req, res, next, aaid){
     if (err) {
       return next(err);
     }
-    
+
     // There are admin areas without occurrences. Ex: aaid: 110615
     // Return empty object.
     if (!statsadminarea && aaid != 0){
