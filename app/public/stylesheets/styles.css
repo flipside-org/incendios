@@ -77,20 +77,33 @@ body {
 
 .one-fifths {
   width: 20%;
-  float: left;
 }
 
 .two-fifths {
   width: 40%;
-  float: right;
 }
 
 .three-fifths {
   width: 60%;
-  float: left;
 }
 .four-fifths {
   width: 80%;
+}
+
+.content-column {
+  float: left;
+  width: 48%;
+}
+
+.content-column.first {
+  margin-right: 4%;
+}
+
+.float-left {
+  float: left;
+}
+
+.float-right {
   float: right;
 }
 
