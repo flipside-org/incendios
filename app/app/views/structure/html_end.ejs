@@ -1,3 +1,20 @@
+  <script type="text/javascript">
+    var Incendios = {
+      page_meta : null,
+      info :  null
+    };
+    
+    <% if (typeof page_meta != "undefined") { %>
+      var js_page_meta = '<%= JSON.stringify(page_meta) %>'.replace(/&quot;/g, '"');
+      Incendios.page_meta = JSON.parse(js_page_meta);
+    <% } %>
+    
+    <% if (typeof info != "undefined") { %>
+      var js_info = '<%= JSON.stringify(info) %>'.replace(/&quot;/g, '"');
+      Incendios.info = JSON.parse(js_info);
+    <% } %>
+  </script>
+  
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
   <script src="http://cdn.oesmith.co.uk/morris-0.4.1.min.js"></script>
