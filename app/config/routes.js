@@ -5,26 +5,34 @@
  * @author Nuno Veloso (nunoveloso18@gmail.com)
  */
 
+
 module.exports = function (app) {
+  var i18n = require('../app/controllers/i18n');
+  var menus = require('../app/controllers/menus');
 
   /**
    * GeoAdminAreas
    */
   var geoadminareas = require('../app/controllers/geoadminareas');
-  app.get( '/geo/:aaid', geoadminareas.view );
-  app.get( '/geo/:aaid/json/children', geoadminareas.json_children );
-  app.get( '/geo/:aaid/json', geoadminareas.json );
+  app.get( '/:lang/por/:aa_1/:aa_2?/:aa_3?', geoadminareas.view );
+  app.get( '/api/v1/geo/:aaid/json/children', geoadminareas.json_children );
+  app.get( '/api/v1/geo/:aaid/json', geoadminareas.json );
 
-  app.param('aaid', geoadminareas.geoadminarea)
+  app.param('lang', i18n.overrideLocaleFromPrefix)
+
+  app.param(':aaid', geoadminareas.geoadminarea, menus.main)
+  app.param(':aa_1', i18n.transliterateParam, geoadminareas.geoadminarea, geoadminareas.redirect, menus.main)
+  app.param(':aa_2', i18n.transliterateParam, geoadminareas.geoadminarea, geoadminareas.redirect, menus.main)
+  app.param(':aa_3', i18n.transliterateParam, geoadminareas.geoadminarea, geoadminareas.redirect, menus.main)
 
 
   /**
    * StatsAdminAreas
    */
   var statsadminareas = require('../app/controllers/statsadminareas');
-  app.get( '/stats/:aaid/json', statsadminareas.json );
+  app.get( '/api/v1/stats/:aaid/json', statsadminareas.json );
 
-  app.param('aaid', statsadminareas.statsadminarea)
+  app.param('aaid', statsadminareas.statsadminarea, menus.main)
 
 
   /**
@@ -32,9 +40,9 @@ module.exports = function (app) {
    */
 
   var pages = require('../app/controllers/pages');
-  app.get('/page/:permalink', pages.view);
+  app.get('/:lang/:permalink', pages.view);
 
-  app.param('permalink', pages.page);
+  app.param('permalink', pages.page, menus.main);
 
 
   /**
@@ -42,16 +50,18 @@ module.exports = function (app) {
    */
 
   var stories = require('../app/controllers/stories');
-  app.get('/story/:permalink_story', stories.view);
-  app.param('permalink_story', stories.story);
+  app.get('/:lang/story/:permalink_story', stories.view);
+
+  app.param('permalink_story', stories.story, menus.main);
 
 
   /**
-   * OTHER - TEMP
+   * API - i18n for client-side
    */
   app.post('/t', function(req, res){
     res.send({translated: t(req.body.raw)});
   });
+
 
   /**
    * home / front page route
