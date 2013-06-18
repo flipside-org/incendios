@@ -7,12 +7,18 @@ $(document).ready(function() {
   /**************************************************/
   // Create the map.
   /**************************************************/
+  // *** Base Map
   var map = L.mapbox.map('map', 'flipside.map-epnw0q4t', {minZoom: 7, maxZoom: 14}).setView([40, -74.50], 9);
+  // Disable double click zoom.
   map.doubleClickZoom.disable();
+  
+  // *** Layer. Tiles of Administrative borders.
   map.addLayer(L.mapbox.tileLayer('flipside.pt-admin-areas'));
-  map.addLayer(L.mapbox.tileLayer('flipside.if_occurrences'));
-  // Interactivity.
+  
+  // *** Layer. Grid of administrative borders. Used for interactivity.
+  // Changes location upon click. Depends on zoom level.
   var grid_layer = L.mapbox.gridLayer('flipside.pt-admin-areas');
+  // Setup the interactivity.
   grid_layer.on('click', function(data){
     if (typeof data.data == 'undefined') {
       //Nothing to do here!
@@ -20,31 +26,61 @@ $(document).ready(function() {
     }
 
     // We assume that the aaid always has 6 digits.
-    var destination = null;
     if (map.getZoom() <= 9) {
       // Distrito.
-      destination = data.data.AAID.substring(0,2);
+      var destination = data.data.AAID.substring(0,2);
     }
     else if (map.getZoom() >= 10 && map.getZoom() <= 12) {
       // Concelho.
-      destination = data.data.AAID.substring(0,4);
+      var destination = data.data.AAID.substring(0,4);
     }
     else {
       // Freguesia.
-      destination = data.data.AAID;
+      var destination = data.data.AAID;
     }
 
-    window.location = destination;
+    window.location.href = '/' + Incendios.page_meta.lang + '/por/' + destination;
   });
+  // Add layer to map.
   map.addLayer(grid_layer);
+  
+  // *** Layer. Tiles of occurrences layer.
+  var tile_layer_occurrences = L.mapbox.tileLayer('flipside.if_occurrences')
+  // Add layer to map.
+  map.addLayer(tile_layer_occurrences);
+  
+  // *** Layer. Grid of occurrences layer. Used to show popup with data.
+  var grid_layer_occurrences = L.mapbox.gridLayer('flipside.if_occurrences');
+  map.addLayer(grid_layer_occurrences);
+  
+  // Grid control to show popup with occurrences data.
+  // Only add grid control after occurrences_tile_layer is loaded because
+  // we need to get the template from that layer.
+  var template_loaded = false;
+  tile_layer_occurrences.on('load', function(){
+    if (template_loaded) {
+      return;
+    }
+    template_loaded = true;
+    map.addControl(L.mapbox.gridControl(grid_layer_occurrences, {
+      // Template from occurrences_tile_layer layer.
+      template : tile_layer_occurrences.getTileJSON().template, 
+      pinnable : false
+    }));
+  });
 
-
+  // Fit bounds.
   var southWest = new L.LatLng(admin_area.geo.min.y, admin_area.geo.min.x);
   var northEast = new L.LatLng(admin_area.geo.max.y, admin_area.geo.max.x);
   var bounds = new L.LatLngBounds(southWest, northEast);
 
   map.fitBounds(bounds);
-
+  
+  
+  /**************************************************/
+  // END map.
+  /**************************************************/
+  
   // Some areas might not have occurrences. Ex 110615
   if (stats_admin_area == null) {
     return;
