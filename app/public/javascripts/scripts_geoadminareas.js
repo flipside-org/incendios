@@ -20,21 +20,20 @@ $(document).ready(function() {
     }
 
     // We assume that the aaid always has 6 digits.
-    var destination = null;
     if (map.getZoom() <= 9) {
       // Distrito.
-      destination = data.data.AAID.substring(0,2);
+      var destination = data.data.AAID.substring(0,2);
     }
     else if (map.getZoom() >= 10 && map.getZoom() <= 12) {
       // Concelho.
-      destination = data.data.AAID.substring(0,4);
+      var destination = data.data.AAID.substring(0,4);
     }
     else {
       // Freguesia.
-      destination = data.data.AAID;
+      var destination = data.data.AAID;
     }
 
-    window.location = destination;
+    window.location.href = '/' + Incendios.page_meta.lang + '/por/' + destination;
   });
   map.addLayer(grid_layer);
 
