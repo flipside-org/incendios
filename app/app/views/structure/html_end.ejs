@@ -5,13 +5,11 @@
     };
     
     <% if (typeof page_meta != "undefined") { %>
-      var js_page_meta = '<%= JSON.stringify(page_meta) %>'.replace(/&quot;/g, '"');
-      Incendios.page_meta = JSON.parse(js_page_meta);
+      Incendios.page_meta = <%- JSON.stringify(page_meta) %>;
     <% } %>
     
     <% if (typeof info != "undefined") { %>
-      var js_info = '<%= JSON.stringify(info) %>'.replace(/&quot;/g, '"');
-      Incendios.info = JSON.parse(js_info);
+      Incendios.info = <%- JSON.stringify(info) %>;
     <% } %>
   </script>
   

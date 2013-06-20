@@ -99,6 +99,10 @@ body {
   margin-right: 4%;
 }
 
+.content-column > *:first-child {
+  margin-top: 14px;
+}
+
 .float-left {
   float: left;
 }
@@ -153,8 +157,16 @@ body {
 /* Typography */
 
 a:link, a:active, a:visited {
-  color: #f1c40f; /* Sun flower */
+  color: #e67e22; /* Carrot */
   text-decoration: none;
+}
+#header a:link,
+#header a:visited,
+#header a:active,
+#footer a:link,
+#footer a:visited,
+#footer a:active {
+  color: #f1c40f; /* Sun Flower */
 }
 
 a:hover {
@@ -196,7 +208,9 @@ h2 {
   color: #ecf0f1;
 }
 
-#header nav a{
+#header nav a:link,
+#header nav a:visited,
+#header nav a:active {
   font-size: 20px;
   font-family: 'League Gothic';
   color: #ecf0f1; /* Clouds */
@@ -458,4 +472,14 @@ a.icon.share:hover {
     padding: 0 20px 0 0;
   }  
   /* / Same properties as in 851 < w > 1100 */
+ 
+ .content-column {
+   float: none;
+   width: 100%;
+ }
+ 
+ .content-column.first {
+    margin-right: 0;
+  }
+
 }
