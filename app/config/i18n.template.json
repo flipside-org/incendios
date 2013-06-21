@@ -1,0 +1,6 @@
+{
+  "locales": ["en", "pt"]
+, "defaultLocale" : "pt"
+, "cookie" : "webapp_locale"
+, "directory" : "/locales"
+}

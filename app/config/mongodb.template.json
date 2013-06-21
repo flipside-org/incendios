@@ -1,0 +1,14 @@
+{
+  "user" : "user"
+, "host" : "host"
+, "password" : "password"
+, "port" : "port"
+, "db" : "db"
+, "options" : "see http://docs.mongodb.org/manual/reference/connection-string/"
+}
+
+OR
+
+{
+  "uri" : "mongodb://user:password@host:port/db"
+}
