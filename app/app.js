@@ -16,21 +16,35 @@ var express = require('express')
   , engine = require('ejs-locals')
   , mongoose = require('mongoose')
   , fs = require('fs')
-  , i18n = require('i18n');
+  , i18n = require('i18n')
+  , config = require('konphyg')(__dirname + "/config");
 
-// mongoose setup
-// @todo use read config instead!
-mongoose.connect('mongodb://localhost/incendios');
+var conf = {}
 
+
+/**
+ * mongoose setup
+ */
+conf.mongo = config('mongodb')
+if(!('uri' in conf.mongo)) {
+  conf.mongo.uri = 'mongodb://'
+  if ('user' in conf.mongo) conf.mongo.uri += conf.mongo.user
+  if ('password' in conf.mongo) conf.mongo.uri += ':' + conf.mongo.password
+  if ('user' in conf.mongo && 'host' in conf.mongo) conf.mongo.uri += '@' + conf.mongo.host
+  if (!('user' in conf.mongo) && 'host' in conf.mongo) conf.mongo.uri += conf.mongo.host
+  if ('port' in conf.mongo) conf.mongo.uri += ':' + conf.mongo.port
+  if ('db' in conf.mongo) conf.mongo.uri += '/' + conf.mongo.db
+  if (!('options' in conf.mongo)) conf.mongo.options = {}
+}
+mongoose.connect(conf.mongo.uri, conf.mongo.options);
+
+
+/**
+ * i18n config
+ */
 t = i18n.__;
 tn = i18n.__n;
 
-/**
- * Config and settings.
- */
-var app = express();
-
-// i18n
 i18n.configure({
   // setup locales
   locales: ['en', 'pt'],
@@ -43,6 +57,17 @@ i18n.configure({
   // where to the json files will be stored
   directory: __dirname + '/locales'
 });
+
+
+
+
+/**
+ * Config and settings.
+ */
+var app = express();
+
+// i18n
+
 
 // use ejs-locals for all ejs templates:
 app.engine('ejs', engine);
