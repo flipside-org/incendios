@@ -42,21 +42,13 @@ mongoose.connect(conf.mongo.uri, conf.mongo.options);
 /**
  * i18n config
  */
+conf.i18n = config('i18n')
+if ('directory' in conf.i18n) conf.i18n.directory = __dirname + conf.i18n.directory
+i18n.configure(conf.i18n)
+
 t = i18n.__;
 tn = i18n.__n;
 
-i18n.configure({
-  // setup locales
-  locales: ['en', 'pt'],
-
-  defaultLocale: 'en',
-
-  // sets cookie to parse locale settings from
-  cookie: 'incendios_locale',
-
-  // where to the json files will be stored
-  directory: __dirname + '/locales'
-});
 
 
 
@@ -65,8 +57,6 @@ i18n.configure({
  * Config and settings.
  */
 var app = express();
-
-// i18n
 
 
 // use ejs-locals for all ejs templates:
