@@ -1,0 +1,10 @@
+{
+  "port": 3000
+, "dir_locations" : {
+    "views" : "/app/views"
+  , "models" : "/app/models"
+  , "controllers" : "/app/controllers"
+  }
+, "view_engine" : "ejs"
+, ...
+}

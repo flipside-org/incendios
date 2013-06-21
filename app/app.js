@@ -16,41 +16,60 @@ var express = require('express')
   , engine = require('ejs-locals')
   , mongoose = require('mongoose')
   , fs = require('fs')
-  , i18n = require('i18n');
+  , i18n = require('i18n')
+  , config = require('konphyg')(__dirname + "/config");
 
-// mongoose setup
-// @todo use read config instead!
-mongoose.connect('mongodb://localhost/incendios');
+var conf = {}
+
+
+/**
+ * mongoose setup
+ */
+conf.mongo = config('mongodb')
+if(!('uri' in conf.mongo)) {
+  conf.mongo.uri = 'mongodb://'
+  if ('user' in conf.mongo) conf.mongo.uri += conf.mongo.user
+  if ('password' in conf.mongo) conf.mongo.uri += ':' + conf.mongo.password
+  if ('user' in conf.mongo && 'host' in conf.mongo) conf.mongo.uri += '@' + conf.mongo.host
+  if (!('user' in conf.mongo) && 'host' in conf.mongo) conf.mongo.uri += conf.mongo.host
+  if ('port' in conf.mongo) conf.mongo.uri += ':' + conf.mongo.port
+  if ('db' in conf.mongo) conf.mongo.uri += '/' + conf.mongo.db
+  if (!('options' in conf.mongo)) conf.mongo.options = {}
+}
+mongoose.connect(conf.mongo.uri, conf.mongo.options);
+
+
+/**
+ * i18n config
+ */
+conf.i18n = config('i18n')
+if ('directory' in conf.i18n) conf.i18n.directory = __dirname + conf.i18n.directory
+i18n.configure(conf.i18n)
 
 t = i18n.__;
 tn = i18n.__n;
+
 
 /**
  * Config and settings.
  */
 var app = express();
+conf.global = config('global')
+if ('dir_locations' in conf.global) {
+  for (var c in conf.global.dir_locations) {
+    var dir = conf.global.dir_locations[c]
+    conf.global.dir_locations[c] = __dirname + dir
+  }
+}
 
-// i18n
-i18n.configure({
-  // setup locales
-  locales: ['en', 'pt'],
-
-  defaultLocale: 'en',
-
-  // sets cookie to parse locale settings from
-  cookie: 'incendios_locale',
-
-  // where to the json files will be stored
-  directory: __dirname + '/locales'
-});
 
 // use ejs-locals for all ejs templates:
 app.engine('ejs', engine);
 
 app.configure(function(){
-  app.set('port', process.env.PORT || 3000);
-  app.set('views', __dirname + '/app/views');
-  app.set('view engine', 'ejs');
+  app.set('port', conf.global.port || process.env.PORT || 3000);
+  app.set('views', conf.global.dir_locations.views);
+  app.set('view engine', conf.global.view_engine);
 
   app.locals({
       't':  i18n.__
@@ -81,7 +100,7 @@ app.configure('development', function(){
  * Models are defined in the folder `./app/models`.
  * e.g. `./app/models/users.js`
  */
-var models_path = __dirname + '/app/models';
+var models_path = conf.global.dir_locations.models
 fs.readdirSync(models_path).forEach(function (file) {
   require(models_path + '/' + file);
 })
