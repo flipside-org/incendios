@@ -4,11 +4,18 @@
   <section id="map-container" class="one-fifths desktop float-left"><div id="map" class="map"><!-- The map --></div></section>
   
   <aside id="sidebar" class="four-fifths float-right">    
-    <div class="wrapper clearfix">
+    <div class="wrapper">
+        
+      <header>
         <%-partial('structure/share_button') %>
         <h1><%= title %></h1>
-        <!-- Content -->
+      </header>
+      
+      <section class="clearfix">
+        <!-- content -->
         <%- content %>
+      </section>        
+        
     </div>
   </aside>
   
