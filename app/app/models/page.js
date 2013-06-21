@@ -9,7 +9,8 @@
  * Module dependencies.
  */
 var mongoose = require('mongoose')
-  , Schema   = mongoose.Schema;
+  , Schema   = mongoose.Schema
+  , i18n = require('i18n');
 
 /**
  * Page Schema
@@ -36,7 +37,7 @@ Page.statics = {
    * @api public
    */
   load: function (permalink, cb) {
-    this.findOne({ permalink : permalink }).exec(cb);
+    this.findOne({ permalink : permalink, language: i18n.getLocale() }).exec(cb);
   }
 
 }

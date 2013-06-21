@@ -67,5 +67,5 @@ module.exports = function (app) {
    * home / front page route
    */
   var index = require('../app/controllers/index');
-  app.get('/', index.view);
+  app.get('/:lang?', index.view);
 }
