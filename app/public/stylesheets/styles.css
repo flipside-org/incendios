@@ -145,6 +145,11 @@ body {
   font-size: 12px;
 }
 
+#footer .logo {
+  float: left;
+  margin-right: 10px;
+}
+
 #fires-year {
   height: 300px;
 }
