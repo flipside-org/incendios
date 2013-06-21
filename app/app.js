@@ -50,22 +50,26 @@ t = i18n.__;
 tn = i18n.__n;
 
 
-
-
-
 /**
  * Config and settings.
  */
 var app = express();
+conf.global = config('global')
+if ('dir_locations' in conf.global) {
+  for (var c in conf.global.dir_locations) {
+    var dir = conf.global.dir_locations[c]
+    conf.global.dir_locations[c] = __dirname + dir
+  }
+}
 
 
 // use ejs-locals for all ejs templates:
 app.engine('ejs', engine);
 
 app.configure(function(){
-  app.set('port', process.env.PORT || 3000);
-  app.set('views', __dirname + '/app/views');
-  app.set('view engine', 'ejs');
+  app.set('port', conf.global.port || process.env.PORT || 3000);
+  app.set('views', conf.global.dir_locations.views);
+  app.set('view engine', conf.global.view_engine);
 
   app.locals({
       't':  i18n.__
@@ -96,7 +100,7 @@ app.configure('development', function(){
  * Models are defined in the folder `./app/models`.
  * e.g. `./app/models/users.js`
  */
-var models_path = __dirname + '/app/models';
+var models_path = conf.global.dir_locations.models
 fs.readdirSync(models_path).forEach(function (file) {
   require(models_path + '/' + file);
 })
