@@ -25,8 +25,6 @@ exports.view = function(req, res){
       return next(new Error('Failed to load page: ' + permalink));
     }
     
-    console.log(page);
-    
     res.render('index', {
       title: page.title,
       content: page.content,
