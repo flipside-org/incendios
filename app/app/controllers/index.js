@@ -28,7 +28,7 @@ exports.view = function(req, res){
     res.render('index', {
       title: page.title,
       content: page.content,
-      menus: [],
+      menus: req.menus,
       page_meta : {
         type: 'index',
         url : req.url,
