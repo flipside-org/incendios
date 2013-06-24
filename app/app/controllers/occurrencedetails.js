@@ -25,9 +25,9 @@ exports.table = function(req, res){
       
       OccurrenceDetail.top(10, function (err, response) {
         var data = {
-          header : ['Àrea ardida', 'Data', 'Localização', 'Causa'],
+          header : [t('Burnt area (ha)'), t('Date'), t('Location'), t('Cause')],
           rows : [],
-          empty : 'There is no data...'
+          empty : t('There is no data...')
         };      
         
         for (index in response) {
@@ -36,7 +36,7 @@ exports.table = function(req, res){
           data.rows.push({
             aa_total : prop.aa_total,
             date : prop.data_alerta,
-            place : prop.freguesia + ' (' + prop.distrito + ', ' + prop.concelho + ')',
+            place : '<a href="/' + i18n.getLocale() + '/por/' + prop.aaid_freguesia + '" title="' + prop.freguesia + '">' + prop.freguesia + '</a> (' + prop.distrito + ', ' + prop.concelho + ')',
             cause : prop.tipocausa
           });
         }

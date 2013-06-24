@@ -46,6 +46,7 @@ OccurrenceDetail.statics = {
       'properties.distrito' : 1,
       'properties.concelho' : 1,
       'properties.freguesia' : 1,
+      'properties.aaid_freguesia' : 1,
       'properties.data_alerta' : 1,
       'properties.aa_total' : 1,
       'properties.tipocausa' : 1,
