@@ -239,6 +239,28 @@ h2 {
 }
 
 
+/* Table styling */
+
+table {
+  border-bottom: 1px #2C3E50 solid;
+  font-size: 12px;
+}
+
+td, th {
+  padding: 5px 10px;
+}
+
+th {
+  background-color: #2C3E50;
+  color: #FFFFFF;
+  font-weight: bold;
+  text-align: left;
+}
+
+tr.even {
+  background-color: #ECF0F1;
+}
+
 /* Dropdown styling */
 nav.dropdown {
   float: right;
