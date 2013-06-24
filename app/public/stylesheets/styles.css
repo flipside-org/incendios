@@ -244,6 +244,7 @@ h2 {
 table {
   border-bottom: 1px #2C3E50 solid;
   font-size: 12px;
+  margin: 20px 0;
 }
 
 td, th {
