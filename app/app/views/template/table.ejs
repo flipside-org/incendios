@@ -1,0 +1,22 @@
+<table>
+	<tr>
+		<% for (index in header) { %>
+		  <td><%= header[index] %></td>
+		<% } %>
+	</tr>
+	
+	<% if (rows.length > 0 ) { %>
+	  <% for (index in rows) { var row = rows[index]; %>
+	    <tr>
+	      <% for (prop in row) { %>
+          <td><%= row[prop] %></td>
+        <% } %>
+	    </tr>
+    <% } %>
+	<% } else { %>
+	  <tr>
+	  	<td colspan="<%= header.length %>"><%= empty %></td>
+	  </tr>  
+	<% } %>  
+	
+</table>

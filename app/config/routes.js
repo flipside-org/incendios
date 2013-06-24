@@ -69,4 +69,11 @@ module.exports = function (app) {
    */
   var index = require('../app/controllers/index');
   app.get('/:lang?', index.view);
+  
+  /**
+   * Detailed occurrences.
+   */
+  var occurrenceDetail = require('../app/controllers/occurrencedetails');
+  app.post('/occurrencedetails', occurrenceDetail.table);
+  app.post('/occurrencedetails/marker', occurrenceDetail.marker);
 }
