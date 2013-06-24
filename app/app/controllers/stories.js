@@ -42,7 +42,7 @@ exports.view = function(req, res){
   res.render('story', {
     title: story.title,
     content: story.content,
-    scripts: story.scripts,
+    js_settings: story.settings,
     menus: req.menus,
     page_meta : {
       type: 'story',

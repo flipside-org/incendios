@@ -19,7 +19,7 @@ var Story = new Schema({
   permalink : String,
   title : String,
   content : String,
-  scripts : String
+  settings : Object
 });
 
 // Maintain indexes.
