@@ -11,7 +11,7 @@
 	  <% for (index in rows) { var row = rows[index]; %>
 	    <tr class="<%= ((index + 1) % 2 == 0) ? 'even' : 'odd' %>">
 	      <% for (prop in row) { %>
-          <td><%= row[prop] %></td>
+          <td><%- row[prop] %></td>
           <% } %>
 	    </tr>
       <% } %>
