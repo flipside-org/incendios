@@ -242,7 +242,7 @@ h2 {
 /* Table styling */
 
 table {
-  border-bottom: 1px #2C3E50 solid;
+  border-bottom: 1px #34495E solid; /* Wet asphalt */
   font-size: 12px;
   margin: 20px 0;
 }
@@ -252,14 +252,14 @@ td, th {
 }
 
 th {
-  background-color: #2C3E50;
+  background-color: #34495E; /* Wet asphalt */
   color: #FFFFFF;
   font-weight: bold;
   text-align: left;
 }
 
 tr.even {
-  background-color: #ECF0F1;
+  background-color: #ECF0F1; /* Clouds */
 }
 
 /* Dropdown styling */
