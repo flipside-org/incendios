@@ -4,3 +4,6 @@
 [submodule "app/locales"]
 	path = app/locales
 	url = git@bitbucket.org:flipside-org/incendios-i18n.git
+[submodule "app/public/lib/morris"]
+	path = app/public/lib/morris
+	url = git@github.com:oesmith/morris.js.git
