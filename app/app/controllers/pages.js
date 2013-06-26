@@ -13,6 +13,7 @@ var mongoose = require('mongoose')
   , i18n = require('i18n')
 
 var Page = mongoose.model('Page');
+var Story = mongoose.model('Story');
 
 
 /**

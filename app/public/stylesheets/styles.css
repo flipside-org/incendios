@@ -244,6 +244,29 @@ h2 {
 }
 
 
+/* Table styling */
+
+table {
+  border-bottom: 1px #34495E solid; /* Wet asphalt */
+  font-size: 12px;
+  margin: 20px 0;
+}
+
+td, th {
+  padding: 5px 10px;
+}
+
+th {
+  background-color: #34495E; /* Wet asphalt */
+  color: #FFFFFF;
+  font-weight: bold;
+  text-align: left;
+}
+
+tr.even {
+  background-color: #ECF0F1; /* Clouds */
+}
+
 /* Dropdown styling */
 nav.dropdown {
   float: right;
@@ -372,8 +395,8 @@ a.icon.share:hover {
 /* / Morris Overrides */
 
 /* Media queries */
+/*
 @media screen and (min-width : 851px) {
-  /* Animation only on large screens */
   #map-container.one-fifths, #header.four-fifths, #sidebar.four-fifths, #footer.four-fifths {
     animation-duration: 2s;
     animation-delay: 0.5s;
@@ -401,8 +424,8 @@ a.icon.share:hover {
       width: 20%;
     }
   }
-  /* / End animations */
 }
+*/
 @media screen and (min-width : 851px) and (max-width : 1100px) {
   /* Same properties as in w<450px */
   #header.two-fifths h1 {
