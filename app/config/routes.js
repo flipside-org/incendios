@@ -18,7 +18,7 @@ module.exports = function (app) {
   app.get( '/api/v1/geo/:aaid/json/children', geoadminareas.json_children );
   app.get( '/api/v1/geo/:aaid/json', geoadminareas.json );
 
-  app.param('lang', i18n.overrideLocaleFromPrefix)
+  app.param('lang', i18n.overrideLocaleFromPrefix, menus.main)
 
   app.param(':aaid', geoadminareas.geoadminarea, menus.main)
   app.param(':aa_1', i18n.transliterateParam, geoadminareas.geoadminarea, geoadminareas.redirect, menus.main)
@@ -36,6 +36,17 @@ module.exports = function (app) {
 
 
   /**
+   * Stories
+   */
+
+  var stories = require('../app/controllers/stories');
+  app.get('/:lang/story/:permalink_story', stories.view);
+  app.get('/:lang/stories', stories.list);
+  
+  app.param('permalink_story', stories.story, menus.main);
+
+
+  /**
    * Pages
    */
 
@@ -43,16 +54,6 @@ module.exports = function (app) {
   app.get('/:lang/:permalink', pages.view);
 
   app.param('permalink', pages.page, menus.main);
-
-
-  /**
-   * Stories
-   */
-
-  var stories = require('../app/controllers/stories');
-  app.get('/:lang/story/:permalink_story', stories.view);
-
-  app.param('permalink_story', stories.story, menus.main);
 
 
   /**
@@ -67,5 +68,12 @@ module.exports = function (app) {
    * home / front page route
    */
   var index = require('../app/controllers/index');
-  app.get('/', index.view);
+  app.get('/:lang?', index.view);
+  
+  /**
+   * Detailed occurrences.
+   */
+  var occurrenceDetail = require('../app/controllers/occurrencedetails');
+  app.post('/occurrencedetails', occurrenceDetail.table);
+  app.post('/occurrencedetails/marker', occurrenceDetail.marker);
 }

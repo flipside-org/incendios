@@ -1,0 +1,24 @@
+<table>
+	<thead>
+		<tr>
+			<% for (index in header) { %>
+			  <th><%= header[index] %></th>
+			<% } %>
+		</tr>
+	</thead>
+	<% if (rows.length > 0 ) { %>
+	<tbody>
+	  <% for (index in rows) { var row = rows[index]; %>
+	    <tr class="<%= ((index + 1) % 2 == 0) ? 'even' : 'odd' %>">
+	      <% for (prop in row) { %>
+          <td><%- row[prop] %></td>
+          <% } %>
+	    </tr>
+      <% } %>
+	<% } else { %>
+	  <tr>
+	  	<td colspan="<%= header.length %>"><%= empty %></td>
+	  </tr>
+	</tbody>  
+	<% } %> 
+</table>

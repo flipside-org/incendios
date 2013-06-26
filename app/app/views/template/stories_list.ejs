@@ -1,0 +1,7 @@
+<ul>
+  <% for (index in stories) {  var story = stories[index]; %>
+	 <li>
+	   <a href="/<%= lang %>/story/<%= story.permalink %>"><%= story.permalink %></a>
+	 </li>
+	<% } %>
+</ul>
