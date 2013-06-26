@@ -13,6 +13,10 @@ $(document).ready(function() {
       $self.html(res);
       
       $self.addClass('ajax-processed');
+      
+      // This request may change the width of the sidebar.
+      // Set the map height.
+      set_map_height();
     });
   });
 
