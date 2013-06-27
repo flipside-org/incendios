@@ -11,8 +11,19 @@
   %>
   <header id="header" class="<%= classes %> float-right">
     <div class="wrapper clearfix">
+      
       <h1><a href="/">Incêndios</a> <small>2001 - 2011</small></h1>
-      <nav>
+      
+      <nav class="language-switcher">
+        <ul>
+          <li><a class="<%= page_meta.lang == 'en' ? 'active' : '' %>" href="<%= page_meta.url.replace(/(\/)en|pt(\/?)/, '$1en$2') %>">EN</a></li>
+          <li><a class="<%= page_meta.lang == 'pt' ? 'active' : '' %>" href="<%= page_meta.url.replace(/(\/)en|pt(\/?)/, '$1pt$2') %>">PT</a></li>
+        </ul>
+      </nav>
+      
+      <br class="clear-small" />
+            
+      <nav class="main-nav">
         <% var menu = 'main'; if (menu in menus) { %>
           <ul>
             <% menus[menu].forEach(function(menu_item){ %>
