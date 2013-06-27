@@ -115,6 +115,10 @@ body {
   padding: 20px;
 }
 
+.margin-right-10 {
+  margin-right: 10px;
+}
+
 #header,
 #footer {
   background-color: #34495e; /* Wet asphalt */
@@ -153,6 +157,48 @@ body {
   height: 200px;
 }
 
+#burnt-area-country {
+  height: 200px;
+}
+
+.stats-box .wrapper {
+  background: none repeat scroll 0 0 #ECF0F1; /* Clouds */
+  border: 1px solid #BDC3C7; /* Sivler */
+  padding: 10px 5px;
+  text-align: center;
+}
+
+.recent-fires {
+  padding: 0;
+}
+
+.recent-fires li {
+  line-height: 1.5em;
+  list-style: none outside none;
+  margin-bottom: 20px;
+}
+
+.recent-fires a {
+  font-size: 0.9em;
+}
+
+#location-browse-submit {
+  background: none repeat scroll 0 0 #ECF0F1; /* Clouds */
+  border: 1px solid #BDC3C7; /* Silver */
+  border-radius: 3px 3px 3px 3px;
+  display: block;
+  font-family: 'league gothic';
+  font-size: 18px;
+  margin-top: 5px;
+  padding: 3px;
+  width: 200px;
+}
+
+#location-browse-submit:hover {
+  background: none repeat scroll 0 0 #E67E22; /* Carrot */
+  border-color: #c0392b; /* Pomegranate */
+  color: white;
+}
 
 /* Typography */
 
@@ -307,6 +353,13 @@ nav.dropdown .level-one {
 
 nav.dropdown ul li:hover ul { /* Show first level dropdown on hover*/
   display:block;
+}
+
+.equals-sign {
+  font-size: 40px;
+  margin: 5px 0;
+  text-align: center;
+  font-family: 'League Gothic';
 }
 
 /* Dropdown specific styling for share button */
@@ -477,6 +530,24 @@ a.icon.share:hover {
   
   .desktop {
     display: none;
+  }
+  
+  .stats-box {
+    float: left;
+    width: 46%;
+    margin: 20px 0;
+  }
+  .stats-box:first-child {
+    margin-right: 1%;
+  }
+  .stats-box:last-child {
+    margin-left: 1%;
+  }
+  
+  .equals-sign {
+    float: left;
+    width: 6%;
+    margin-top: 33px;
   }
 
 }
