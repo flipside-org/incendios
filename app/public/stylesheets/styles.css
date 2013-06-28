@@ -177,17 +177,17 @@ body {
   text-align: center;
 }
 
-.recent-fires {
+.recent-stories {
   padding: 0;
 }
 
-.recent-fires li {
+.recent-stories li {
   line-height: 1.5em;
   list-style: none outside none;
   margin-bottom: 20px;
 }
 
-.recent-fires a {
+.recent-stories a {
   font-size: 0.9em;
 }
 

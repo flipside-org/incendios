@@ -47,7 +47,7 @@ $(document).ready(function() {
   // *** Layer. Tiles of occurrences layer.
   var tile_layer_occurrences = L.mapbox.tileLayer('flipside.if_occurrences')
   // Add layer to map.
-  map.addLayer(tile_layer_occurrences);
+  map.addLayer(tile_layer_occurrences.setZIndex(999));
   
   // *** Layer. Grid of occurrences layer. Used to show popup with data.
   var grid_layer_occurrences = L.mapbox.gridLayer('flipside.if_occurrences');
