@@ -7,71 +7,15 @@
     <div class="wrapper">
       
       <header>
+        <%-partial('structure/share_button') %>
         <h1><%= title %></h1>
       </header>
       
-      <div class="clearfix">
-        <article class="four-fifths float-left">
-          <div class="margin-right-10">
-            <div id="burnt-area-country"><!-- Chart --></div>
-            <p>Summer in Portugal is synonymous to fires. Between 2001 and 2011, more than <a href="/en/story/general-overview">360.000 fire-related incidents</a> were registered, ranging from false alarms and small fires, to forest fires of enormous magnitude.</p>
-            <p>Based on the data published by the Instituto para a Conservação da Natureza e Florestas for this period, incendios.pt allows you to explore and analyze the data by location and topic.</p>
-          </div>       
-        </article>
-
-        <div class="one-fifths float-left clearfix">
-          
-          <div class="stats-box">
-            <div class="wrapper">
-              <h2>151 942 ha</h2>
-              Avg burnt area p/ year
-            </div>
-          </div>
-          
-          <div class="equals-sign">=</div>
-          
-          <div class="stats-box">
-            <div class="wrapper">
-              <h2>18 TIMES</h2>
-              City of Lisbon
-            </div>
-          </div>
-          
-        </div>
-      
-      </div>
-        
-      <div class="clearfix">
-        <section class="content-column first">
-          <h2>Browser by location</h2>
-          <div id="location-browse">
-            <select style="width: 200px;" class="chzn-select" id="location-browse-distrito" data-placeholder="Choose a district...">
-              <option value=""></option>
-            </select>
-            <select style="width: 200px;" class="chzn-select" id="location-browse-concelho" data-placeholder="Choose a municipality...">
-              <option value=""></option>
-            </select>
-            <select style="width: 200px;" class="chzn-select" id="location-browse-freguesia" data-placeholder="Choose a freguesia...">
-              <option value=""></option>
-            </select>
-            <input type="button" id="location-browse-submit" value="Browse" />
-          </div> 
-        </section>
-        <section class="content-column">
-          <h2>Most recent stories</h2>
-          <ul class="recent-stories">
-          	<li>
-          	  <span>Biggest fire: 22 190 ha</span>
-              <br>
-              <a href="/en/story/big-fires">More about the biggest fires</a>
-          	</li>
-          </ul>
-        </section>
-      </div>
-        
+      <!-- content -->
+      <%- content %>
+    
     </div>
   </aside>
-  
-  
+
 <%-partial('structure/footer') %>
 <%-partial('structure/html_end') %>
