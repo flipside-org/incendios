@@ -272,4 +272,37 @@ exports.redirect = function(req, res, next){
   next()
 }
 
+/**
+ * Renders <options> for all the administrative area of a given parent.
+ * @param {Object} req
+ * @param {Object} res
+ * @param {Object} parent_id
+ */
+exports.list_location = function(req, res, next, parent_id){
+    var options = {
+      criteria: {
+        'parent_id' : parent_id
+      },
+      fields : {
+        _id : 0,
+        aaid: 1,
+        name: 1,
+      }
+    };
+    
+    GeoAdminArea.list(options, function(err, geoadminareas_options){
+      
+      if (err) return next(new Error('Failed to load list of administrative areas with parent : ' + parent_id))
+      
+      req.list_location = geoadminareas_options;
+      next();
+      
+    });
+};
 
+exports.list_location_render = function(req, res){
+      var data = { options : req.list_location }
+      res.render('template/list_localtion_option', data, function(err, html){
+        res.send(html);
+      });
+};

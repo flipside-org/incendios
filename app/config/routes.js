@@ -17,6 +17,10 @@ module.exports = function (app) {
   app.get( '/:lang/por/:aa_1/:aa_2?/:aa_3?', geoadminareas.view );
   app.get( '/api/v1/geo/:aaid/json/children', geoadminareas.json_children );
   app.get( '/api/v1/geo/:aaid/json', geoadminareas.json );
+  
+  // Options render.
+  app.get('/listlocationoptions/:parent_id', geoadminareas.list_location_render);
+  app.param('parent_id', geoadminareas.list_location);
 
   app.param('lang', i18n.overrideLocaleFromPrefix, menus.main)
 
@@ -33,7 +37,13 @@ module.exports = function (app) {
   app.get( '/api/v1/stats/:aaid/json', statsadminareas.json );
 
   app.param('aaid', statsadminareas.statsadminarea, menus.main)
-
+  
+  /**
+   * YearStatus json.
+   * Needs to be before stories.
+   */
+  var yearstatuses = require('../app/controllers/yearstatuses');
+  app.get('/yearstatuses/json', yearstatuses.json);
 
   /**
    * Stories
