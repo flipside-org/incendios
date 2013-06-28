@@ -2,6 +2,9 @@
     if (typeof page_meta != "undefined" && page_meta.type == 'page') {
       var classes = 'four-fifths';
     }
+   else if(typeof page_meta != "undefined" && (page_meta.type == 'index' || page_meta.type == 'story')) {
+      var classes = 'three-fifths';      
+   }
     else {
       var classes = 'two-fifths';
     }

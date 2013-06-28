@@ -1,9 +1,9 @@
 <%-partial('structure/html_start') %>
 <%-partial('structure/header') %>
 
-  <section id="map-container" class="three-fifths float-left"><div id="map" class="map"><!-- The map --></div></section>
+  <section id="map-container" class="two-fifths float-left"><div id="map" class="map"><!-- The map --></div></section>
   
-  <aside id="sidebar" class="two-fifths float-right">    
+  <aside id="sidebar" class="three-fifths float-right">    
     <div class="wrapper">
       
       <header>
@@ -11,6 +11,73 @@
       </header>
       
       <section>
+        
+        
+        <div class="clearfix">
+          <div class="four-fifths float-left">
+            <div class="margin-right-10">
+            <div id="burnt-area-country"><!-- Chart --></div>
+            <p>Phasellus sed felis volutpat, elementum magna id, consequat tortor. Vestibulum hendrerit elementum magna, ac sodales velit. Integer risus odio, imperdiet a lobortis in, porttitor nec mauris. Sed porttitor accumsan neque, in blandit odio dapibus sit amet. In sed vulputate ante, id ultricies libero. Nunc sagittis augue non est lacinia, nec molestie est ullamcorper. Integer tempus nisi quis justo viverra faucibus. Aliquam erat volutpat. Vestibulum aliquam leo ipsum, imperdiet facilisis tellus elementum in. Ut rhoncus odio vel leo pellentesque, id dignissim libero mattis. Curabitur bibendum commodo egestas.</p>
+            </div>       
+          </div>
+          <div class="one-fifths float-left clearfix">
+            
+            <div class="stats-box">
+              <div class="wrapper">
+              	<h2>151 942 HA</h2>
+                Avg burnt area p/ year
+              </div>
+            </div>
+            
+            <div class="equals-sign">=</div>
+            
+            <div class="stats-box">
+              <div class="wrapper">
+              	<h2>18 TIMES</h2>
+                City of Lisbon
+              </div>
+            </div>
+            
+          </div>
+        </div>
+        
+        <div class="clearfix">
+          <div class="content-column first">
+            <h2>Browser by location</h2>
+            <div id="location-browse">
+              <select style="width: 200px;" class="chzn-select" id="location-browse-distrito" data-placeholder="Choose a distrito...">
+                <option value=""></option>
+              </select>
+              <select style="width: 200px;" class="chzn-select" id="location-browse-concelho" data-placeholder="Choose a concelho...">
+                <option value=""></option>
+              </select>
+              <select style="width: 200px;" class="chzn-select" id="location-browse-freguesia" data-placeholder="Choose a freguesia...">
+                <option value=""></option>
+              </select>
+              <input type="button" id="location-browse-submit" value="Browse" />
+            </div> 
+          </div>
+          <div class="content-column">
+            <h2>Most recent stories</h2>
+            <ul class="recent-fires">
+            	<li>
+            	  <span>Biggest fire: 22 190 HA</span>
+                <br>
+                <a href="/en/story/big-fires">More about the biggest fires</a>
+            	</li>
+            </ul>
+          </div>
+        </div>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         
       </section>
       
