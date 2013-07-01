@@ -198,6 +198,7 @@ body {
   background: none repeat scroll 0 0 #ECF0F1; /* Clouds */
   border: 1px solid #BDC3C7; /* Silver */
   border-radius: 3px 3px 3px 3px;
+  color: #34495E;
   display: block;
   font-family: 'league gothic';
   font-size: 18px;
@@ -342,6 +343,7 @@ tr.even {
 
 /* Dropdown styling */
 nav.dropdown {
+  background-color: #ecf0f1;
   float: right;
   width: 120px;
 }
@@ -357,7 +359,7 @@ nav.dropdown a {
 }
 
 nav.dropdown .level-one {
-  background-color: #34495e; /* Wet asphalt */
+  background-color: #ecf0f1;
   display:none;
   position: absolute;
   width: 120px;
@@ -373,13 +375,13 @@ nav.dropdown .level-one {
 }
 
 .level-one a {
-  color: #ecf0f1; /* Clouds */
+  color: #34495E;
   padding: 5px;
   text-decoration: none;
 }
 
 .level-one li:hover a {
-  background-color: #2c3e50; /* Midnight blue */
+  background-color: #E67E22;
   color: #bdc3c7; /* Silver */
 }
 
@@ -402,7 +404,6 @@ li.share-button {
 }
 
 a.icon.share {
-  background-color: #ecf0f1; /* Clouds */
   color: #7f8c8d; /* Asbestos */
   float: right;
   font-size: 35px;
@@ -418,7 +419,7 @@ a.icon.share {
 }
 
 a.icon.share:hover {
-  background-color: #34495e; /* Wet asphalt */
+  background-color: #E67E22; /* Wet asphalt */
   color: #ecf0f1; /* Clouds */
 }
 
