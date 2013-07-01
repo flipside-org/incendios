@@ -382,7 +382,7 @@ nav.dropdown .level-one {
 
 .level-one li:hover a {
   background-color: #E67E22;
-  color: #bdc3c7; /* Silver */
+  color: #ECF0F1; /* Clouds */
 }
 
 nav.dropdown ul li:hover ul { /* Show first level dropdown on hover*/
@@ -399,11 +399,13 @@ nav.dropdown ul li:hover ul { /* Show first level dropdown on hover*/
 /* Dropdown specific styling for share button */
 
 li.share-button {
+  background-color: #fff;
   height: 41px;
   padding-bottom: 7px;
 }
 
 a.icon.share {
+  background-color: #ECF0F1;
   color: #7f8c8d; /* Asbestos */
   float: right;
   font-size: 35px;
@@ -419,7 +421,7 @@ a.icon.share {
 }
 
 a.icon.share:hover {
-  background-color: #E67E22; /* Wet asphalt */
+  background-color: #E67E22;
   color: #ecf0f1; /* Clouds */
 }
 
