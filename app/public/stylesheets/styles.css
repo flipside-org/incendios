@@ -158,6 +158,10 @@ body {
   margin-right: 10px;
 }
 
+#footer .about {
+  margin-left: 130px;
+}
+
 #fires-year {
   height: 300px;
 }
