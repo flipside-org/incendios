@@ -180,6 +180,13 @@ body {
   text-align: center;
 }
 
+.equals-sign {
+  font-size: 40px;
+  margin: 5px 0;
+  text-align: center;
+  font-family: 'League Gothic';
+}
+
 .recent-stories {
   padding: 0;
 }
@@ -380,7 +387,7 @@ nav.dropdown .level-one {
   text-decoration: none;
 }
 
-.level-one li:hover a {
+nav.dropdown li:hover > a {
   background-color: #E67E22;
   color: #ECF0F1; /* Clouds */
 }
@@ -389,12 +396,6 @@ nav.dropdown ul li:hover ul { /* Show first level dropdown on hover*/
   display:block;
 }
 
-.equals-sign {
-  font-size: 40px;
-  margin: 5px 0;
-  text-align: center;
-  font-family: 'League Gothic';
-}
 
 /* Dropdown specific styling for share button */
 
