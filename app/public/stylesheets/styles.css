@@ -123,8 +123,8 @@ body {
   margin-right: 10px;
 }
 
-#header .wrapper,
-#footer .wrapper {
+#header,
+#footer {
   background-color: #34495e; /* Wet asphalt */
 }
 
@@ -150,7 +150,7 @@ body {
 #footer {
   color: #FFFFFF;
   font-size: 12px;
-  padding-top: 30px;
+  margin-top: 30px;
 }
 
 #footer .logo {
