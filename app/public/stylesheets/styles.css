@@ -394,7 +394,7 @@ nav.dropdown ul li:hover ul { /* Show first level dropdown on hover*/
 /* Dropdown specific styling for share button */
 
 li.share-button {
-  height: 42px;
+  height: 41px;
   padding-bottom: 7px;
 }
 
