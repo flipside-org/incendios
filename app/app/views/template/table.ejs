@@ -9,7 +9,7 @@
 	<% if (rows.length > 0 ) { %>
 	<tbody>
 	  <% for (index in rows) { var row = rows[index]; %>
-	    <tr class="<%= ((index + 1) % 2 == 0) ? 'even' : 'odd' %>">
+	    <tr class="<%= ((index % 2 == 0) ? 'odd' : 'even') %>">
 	      <% for (prop in row) { %>
           <td><%- row[prop] %></td>
           <% } %>
