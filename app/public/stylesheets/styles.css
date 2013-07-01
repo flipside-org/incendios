@@ -123,13 +123,9 @@ body {
   margin-right: 10px;
 }
 
-#header,
-#footer {
+#header .wrapper,
+#footer .wrapper {
   background-color: #34495e; /* Wet asphalt */
-}
-
-#header {
-  border-bottom: 2px solid #2c3e50; /* Midnight blue */
 }
 
 #header nav {
@@ -152,10 +148,9 @@ body {
 }
 
 #footer {
-  border-top: 2px solid #2c3e50; /* Midnight blue */
   color: #FFFFFF;
   font-size: 12px;
-  margin-top: 30px;
+  padding-top: 30px;
 }
 
 #footer .logo {
