@@ -96,6 +96,7 @@ $(document).ready(function() {
         ykeys: ['total'],
         
         ymin : 'auto 10000',
+        ymax : 'auto 50000',
         // Labels for the ykeys -- will be displayed when you hover over the
         // chart.
         labels: [t('occurrences')],
@@ -112,10 +113,89 @@ $(document).ready(function() {
       set_map_height();
     });
   }
+  
+  
+  
+  var offset = 20;
+  $.ajax({
+    type : "POST",
+    data : {'offset': offset, 'num' : 20},
+    url : '/experiment',
+    dataType : "json",
+    context : document.body
+  }).done(function(response) {
+    
+    var parsed = Array();
+    for (index in response) {
+      parsed.push(response[index].properties);
+    }
+    console.log(parsed);
+    var expChart = new Morris.Line({
+      // ID of the element in which to draw the chart.
+      element: 'testar',
+      // Chart data records -- each entry in this array corresponds to a point on
+      // the chart.
+      data: parsed,
+      // The name of the data record attribute that contains x-values.
+      xkey: 'data_alerta',
+      // A list of names of data record attributes that contain y-values.
+      ykeys: ['aa_total'],
+      // Labels for the ykeys -- will be displayed when you hover over the
+      // chart.
+      labels: [t('burnt area')],
+  
+      hideHover : 'auto',
+      lineColors: ['#782121'],
+      pointFillColors: ['#c0392b'],
+      
+      parseTime : false,
+      
+      yLabelFormat : function(y){
+        return number_format(Math.round(y)) + ' Ha';
+      }
+    });
+    // The chart may have changed the height.
+    set_map_height();
+    
+    setTimeout(function() {
+      chart_update(parsed, expChart, offset);
+    }, 20);
+    
+  });
+    
 
   
   // This must be the last thing to do because the
   // content will change the sidebar height.
   set_map_height();
+  
+
+
+
+
+function chart_update(parsed, expChart, offset) {
+    $.ajax({
+      type : "POST",
+      data : {'offset': offset, 'num' : 1},
+      url : '/experiment',
+      dataType : "json",
+      context : document.body
+    }).done(function(response) {
+      
+      parsed.shift();
+      parsed.push(response[0].properties);
+      
+      expChart.setData(parsed);
+      
+      if (offset > 100) return;
+      
+      offset++;
+      
+      //setTimeout(function() {
+        chart_update(parsed, expChart, offset);
+     // }, 20);
+      
+    });
+  }
   
 });

@@ -88,4 +88,7 @@ module.exports = function (app) {
   var occurrenceDetail = require('../app/controllers/occurrencedetails');
   app.post('/occurrencedetails', occurrenceDetail.table);
   app.post('/occurrencedetails/marker', occurrenceDetail.marker);
+  
+  
+  app.post('/experiment', occurrenceDetail.exper);
 }

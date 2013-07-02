@@ -79,3 +79,15 @@ exports.marker = function(req, res){
     break;
   }
 }
+
+
+exports.exper = function(req, res){
+  var offset = req.body.offset;
+  var num = req.body.num;
+  OccurrenceDetail.exper(offset, num, function (err, data) {
+    if (err) {
+      return next(err);
+    }
+    res.send(data);
+  });
+}
