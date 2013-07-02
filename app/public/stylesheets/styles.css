@@ -381,14 +381,14 @@ nav.dropdown .level-one {
   border-radius: 3px;
 }
 
-.level-one li {
-  padding: 5px;
-}
-
 .level-one a {
   color: #34495E;
-  padding: 5px;
+  padding: 10px;
   text-decoration: none;
+
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
 }
 
 nav.dropdown li:hover > a {
@@ -431,7 +431,7 @@ a.icon.share:hover {
 }
 
 #share-page .level-one {
-  margin-top: 49px;
+  margin-top: 48px;
 }
 
 /* / End dropdown styling */
