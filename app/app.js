@@ -87,6 +87,34 @@ app.configure(function(){
   app.use(express.cookieParser());
   // i18n init parses req for language headers, cookies, etc.
   app.use(i18n.init);
+  
+   // Handle 404
+  app.use(function(req, res) {
+     res.status(404).render('error/404.ejs', {
+       title: 404,
+       menus: req.menus,
+       page_meta : {
+         type: 'error',
+         url : req.url,
+         full_url : req.headers.host + req.url,
+         lang : i18n.getLocale()
+       }
+      });
+  });
+  
+  // Handle 500
+  app.use(function(error, req, res, next) {
+     res.status(500).render('error/500.ejs', {
+       title: 500,
+       menus: req.menus,
+       page_meta : {
+         type: 'error',
+         url : req.url,
+         full_url : req.headers.host + req.url,
+         lang : i18n.getLocale()
+       }
+      });
+  });
 
 });
 

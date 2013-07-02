@@ -1,15 +1,19 @@
   <%
+    var classes = 'float-right ';
     if (typeof page_meta != "undefined" && page_meta.type == 'page') {
-      var classes = 'four-fifths';
+      classes += 'four-fifths';
     }
     else if(typeof page_meta != "undefined" && (page_meta.type == 'index' || page_meta.type == 'story')) {
-      var classes = 'three-fifths';
+      classes += 'three-fifths';      
+    }
+    else if(typeof page_meta != "undefined" && page_meta.type == 'error') {
+      classes = '';
     }
     else {
-      var classes = 'two-fifths';
-    }
+      classes += 'two-fifths';
+    }  
   %>
-  <header id="header" class="<%= classes %> float-right">
+  <header id="header" class="<%= classes %>">
     <div class="wrapper clearfix">
       
       <h1><a href="/">Incêndios</a> <small>2001 - 2011</small></h1>
