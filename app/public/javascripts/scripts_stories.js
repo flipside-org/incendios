@@ -119,7 +119,7 @@ $(document).ready(function() {
   var offset = 20;
   $.ajax({
     type : "POST",
-    data : {'offset': offset, 'num' : 20},
+    data : {'offset': 0, 'num' : 20},
     url : '/experiment',
     dataType : "json",
     context : document.body
