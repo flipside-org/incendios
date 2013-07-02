@@ -6,3 +6,9 @@ data_wrangling/tests/ifdata*
 
 # Aptana .project
 .project
+
+app/.htaccess
+app/config/global.json
+app/config/i18n.json
+app/config/mongodb.json
+app/nohup.out
