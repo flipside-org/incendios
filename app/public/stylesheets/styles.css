@@ -201,6 +201,10 @@ body {
   font-size: 0.9em;
 }
 
+#location-browse .chzn-container-single {
+  display: block;
+}
+
 #location-browse-submit {
   background: none repeat scroll 0 0 #ECF0F1; /* Clouds */
   border: 1px solid #BDC3C7; /* Silver */
