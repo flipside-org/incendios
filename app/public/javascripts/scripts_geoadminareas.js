@@ -8,7 +8,11 @@ $(document).ready(function() {
   // Create the map.
   /**************************************************/
   // *** Base Map
-  var map = L.mapbox.map('map', 'flipside.map-epnw0q4t', {minZoom: 7, maxZoom: 14}).setView([40, -74.50], 9);
+  var southWest = new L.LatLng(35, -14),
+  northEast = new L.LatLng(45, -1.5),
+  bounds = new L.LatLngBounds(southWest, northEast);
+  var map = L.mapbox.map('map', 'flipside.map-epnw0q4t', {minZoom: 7, maxZoom: 14, maxBounds : bounds}).setView([40, -74.50], 9);
+   
   // Disable double click zoom.
   map.doubleClickZoom.disable();
   

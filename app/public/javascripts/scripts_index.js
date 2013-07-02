@@ -2,7 +2,10 @@ $(document).ready(function() {
   /**************************************************/
   // Create the map.
   /**************************************************/
-  var map = L.mapbox.map('map', 'flipside.if_detailed_heatmap', {minZoom: 7, maxZoom: 14}).setView([40, -7.5], 6);
+  var southWest = new L.LatLng(35, -11.5),
+  northEast = new L.LatLng(44, -3),
+  bounds = new L.LatLngBounds(southWest, northEast);
+  var map = L.mapbox.map('map', 'flipside.if_detailed_heatmap', {minZoom: 7, maxZoom: 14, maxBounds : bounds}).setView([40, -7.5], 6);
   L.mapbox.tileLayer('flipside.map-epnw0q4t').setZIndex(-1).addTo(map);
   map.doubleClickZoom.disable();
   
