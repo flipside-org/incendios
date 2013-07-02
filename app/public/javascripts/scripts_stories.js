@@ -6,7 +6,7 @@ $(document).ready(function() {
   map.doubleClickZoom.disable();
   
   // Markers if any.
-  if (typeof Incendios.settings.map.markers != "undefined") {
+  if (Incendios.settings != null && typeof Incendios.settings.map.markers != "undefined") {
     var markers_id = Incendios.settings.map.markers;
     
     $.ajax({
@@ -33,6 +33,84 @@ $(document).ready(function() {
       map.removeControl();
     });
       
+  }
+  
+  // #burnt-area-chart
+  if ($('#burnt-area-chart').length == 1) {
+    get_json_cb('/yearstatuses/json', function(yearstatus) {
+      
+      // Morris issue #242. With the line chart the years must be strings
+      var parsed = Array();
+      $.each(yearstatus, function(index, year) {
+        year.year = year.year.toString();
+        parsed.push(year);
+      });
+      
+      new Morris.Line({
+        // ID of the element in which to draw the chart.
+        element: 'burnt-area-chart',
+        // Chart data records -- each entry in this array corresponds to a point on
+        // the chart.
+        data: parsed,
+        // The name of the data record attribute that contains x-values.
+        xkey: 'year',
+        // A list of names of data record attributes that contain y-values.
+        ykeys: ['aa_total'],
+        // Labels for the ykeys -- will be displayed when you hover over the
+        // chart.
+        labels: [t('burnt area')],
+    
+        hideHover : 'auto',
+        lineColors: ['#782121'],
+        pointFillColors: ['#c0392b'],
+    
+        yLabelFormat : function(y){
+          return number_format(y) + ' Ha';
+        }
+      });
+      // The chart may have changed the height.
+      set_map_height();
+    });
+  }
+  
+  // #occurrences-chart
+  if ($('#occurrences-chart').length == 1) {
+    get_json_cb('/yearstatuses/json', function(yearstatus) {
+      
+      // Morris issue #242. With the line chart the years must be strings
+      var parsed = Array();
+      $.each(yearstatus, function(index, year) {
+        year.year = year.year.toString();
+        parsed.push(year);
+      });
+      
+      new Morris.Line({
+        // ID of the element in which to draw the chart.
+        element: 'occurrences-chart',
+        // Chart data records -- each entry in this array corresponds to a point on
+        // the chart.
+        data: parsed,
+        // The name of the data record attribute that contains x-values.
+        xkey: 'year',
+        // A list of names of data record attributes that contain y-values.
+        ykeys: ['total'],
+        
+        ymin : 'auto 10000',
+        // Labels for the ykeys -- will be displayed when you hover over the
+        // chart.
+        labels: [t('occurrences')],
+    
+        hideHover : 'auto',
+        lineColors: ['#782121'],
+        pointFillColors: ['#c0392b'],
+    
+        yLabelFormat : function(y){
+          return number_format(Math.round(y));
+        }
+      });
+      // The chart may have changed the height.
+      set_map_height();
+    });
   }
 
   

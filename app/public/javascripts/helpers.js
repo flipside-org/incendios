@@ -73,6 +73,25 @@ function get_json(url) {
 }
 
 /**
+ * @param string url
+ * @param function cb
+ *   Callback for when the request is completed.
+ * @return json data
+ *   The data from the database.
+ */
+function get_json_cb(url, cb) {
+  var data = null;
+  $.ajax({
+    type : "GET",
+    url : url,
+    dataType : "json",
+    context : document.body
+  }).done(function(response) {
+    cb(response);
+  });
+}
+
+/**
  * Get the aaid from the URL
  * @return aaid [int]
  *

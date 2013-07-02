@@ -44,6 +44,8 @@ module.exports = function (app) {
    */
   var yearstatuses = require('../app/controllers/yearstatuses');
   app.get('/yearstatuses/json', yearstatuses.json);
+  
+  app.post('/yearstatuses/table', yearstatuses.table);
 
   /**
    * Stories
