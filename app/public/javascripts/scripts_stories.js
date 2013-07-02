@@ -33,10 +33,27 @@ $(document).ready(function() {
       }
 
       var v = L.mapbox.markerLayer(res).addTo(map);
-      map.removeControl();
     });
       
   }
+  
+  // Layers if any.
+  if (Incendios.settings != null && typeof Incendios.settings.map.layers != "undefined") {
+    var layers = Incendios.settings.map.layers;
+    
+    L.mapbox.tileLayer(layers.tileLayer).setZIndex(999).addTo(map);
+    
+    if (typeof layers.gridLayer != "undefined") {
+      var grid_layer = L.mapbox.gridLayer(layers.gridLayer);
+      map.addLayer(grid_layer);
+      map.addControl(L.mapbox.gridControl(grid_layer, {
+        template : layers.gridLayerTemplate, 
+        pinnable : false
+      }));
+    }
+    
+  }
+  
   
   // #burnt-area-chart
   if ($('#burnt-area-chart').length == 1) {
