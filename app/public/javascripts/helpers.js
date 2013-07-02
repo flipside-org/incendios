@@ -23,9 +23,9 @@ function set_sidebar_height() {
 
   var w_height = $window.height();
   var $sidebar = $('#sidebar');
-  var oh_header = $('#header').outerHeight();
-  var oh_sidebar = $sidebar.outerHeight();
-  var oh_footer = $('#footer').outerHeight();
+  var oh_header = $('#header').outerHeight(true);
+  var oh_sidebar = $sidebar.outerHeight(true);
+  var oh_footer = $('#footer').outerHeight(true);
 
   // If all the sidebar elements together don't match the window height
   // adjust the sidebar.
@@ -45,9 +45,9 @@ function set_map_height() {
   if ($(window).width() <= 850){
     return false;
   }
-  var oh_header = $('#header').outerHeight();
-  var oh_sidebar = $('#sidebar').outerHeight();
-  var oh_footer = $('#footer').outerHeight();
+  var oh_header = $('#header').outerHeight(true);
+  var oh_sidebar = $('#sidebar').outerHeight(true);
+  var oh_footer = $('#footer').outerHeight(true);
 
   $('.map').height(oh_header + oh_sidebar + oh_footer);
 }
