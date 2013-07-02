@@ -12,11 +12,12 @@
   <footer id="footer" class="<%= classes %> float-right">
     <div class="wrapper">
       <a href="http://flipside.org/"><img src="/images/flipside.png" alt="Logo Flipside" class="logo" /></a>
-      <%= t('v0.1 was built using Express, Mapbox, Morris and ') %>
-        <a href="/<%= page_meta.lang %>/about"><%= t('much more') %></a>.
-      <br />
-      <%= t('Data sources: ICNF & Igeo. Find out more') %> <a href="/<%= page_meta.lang %>/data"><%= t('about the data') %></a>
-      <br />
+      <div class="about">
+        <%= t('v0.1 was built using Express, Mapbox, Morris and ') %>
+          <a href="/<%= page_meta.lang %>/about"><%= t('much more') %></a>.
+        <br />
+        <%= t('Data sources: ICNF & Igeo. Find out more') %> <a href="/<%= page_meta.lang %>/data"><%= t('about the data') %></a>
+      </div>
     </div>
   </footer>
 
