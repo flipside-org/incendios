@@ -99,7 +99,7 @@ $(document).ready(function() {
         ykeys: ['total'],
         
         ymin : 'auto 10000',
-        ymin : 'auto 50000',
+        ymax : 'auto 50000',
         // Labels for the ykeys -- will be displayed when you hover over the
         // chart.
         labels: [t('occurrences')],
