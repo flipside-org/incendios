@@ -93,15 +93,26 @@ exports.list = function(req, res){
       Page.load('explore-block-after', function (err, page) {
         state(err, page.content);
       });
+    },
+    // Get page blocks
+    browse_location_block : function(state) {
+      Page.load('browse-location-block', function (err, page) {
+        state(err, page.content);
+      });
     }
   },
   function(err, result) {
     // error handling
     if (err) return res.render('500')
     
-    res.render('page', { 
+    res.render('page_explore', { 
       title: t('Explore'),
-      content: result.explore_blocks_before + result.stories_render + result.explore_blocks_after,
+      content: {
+        explore_blocks_before : result.explore_blocks_before,
+        explore_blocks_after : result.explore_blocks_after,
+        stories_list : result.stories_render,
+        browse_location_block : result.browse_location_block,
+      },
       menus: req.menus,
       page_meta : {
         type: 'page',
