@@ -53,7 +53,7 @@ module.exports = function (app) {
 
   var stories = require('../app/controllers/stories');
   app.get('/:lang/story/:permalink_story', stories.view);
-  app.get('/:lang/stories', stories.list);
+  app.get('/:lang/explore', stories.list);
   
   app.param('permalink_story', stories.story, menus.main);
 
