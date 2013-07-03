@@ -83,14 +83,14 @@ exports.list = function(req, res){
     }],
     
     // Get page blocks
-    stories_blocks_before : function(state) {
-      Page.load('stories-block-before', function (err, page) {
+    explore_blocks_before : function(state) {
+      Page.load('explore-block-before', function (err, page) {
         state(err, page.content);
       });
     },
     // Get page blocks
-    stories_blocks_after : function(state) {
-      Page.load('stories-block-after', function (err, page) {
+    explore_blocks_after : function(state) {
+      Page.load('explore-block-after', function (err, page) {
         state(err, page.content);
       });
     }
@@ -100,8 +100,8 @@ exports.list = function(req, res){
     if (err) return res.render('500')
     
     res.render('page', { 
-      title: 'Stories',
-      content: result.stories_blocks_before + result.stories_render + result.stories_blocks_after,
+      title: t('Explore'),
+      content: result.explore_blocks_before + result.stories_render + result.explore_blocks_after,
       menus: req.menus,
       page_meta : {
         type: 'page',
