@@ -85,19 +85,25 @@ exports.list = function(req, res){
     // Get page blocks
     stories_blocks_before : function(state) {
       Page.load('stories-block-before', function (err, page) {
+        
+        if (!page) return state(new Error('Failed to load page: stories'), null);
+        
         state(err, page.content);
       });
     },
     // Get page blocks
     stories_blocks_after : function(state) {
       Page.load('stories-block-after', function (err, page) {
+        
+        if (!page) return state(new Error('Failed to load page: stories'), null);
+        
         state(err, page.content);
       });
     }
   },
   function(err, result) {
     // error handling
-    if (err) return res.render('500')
+    if (err) return res.send('500') // TODO: How do we handle this error????
     
     res.render('page', { 
       title: 'Stories',
