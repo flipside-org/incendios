@@ -89,6 +89,7 @@ app.configure(function(){
   app.use(i18n.init);
   
    // Handle 404
+  // TODO: Move!
   app.use(function(req, res) {
      res.status(404).render('error/404.ejs', {
        title: 404,
@@ -102,18 +103,31 @@ app.configure(function(){
       });
   });
   
-  // Handle 500
+  // Handle 500.
+  // TODO: Move!
   app.use(function(error, req, res, next) {
-     res.status(500).render('error/500.ejs', {
-       title: 500,
-       menus: req.menus,
-       page_meta : {
-         type: 'error',
-         url : req.url,
-         full_url : req.headers.host + req.url,
-         lang : i18n.getLocale()
-       }
-      });
+    
+    // TODO: Add translations.
+    var fun_fact = [
+      "No cats were armed during the creation of this page.",
+      "During the eleven years of fires burnt an area equal to more than 1.5 times the biggest portuguese district.",
+      "2003 was the worst year. 28% of all burnt area was due to occurrences that happened that year.",
+      "The biggest fire recorded was caused by a lightning and it took almost 8 days to extinguish."
+    ];
+    
+    var fact_no = Math.floor(Math.random() * (fun_fact.length - 1));
+    
+    res.status(500).render('error/500.ejs', {
+      title: 500,
+      menus: req.menus,
+      content: fun_fact[fact_no],
+      page_meta : {
+        type: 'error',
+        url : req.url,
+        full_url : req.headers.host + req.url,
+        lang : i18n.getLocale()
+      }
+     });
   });
 
 });
