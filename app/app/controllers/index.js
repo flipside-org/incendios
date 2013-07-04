@@ -14,7 +14,7 @@ var Page = mongoose.model('Page');
 exports.view = function(req, res){
   if (!req.params.lang) {
     // English if no language.
-    res.redirect('en');
+    return res.redirect('en');
   }
   
   Page.load('', function (err, page) {
