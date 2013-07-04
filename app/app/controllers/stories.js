@@ -47,7 +47,7 @@ exports.view = function(req, res){
     page_meta : {
       type: 'story',
       url : req.url,
-      full_url : req.headers.host + req.url,
+      full_url : get_current_url(req),
       lang : i18n.getLocale()
     },
   });
@@ -57,7 +57,7 @@ exports.view = function(req, res){
  * Renders the page for stories listing.
  */
 exports.list = function(req, res){
-  
+
   async.auto({
     // Get story listing.
     stories_list : function(state){
@@ -72,7 +72,7 @@ exports.list = function(req, res){
       });
     },
     // Render stories.
-    stories_render : ['stories_list', function(state, results){      
+    stories_render : ['stories_list', function(state, results){
       var data = {
         stories: results.stories_list,
         lang : i18n.getLocale()
@@ -81,31 +81,31 @@ exports.list = function(req, res){
         state(err, html);
       });
     }],
-    
+
     // Get page blocks
     explore_blocks_before : function(state) {
       Page.load('explore-block-before', function (err, page) {
-        
+
         if (!page) return state(new Error('Failed to load block: explore-block-before'), null);
-        
+
         state(err, page.content);
       });
     },
     // Get page blocks
     explore_blocks_after : function(state) {
       Page.load('explore-block-after', function (err, page) {
-        
+
         if (!page) return state(new Error('Failed to load block: explore-block-after'), null);
-        
+
         state(err, page.content);
       });
     },
     // Get page blocks
     browse_location_block : function(state) {
       Page.load('browse-location-block', function (err, page) {
-        
+
         if (!page) return state(new Error('Failed to load block: browse-location-block'), null);
-        
+
         state(err, page.content);
       });
     }
@@ -113,8 +113,8 @@ exports.list = function(req, res){
   function(err, result) {
     // error handling
     if (err) return res.send('500') // TODO: How do we handle this error????
-    
-    res.render('page_explore', { 
+
+    res.render('page_explore', {
       title: t('Explore'),
       content: {
         explore_blocks_before : result.explore_blocks_before,
@@ -126,10 +126,10 @@ exports.list = function(req, res){
       page_meta : {
         type: 'page',
         url : req.url,
-        full_url : req.headers.host + req.url,
+        full_url : get_current_url(req),
         lang : i18n.getLocale()
       },
     });
   });
-  
+
 };

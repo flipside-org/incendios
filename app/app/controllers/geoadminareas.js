@@ -185,7 +185,7 @@ exports.view = function(req, res){
                     page_meta : {
                       type: 'geoadminarea',
                       url : req.url,
-                      full_url : req.headers.host + req.url,
+                      full_url : get_current_url(req),
                       lang : i18n.getLocale()
                     },
                     admin_divisions: req.geoadmindivisions
@@ -289,14 +289,14 @@ exports.list_location = function(req, res, next, parent_id){
         name: 1,
       }
     };
-    
+
     GeoAdminArea.list(options, function(err, geoadminareas_options){
-      
+
       if (err) return next(new Error('Failed to load list of administrative areas with parent : ' + parent_id))
-      
+
       req.list_location = geoadminareas_options;
       next();
-      
+
     });
 };
 

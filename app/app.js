@@ -87,7 +87,7 @@ app.configure(function(){
   app.use(express.cookieParser());
   // i18n init parses req for language headers, cookies, etc.
   app.use(i18n.init);
-  
+
    // Handle 404
   // TODO: Move!
   app.use(function(req, res) {
@@ -102,11 +102,11 @@ app.configure(function(){
        }
       });
   });
-  
+
   // Handle 500.
   // TODO: Move!
   app.use(function(error, req, res, next) {
-    
+
     // TODO: Add translations.
     var fun_fact = [
       "No cats were armed during the creation of this page.",
@@ -114,9 +114,9 @@ app.configure(function(){
       "2003 was the worst year. 28% of all burnt area was due to occurrences that happened that year.",
       "The biggest fire recorded was caused by a lightning and it took almost 8 days to extinguish."
     ];
-    
+
     var fact_no = Math.floor(Math.random() * (fun_fact.length - 1));
-    
+
     res.status(500).render('error/500.ejs', {
       title: 500,
       menus: req.menus,
@@ -152,6 +152,28 @@ fs.readdirSync(models_path).forEach(function (file) {
  * Routes.
  */
 require('./config/routes')(app);
+
+
+/**
+ * Returns the current, full URL.
+ * @param req [Object]
+ * @return [String] of the URL
+ */
+get_current_url = function(req) {
+  var current_url = 'http://'
+
+  if ('x-forwarded-host' in req.headers) {
+    current_url = current_url + req.headers['x-forwarded-host']
+  }
+  else if ('x-forwarded-server' in req.headers) {
+    current_url = current_url + req.headers['x-forwarded-server']
+  }
+  else {
+    current_url = current_url + req.headers.host
+  }
+
+  return current_url + req.url
+}
 
 
 /**

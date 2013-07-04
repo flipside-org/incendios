@@ -16,7 +16,7 @@ exports.view = function(req, res){
     // English if no language.
     return res.redirect('en');
   }
-  
+
   Page.load('', function (err, page) {
     if (err){
       return next(err);
@@ -24,7 +24,7 @@ exports.view = function(req, res){
     if (!page){
       return next(new Error('Failed to load page: ' + permalink));
     }
-    
+
     res.render('index', {
       title: page.title,
       content: page.content,
@@ -32,7 +32,7 @@ exports.view = function(req, res){
       page_meta : {
         type: 'index',
         url : req.url,
-        full_url : req.headers.host + req.url,
+        full_url : get_current_url(req),
         lang : i18n.getLocale()
       },
     });
