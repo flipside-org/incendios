@@ -83,19 +83,28 @@ exports.list = function(req, res){
     }],
     
     // Get page blocks
-    stories_blocks_before : function(state) {
-      Page.load('stories-block-before', function (err, page) {
+    explore_blocks_before : function(state) {
+      Page.load('explore-block-before', function (err, page) {
         
-        if (!page) return state(new Error('Failed to load page: stories'), null);
+        if (!page) return state(new Error('Failed to load block: explore-block-before'), null);
         
         state(err, page.content);
       });
     },
     // Get page blocks
-    stories_blocks_after : function(state) {
-      Page.load('stories-block-after', function (err, page) {
+    explore_blocks_after : function(state) {
+      Page.load('explore-block-after', function (err, page) {
         
-        if (!page) return state(new Error('Failed to load page: stories'), null);
+        if (!page) return state(new Error('Failed to load block: explore-block-after'), null);
+        
+        state(err, page.content);
+      });
+    },
+    // Get page blocks
+    browse_location_block : function(state) {
+      Page.load('browse-location-block', function (err, page) {
+        
+        if (!page) return state(new Error('Failed to load block: browse-location-block'), null);
         
         state(err, page.content);
       });
@@ -105,9 +114,14 @@ exports.list = function(req, res){
     // error handling
     if (err) return res.send('500') // TODO: How do we handle this error????
     
-    res.render('page', { 
-      title: 'Stories',
-      content: result.stories_blocks_before + result.stories_render + result.stories_blocks_after,
+    res.render('page_explore', { 
+      title: t('Explore'),
+      content: {
+        explore_blocks_before : result.explore_blocks_before,
+        explore_blocks_after : result.explore_blocks_after,
+        stories_list : result.stories_render,
+        browse_location_block : result.browse_location_block,
+      },
       menus: req.menus,
       page_meta : {
         type: 'page',

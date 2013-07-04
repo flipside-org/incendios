@@ -224,6 +224,10 @@ body {
   color: white;
 }
 
+#location-browse .chzn-results {
+  height: 125px;
+}
+
 /* Typography */
 
 a:link, a:active, a:visited {

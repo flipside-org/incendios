@@ -103,7 +103,7 @@ GeoAdminArea.statics = {
     var criteria = options.criteria || {}
     var fields = options.fields || null
 
-    this.find(criteria, fields).sort({name : 1})
+    this.find(criteria, fields).sort({transliterated_name : 1})
       .exec(cb)
   },
 
