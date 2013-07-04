@@ -1,15 +1,19 @@
   <%
+    var classes = 'float-right ';
     if (typeof page_meta != "undefined" && page_meta.type == 'page') {
-      var classes = 'four-fifths';
+      classes += 'four-fifths';
     }
-   else if(typeof page_meta != "undefined" && (page_meta.type == 'index' || page_meta.type == 'story')) {
-      var classes = 'three-fifths';      
-   }
+    else if(typeof page_meta != "undefined" && (page_meta.type == 'index' || page_meta.type == 'story')) {
+      classes += 'three-fifths';      
+    }
+    else if(typeof page_meta != "undefined" && page_meta.type == 'error') {
+      classes = '';
+    }
     else {
-      var classes = 'two-fifths';
-    }
+      classes += 'two-fifths';
+    }  
   %>
-  <footer id="footer" class="<%= classes %> float-right">
+  <footer id="footer" class="<%= classes %>">
     <div class="wrapper">
       <a href="http://flipside.org/"><img src="/images/flipside.png" alt="Logo Flipside" class="logo" /></a>
       <div class="about">
