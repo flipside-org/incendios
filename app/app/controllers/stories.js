@@ -39,6 +39,9 @@ exports.story = function(req, res, next, permalink_story){
  */
 exports.view = function(req, res){
   var story = req.story;
+
+  console.log(Story.get_translations(req, story))
+
   res.render('story', {
     title: story.title,
     content: story.content,
@@ -48,7 +51,8 @@ exports.view = function(req, res){
       type: 'story',
       url : req.url,
       full_url : get_current_url(req),
-      lang : i18n.getLocale()
+      lang : i18n.getLocale(),
+      _translations : Story.get_translations(req, story),
     },
   });
 };
@@ -114,6 +118,12 @@ exports.list = function(req, res){
     // error handling
     if (err) return res.send('500') // TODO: How do we handle this error????
 
+    var _translations = []
+    i18n.getLocales().forEach(function(language) {
+      _translations.push({lang : language, url: req.url.replace(/^\//, '')})
+    })
+
+
     res.render('page_explore', {
       title: t('Explore'),
       content: {
@@ -127,7 +137,8 @@ exports.list = function(req, res){
         type: 'page',
         url : req.url,
         full_url : get_current_url(req),
-        lang : i18n.getLocale()
+        lang : i18n.getLocale(),
+        _translations : _translations,
       },
     });
   });
