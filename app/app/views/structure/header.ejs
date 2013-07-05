@@ -4,29 +4,36 @@
       classes += 'four-fifths';
     }
     else if(typeof page_meta != "undefined" && (page_meta.type == 'index' || page_meta.type == 'story')) {
-      classes += 'three-fifths';      
+      classes += 'three-fifths';
     }
     else if(typeof page_meta != "undefined" && page_meta.type == 'error') {
       classes = '';
     }
     else {
       classes += 'two-fifths';
-    }  
+    }
   %>
   <header id="header" class="<%= classes %>">
     <div class="wrapper clearfix">
-      
+
       <h1><a href="/<%= page_meta.lang %>">Incêndios</a> <small>2001 - 2011</small></h1>
-      
+
+      <% if (page_meta._translations) { %>
       <nav class="language-switcher">
         <ul>
-          <li><a class="<%= page_meta.lang == 'en' ? 'active' : '' %>" href="<%= page_meta.url.replace(/(\/)en|pt(\/?)/, '$1en$2') %>">EN</a></li>
-          <li><a class="<%= page_meta.lang == 'pt' ? 'active' : '' %>" href="<%= page_meta.url.replace(/(\/)en|pt(\/?)/, '$1pt$2') %>">PT</a></li>
+          <%
+            page_meta._translations.forEach(function(language) {
+              var active = language.lang == page_meta.lang ? 'active' : ''
+          %>
+            <li><a class="<%= active %>" href="/<%= language.url %>"><%= language.lang.toUpperCase() %></a></li>
+          <% }) %>
         </ul>
       </nav>
-      
+      <% } %>
+
       <br class="clear-small" />
-            
+
+      <% if (menus) { %>
       <nav class="main-nav">
         <% var menu = 'main'; if (menu in menus) { %>
           <ul>
@@ -36,5 +43,6 @@
           </ul>
         <% } %>
       </nav>
+      <% } %>
     </div>
   </header>

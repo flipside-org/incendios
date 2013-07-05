@@ -40,6 +40,7 @@ exports.geoadminarea = function(req, res, next, aa){
   GeoAdminArea.load(criteria, function (err, geoadminarea) {
     if (err) return next(err)
     if (!geoadminarea && aa != 0) return next(new Error('Failed to load administrative area with the code: ' + aa))
+
     req.geoadminarea = geoadminarea
     req.parent_id = geoadminarea.aaid;
     req.params.aaid = geoadminarea.aaid;
@@ -186,7 +187,8 @@ exports.view = function(req, res){
                       type: 'geoadminarea',
                       url : req.url,
                       full_url : get_current_url(req),
-                      lang : i18n.getLocale()
+                      lang : i18n.getLocale(),
+                      _translations : GeoAdminArea.get_translations(req),
                     },
                     admin_divisions: req.geoadmindivisions
                   });
@@ -263,7 +265,7 @@ exports.json_children = function(req, res){
 /**
  * Redirects to the full path admin area if needed.
  */
-exports.redirect = function(req, res, next){
+exports.redirect = function(req, res, next) {
 
   if (req.geoadminarea.type > (req.url.split('/').length - path_offset)) {
     res.redirect(301, '/' + i18n.getLocale() + '/por/' + req.geoadminarea.breadcrumb);
@@ -278,7 +280,7 @@ exports.redirect = function(req, res, next){
  * @param {Object} res
  * @param {Object} parent_id
  */
-exports.list_location = function(req, res, next, parent_id){
+exports.list_location = function(req, res, next, parent_id) {
     var options = {
       criteria: {
         'parent_id' : parent_id
@@ -300,9 +302,11 @@ exports.list_location = function(req, res, next, parent_id){
     });
 };
 
-exports.list_location_render = function(req, res){
+exports.list_location_render = function(req, res) {
       var data = { options : req.list_location }
       res.render('template/list_localtion_option', data, function(err, html){
         res.send(html);
       });
 };
+
+
