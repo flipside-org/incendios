@@ -114,7 +114,7 @@ exports.list = function(req, res){
   },
   function(err, result) {
     // error handling
-    if (err) return res.send('500') // TODO: How do we handle this error????
+    if (err) return res.render('error/500.ejs', 500) // TODO: How do we handle this error????
 
     var _translations = []
     , regExp = new RegExp('/' + i18n.getLocale() + '/')
