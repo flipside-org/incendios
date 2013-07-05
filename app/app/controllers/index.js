@@ -33,7 +33,8 @@ exports.view = function(req, res){
         type: 'index',
         url : req.url,
         full_url : get_current_url(req),
-        lang : i18n.getLocale()
+        lang : i18n.getLocale(),
+        _translations : Page.get_translations(req, page),
       },
     });
   });
