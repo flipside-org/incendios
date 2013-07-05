@@ -37,7 +37,7 @@ exports.table = function(req, res){
             aa_total : prop.aa_total,
             date : prop.data_alerta,
             place : '<a href="/' + i18n.getLocale() + '/por/' + prop.aaid_freguesia + '" title="' + prop.freguesia + '">' + prop.freguesia + '</a> (' + prop.distrito + ', ' + prop.concelho + ')',
-            cause : prop.tipocausa == "NULL" ? '--*' : prop.tipocausa
+            cause : prop.tipocausa == "NULL" ? '--*' : t(prop.tipocausa)
           });
         }
         
