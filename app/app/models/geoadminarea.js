@@ -2,7 +2,8 @@
  * Module dependencies.
  */
 var mongoose = require('mongoose')
-  , Schema   = mongoose.Schema;
+  , Schema   = mongoose.Schema
+  , i18n = require('i18n')
 
 
 /**
@@ -107,10 +108,29 @@ GeoAdminArea.statics = {
       .exec(cb)
   },
 
+
+  /**
+   * Return list of translation available for this page
+   *
+   * @param req [object]
+   * @return translations [array]: [{lang: l, url: u}]
+   * @api public
+   */
+  get_translations : function (req) {
+    // languages translation of that page
+    var translations = []
+      , regExp = new RegExp('/' + i18n.getLocale() + '/')
+      , neutral_url = req.url.replace(regExp, '/')
+    // for all the locales from the app, add
+    i18n.getLocales().forEach(function(language) {
+      translations.push({lang : language, url: language + neutral_url})
+    })
+    return translations
+  }
 }
 
 /**
  * expose model
  */
-mongoose.model('GeoAdminArea', GeoAdminArea);
+mongoose.model('GeoAdminArea', GeoAdminArea)
 
