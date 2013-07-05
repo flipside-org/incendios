@@ -40,8 +40,6 @@ exports.story = function(req, res, next, permalink_story){
 exports.view = function(req, res){
   var story = req.story;
 
-  console.log(Story.get_translations(req, story))
-
   res.render('story', {
     title: story.title,
     content: story.content,
@@ -119,8 +117,10 @@ exports.list = function(req, res){
     if (err) return res.send('500') // TODO: How do we handle this error????
 
     var _translations = []
+    , regExp = new RegExp('/' + i18n.getLocale() + '/')
+    , neutral_url = req.url.replace(regExp, '/')
     i18n.getLocales().forEach(function(language) {
-      _translations.push({lang : language, url: req.url.replace(/^\//, '')})
+      _translations.push({lang : language, url: language + neutral_url})
     })
 
 
