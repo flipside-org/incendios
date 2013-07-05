@@ -51,6 +51,10 @@ $(document).ready(function() {
         pinnable : false
       }));
     }
+
+    if (typeof Incendios.settings.map.legend != "undefined" && $('.' + Incendios.settings.map.legend).length == 1) {
+      map.legendControl.addLegend($('.' + Incendios.settings.map.legend).html());
+    }
     
   }
   

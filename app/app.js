@@ -113,16 +113,10 @@ app.configure(function(){
 
   // Handle 500.
   // TODO: Move!
+  error_curiosity = config('error_curiosity')
   app.use(function(error, req, res, next) {
 
-    // TODO: Add translations.
-    var fun_fact = [
-      "No cats were armed during the creation of this page.",
-      "During the eleven years of fires burnt an area equal to more than 1.5 times the biggest portuguese district.",
-      "2003 was the worst year. 28% of all burnt area was due to occurrences that happened that year.",
-      "The biggest fire recorded was caused by a lightning and it took almost 8 days to extinguish."
-    ];
-
+    var fun_fact = error_curiosity[i18n.getLocale()];
     var fact_no = Math.floor(Math.random() * (fun_fact.length - 1));
 
     res.status(500).render('error/500.ejs', {

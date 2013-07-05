@@ -39,6 +39,9 @@ $(document).ready(function() {
       return number_format(y) + ' Ha';
     }
   });
+  
+  map.legendControl.addLegend($('.legend-if-detailed-heatmap').html());
+  
   // TODO: uncomment.
   //$(window).resize(function(){ burn_area_chart.redraw(); });
   
