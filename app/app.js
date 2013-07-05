@@ -49,6 +49,14 @@ i18n.configure(conf.i18n)
 t = i18n.__;
 tn = i18n.__n;
 
+/**
+ * Get all the app locales.
+ * @return [array] with locale identifiers
+ */
+i18n.getLocales = function () {
+  return conf.i18n.locales
+}
+
 
 /**
  * Config and settings.
