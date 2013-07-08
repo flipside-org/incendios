@@ -440,6 +440,40 @@ a.icon.share:hover {
 
 /* / End dropdown styling */
 
+/* Map Legend styling */
+
+.map-legend {
+  font-size: 0.9em;
+}
+
+.map-legend .caption {
+  margin-bottom: 5px;
+}
+
+.map.legend ul {
+  margin: 0;
+  padding: 0;
+}
+
+.map-legend li {
+  display: block;
+  float: left;
+  padding: 0 5px;
+  text-align: center;
+  width: 24px;
+}
+
+.map-legend li.half {
+  width: 7px;
+}
+
+.map-legend li.first {
+  margin-left: -17px;
+}
+
+/* / End Legend Styling */
+
+
 /* Chosen Overrides */
 .chzn-container-single {
   margin: 5px 0;

@@ -3,36 +3,26 @@
 
   <section id="map-container" class="two-fifths float-left"><div id="map" class="map"><!-- The map --></div></section>
   
-  <style type='text/css'>
-  .map-legend li {
-    display: block;
-    float: left;
-    padding: 0 5px;
-    text-align: center;
-    width: 25px;
-  }
-  .map-legend li.first {
-    margin-left: -17px;
-  }
-  </style>
-  <div class="map-legend legend-if-detailed-heatmap" style="font-size: 0.8em; display: none;">
-    <strong>Number of occurrences</strong> - <em>Excluding false alarms</em><br/>
-    <ul>
-      <li style="background-color: #f1c40f;">&nbsp;</li>
-      <li style="background-color: #f39c12;">&nbsp;</li>
-      <li style="background-color: #e67e22;">&nbsp;</li>
-      <li style="background-color: #d35400;">&nbsp;</li>
-      <li style="background-color: #b14600;">&nbsp;</li>
-      <li style="background-color: #8f3900;">&nbsp;</li>
-    </ul><br/>
-    <ul>
-      <li class="first">0</li>
-      <li>10</li>
-      <li>50</li>
-      <li>250</li>
-      <li>750</li>
-      <li>1500</li>
-    </ul><br/>
+  <div class="map-legend legend-if-detailed-heatmap" style="display: none;">
+    <div class="if-detailed-heatmap">
+      <div class="caption"><strong>Number of occurrences</strong> - <em>Excl. false alarms</em></div>
+      <ul class="clearfix">
+        <li style="background-color: #f1c40f;">&nbsp;</li>
+        <li style="background-color: #f39c12;">&nbsp;</li>
+        <li style="background-color: #e67e22;">&nbsp;</li>
+        <li style="background-color: #d35400;">&nbsp;</li>
+        <li style="background-color: #b14600;">&nbsp;</li>
+        <li style="background-color: #8f3900;">&nbsp;</li>
+      </ul>
+      <ul class="clearfix">
+        <li class="first">0</li>
+        <li>10</li>
+        <li>50</li>
+        <li>250</li>
+        <li>750</li>
+        <li>1500</li>
+      </ul>
+    </div>
   </div>
   
   <aside id="sidebar" class="three-fifths float-right">    
