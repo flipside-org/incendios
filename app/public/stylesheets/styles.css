@@ -450,25 +450,29 @@ a.icon.share:hover {
   margin-bottom: 5px;
 }
 
-.map.legend ul {
+.map-legend ul {
   margin: 0;
   padding: 0;
 }
 
-.map-legend li {
+.map-legend li { /* Regular list block is 32px wide */
   display: block;
   float: left;
-  padding: 0 5px;
+  padding: 0 3px;
   text-align: center;
-  width: 24px;
+  width: 26px;
 }
 
-.map-legend li.half {
-  width: 7px;
+.map-legend li.text { /* Text class is used for vertical legends, where text needs more space*/
+  width: 58px;
 }
 
-.map-legend li.first {
-  margin-left: -17px;
+.map-legend li.quarter { /* quarter box, mostly used for color ranges */
+  width: 2px;
+}
+
+.map-legend li.first { /* Used on horizontal legends to center the labels below the left border of the color-box */
+  margin-left: -16px;
 }
 
 /* / End Legend Styling */
