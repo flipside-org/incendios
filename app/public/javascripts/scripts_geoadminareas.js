@@ -80,6 +80,8 @@ $(document).ready(function() {
 
   map.fitBounds(bounds);
   
+  map.legendControl.addLegend($('.legend-if-detailed-occurrence').html());
+  
   
   /**************************************************/
   // END map.

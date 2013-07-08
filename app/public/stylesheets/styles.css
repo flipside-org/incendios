@@ -440,6 +440,44 @@ a.icon.share:hover {
 
 /* / End dropdown styling */
 
+/* Map Legend styling */
+
+.map-legend {
+  font-size: 0.9em;
+}
+
+.map-legend .caption {
+  margin-bottom: 5px;
+}
+
+.map-legend ul {
+  margin: 0;
+  padding: 0;
+}
+
+.map-legend li { /* Regular list block is 32px wide */
+  display: block;
+  float: left;
+  padding: 0 3px;
+  text-align: center;
+  width: 26px;
+}
+
+.map-legend li.text { /* Text class is used for vertical legends, where text needs more space*/
+  width: 58px;
+}
+
+.map-legend li.quarter { /* quarter box, mostly used for color ranges */
+  width: 2px;
+}
+
+.map-legend li.first { /* Used on horizontal legends to center the labels below the left border of the color-box */
+  margin-left: -16px;
+}
+
+/* / End Legend Styling */
+
+
 /* Chosen Overrides */
 .chzn-container-single {
   margin: 5px 0;
