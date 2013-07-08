@@ -464,7 +464,7 @@ a.icon.share:hover {
 }
 
 .map-legend li.text { /* Text class is used for vertical legends, where text needs more space*/
-  width: 58px;
+  width: auto;
 }
 
 .map-legend li.quarter { /* quarter box, mostly used for color ranges */
