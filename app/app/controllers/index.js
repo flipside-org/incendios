@@ -6,22 +6,22 @@
 /**
  * Module dependencies.
  */
-var mongoose = require('mongoose');
-var i18n = require('i18n');
+var mongoose = require('mongoose')
+  , i18n = require('i18n')
 
-var Page = mongoose.model('Page');
+var Page = mongoose.model('Page')
 
 exports.view = function(req, res){
   if (!req.params.lang) {
-    // English if no language.
-    return res.redirect('en');
+    // fallback to site's default language
+    return res.redirect(i18n.getLocale())
   }
 
   Page.load('', function (err, page) {
-    if (err){
+    if (err) {
       return next(err);
     }
-    if (!page){
+    if (!page) {
       return next(new Error('Failed to load page: ' + permalink));
     }
 
