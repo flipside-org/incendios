@@ -4,23 +4,23 @@
       classes += 'four-fifths';
     }
     else if(typeof page_meta != "undefined" && (page_meta.type == 'index' || page_meta.type == 'story')) {
-      classes += 'three-fifths';      
+      classes += 'three-fifths';
     }
     else if(typeof page_meta != "undefined" && page_meta.type == 'error') {
       classes = '';
     }
     else {
       classes += 'two-fifths';
-    }  
+    }
   %>
   <footer id="footer" class="<%= classes %>">
     <div class="wrapper">
       <a href="http://flipside.org/"><img src="/images/flipside.png" alt="Logo Flipside" class="logo" /></a>
       <div class="about">
         <%= t('v0.1 was built using Express, Mapbox, Morris and ') %>
-          <a href="/<%= page_meta.lang %>/about"><%= t('much more') %></a>.
+          <a href="/<%= page_meta.lang %>/<%= t('about') %>"><%= t('much more') %></a>.
         <br />
-        <%= t('Data sources: ICNF & Igeo. Find out more') %> <a href="/<%= page_meta.lang %>/data"><%= t('about the data') %></a>
+        <%= t('Data sources: ICNF & Igeo. Find out more') %> <a href="/<%= page_meta.lang %>/<%= t('data') %>"><%= t('about the data') %></a>
       </div>
     </div>
   </footer>
