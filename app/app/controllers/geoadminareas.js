@@ -268,7 +268,7 @@ exports.json_children = function(req, res){
  */
 exports.redirect = function(req, res, next) {
 
-  if (req.geoadminarea.type > (req.url.split('/').length - path_offset)) {
+  if (!isNaN(req.url.split('/')[3])) {
     res.redirect(301, '/' + i18n.getLocale() + '/por/' + req.geoadminarea.breadcrumb);
   }
 
