@@ -10,6 +10,7 @@ module.exports = function (app) {
   var i18n = require('../app/controllers/i18n');
   var menus = require('../app/controllers/menus');
 
+
   /**
    * GeoAdminAreas
    */
@@ -28,6 +29,12 @@ module.exports = function (app) {
   app.param(':aa_1', i18n.transliterateParam, geoadminareas.geoadminarea, geoadminareas.redirect, menus.main)
   app.param(':aa_2', i18n.transliterateParam, geoadminareas.geoadminarea, geoadminareas.redirect, menus.main)
   app.param(':aa_3', i18n.transliterateParam, geoadminareas.geoadminarea, geoadminareas.redirect, menus.main)
+
+
+  /**
+   * Download
+   */
+  app.get('/:lang/download/:aaid', geoadminareas.serve_file);
 
 
   /**

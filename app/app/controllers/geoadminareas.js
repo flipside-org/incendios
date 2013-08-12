@@ -13,6 +13,7 @@ var mongoose = require('mongoose')
   , async = require('async')
   , i18n = require('i18n')
   , moment = require('moment')
+  , fs = require('fs')
 
 var path_offset = 3;
 
@@ -310,3 +311,17 @@ exports.list_location_render = function(req, res) {
 };
 
 
+exports.serve_file = function (req, res) {
+  var file = __dirname.replace('/app/controllers', '') + '/files/' + req.geoadminarea.aaid + '_' +
+    req.geoadminarea.transliterated_name + '_' + i18n.getLocale() + '.png';
+
+  fs.exists(file, function (exists) {
+    if (exists) {
+      console.log('File "' + file + '" exists. Serving.')
+      res.download(file)
+    }
+    else {
+      console.log('File "' + file + '" does not exist. Creating.')
+    }
+  })
+}
