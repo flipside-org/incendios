@@ -20,9 +20,8 @@
 start_time=$SECONDS
 
 #Giving the final files a nice name. Make sure to add the right version number. 
-comb_file=ifdata_detailed-07
-condensed_file=ifdata_detailed_condensed-07
-icnf_version=1210
+comb_file=ifdata_detailed-08
+condensed_file=ifdata_detailed_condensed-08
 
 #Change Internal Field Separator to new line. Otherwise, it will think spaces in filenames are field separators
 IFS=$'\n'
@@ -208,11 +207,6 @@ rm tmp_$comb_file.csv
 rm $comb_file.csv
 mv tmp2_$comb_file.csv $comb_file.csv
 
-#Add a timestamp for the data of ICNF. This allows us to know which version of the data we use.
-sed -i 's/$/,'$icnf_version'/' $comb_file.csv
-#Add a nice name to the header
-sed -i '1 s/'$icnf_version'/icnf_version/g' $comb_file.csv
-
 #Remove any rows that are not correct & place them in a separate Error file
 #Check if the District ID is a number with two digits. The -i inverts the regular expression.
 csvgrep -c 10 -r '^[0-9]{1,2}$' -i $comb_file.csv > $comb_file-INVALID.csv
@@ -257,7 +251,7 @@ elapsed_time=$(($SECONDS - $start_time))
 echo $elapsed_time seconds. Converting the full dataset to GeoJSON and SQLlite
 
 #Generate a CSVT that contains the structure of the CSV, so each column in the SQLite contains the correct data-type
-echo \"Real\",\"Real\",\"Integer\",\"String\",\"String\",\"String\",\"String\",\"String\",\"String\",\"String\",\"String\",\"String\",\"String\",\"String\",\"String\",\"String\",\"String\",\"String\",\"Real\",\"Real\",\"Real\",\"Real\",\"Real\",\"Integer\",\"Integer\",\"Integer\",\"Integer\",\"Integer\",\"Integer\",\"Integer\",\"String\",\"String\",\"String\",\"String\" > $comb_file.csvt
+echo \"Real\",\"Real\",\"Integer\",\"String\",\"String\",\"String\",\"String\",\"String\",\"String\",\"String\",\"String\",\"String\",\"String\",\"String\",\"String\",\"String\",\"String\",\"String\",\"Real\",\"Real\",\"Real\",\"Real\",\"Real\",\"Integer\",\"Integer\",\"Integer\",\"Integer\",\"Integer\",\"Integer\",\"Integer\",\"String\",\"String\",\"String\" > $comb_file.csvt
 #Finally convert the full dataset to geoJSON & SQLite
 ogr2ogr -f SQLite -gt 65536 -nlt POINT $comb_file.sqlite3 $comb_file.vrt
 ogr2ogr -f geoJSON -nlt POINT $comb_file.json $comb_file.vrt
