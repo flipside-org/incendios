@@ -163,8 +163,9 @@ echo $elapsed_time seconds. Add more meaning and cleanup the data.
 #We join the CSV with the list of causes to have a more meaningful description at hand
 #Then the following columns are being removed:
 # - original x & y
+# - NUT, Fonte alerta, Perimetro, APS
 # - duplicate cause id (from csvjoin)
-csvjoin --left $comb_file.csv causas.csv -c 34,1 | csvcut --not-columns 11,12,36 > $comb_file-tmp.csv
+csvjoin --left $comb_file.csv causas.csv -c 34,1 | csvcut --not-columns 11,12,19,20,32,33,36 > $comb_file-tmp.csv
 
 #Replace the original CSV with the cleaned up version
 rm $comb_file.csv
@@ -182,13 +183,11 @@ sed -i '
 	1 s/horaalerta/hora_alerta/g;
 	1 s/dataextinção/data_extincao/g;
 	1 s/horaextinção/hora_extincao/g;
-	1 s/data1interv/data1_interv/g;
-	1 s/hora1interv/hora1_interv/g;
-	1 s/fontealerta/fonte_alerta/g;
+	1 s/data1interv/data_1interv/g;
+	1 s/hora1interv/hora_1interv/g;
 	1 s/aa_espaçoflorestal (pov+mato)/aa_espaco_florestal/g;
 	1 s/aa_total(pov+mato+agric)/aa_total/g;
 	1 s/falsoalarme/falso_alarme/g;
-	1 s/TipoCausa/tipo_causa/g;
 	1 s/TipoCausa/tipo_causa/g' $comb_file.csv
 
 #First we have to remove comma's inside double quotes. Especially troublesome on Localidade which has raw user input
@@ -217,11 +216,16 @@ sed -i '1 s/'$icnf_version'/icnf_version/g' $comb_file.csv
 #Remove any rows that are not correct & place them in a separate Error file
 #Check if the District ID is a number with two digits. The -i inverts the regular expression.
 csvgrep -c 10 -r '^[0-9]{1,2}$' -i $comb_file.csv > $comb_file-INVALID.csv
-csvgrep -c 10 -r '^[0-9]{1,2}$' $comb_file.csv > $comb_file.csv
+csvgrep -c 10 -r '^[0-9]{1,2}$' $comb_file.csv > $comb_file_tmp.csv
+
+#Cleaning up
+rm $comb_file.csv
+mv $comb_file_tmp.csv $comb_file.csv
+
 
 #Create a leaner CSV for mapping purposes.
 #...first we're cutting out most columns
-csvcut --columns 1,2,3,4,5,10,11,12,24,25,27,28,29,30,31 $comb_file.csv > $condensed_file-tmp.csv
+csvcut --columns 1,2,3,4,5,10,11,12,22,23,25,26,27,28,29 $comb_file.csv > $condensed_file-tmp.csv
 mv $condensed_file-tmp.csv $condensed_file.csv
 
 elapsed_time=$(($SECONDS - $start_time))
@@ -245,7 +249,7 @@ mv tmp/$condensed_file.csv .
 rm -r tmp
 
 #Generate a CSVT that contains the structure of the CSV, so each column in the SQLite contains the correct data-type
-echo \"Real\",\"Real\",\"Integer\",\"String\",\"String\",\"Integer\",\"Integer\",\"Integer\",\"Real\",\"Real\" > $condensed_file.csvt
+echo \"Real\",\"Real\",\"Integer\",\"String\",\"String\",\"Integer\",\"Integer\",\"Integer\",\"Real\",\"Real\",\"Integer\",\"Integer\",\"Integer\",\"Integer\",\"Integer\" > $condensed_file.csvt
 #Create a SQLite file. -gt is set to optimize performance (http://www.gdal.org/ogr/drv_sqlite.html)
 ogr2ogr -f SQLite -gt 65536 -nlt POINT $condensed_file.sqlite3 $condensed_file.vrt
 
@@ -253,7 +257,7 @@ elapsed_time=$(($SECONDS - $start_time))
 echo $elapsed_time seconds. Converting the full dataset to GeoJSON and SQLlite
 
 #Generate a CSVT that contains the structure of the CSV, so each column in the SQLite contains the correct data-type
-echo \"Real\",\"Real\",\"Integer\",\"String\",\"String\",\"String\",\"String\",\"String\",\"String\",\"String\",\"String\",\"String\",\"String\",\"String\",\"String\",\"String\",\"String\",\"String\",\"Real\",\"Real\",\"Real\",\"Real\",\"Real\",\"Integer\",\"Integer\",\"Integer\",\"Integer\",\"Integer\",\"Integer\",\"String\",\"String\",\"String\",\"String\",\"String\",\"String\",\"String\" > $comb_file.csvt
+echo \"Real\",\"Real\",\"Integer\",\"String\",\"String\",\"String\",\"String\",\"String\",\"String\",\"String\",\"String\",\"String\",\"String\",\"String\",\"String\",\"String\",\"String\",\"String\",\"Real\",\"Real\",\"Real\",\"Real\",\"Real\",\"Integer\",\"Integer\",\"Integer\",\"Integer\",\"Integer\",\"Integer\",\"Integer\",\"String\",\"String\",\"String\",\"String\" > $comb_file.csvt
 #Finally convert the full dataset to geoJSON & SQLite
 ogr2ogr -f SQLite -gt 65536 -nlt POINT $comb_file.sqlite3 $comb_file.vrt
 ogr2ogr -f geoJSON -nlt POINT $comb_file.json $comb_file.vrt
