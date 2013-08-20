@@ -33,11 +33,21 @@ exports.table = function(req, res){
         for (index in response) {
           var prop = response[index].properties;
           
+          // Format date YYYY-MM-DD.
+          // Ensure leading zeros.
+          // Pieces will be glued toghether later.
+          var date_alert = prop.data.data_alerta;
+          var date_pieces = [
+            date_alert.getFullYear(),
+            ('0' + (date_alert.getMonth() + 1)).slice(-2),
+            ('0' + date_alert.getDate()).slice(-2)
+          ]
+          
           data.rows.push({
-            aa_total : prop.aa_total,
-            date : prop.data_alerta,
-            place : '<a href="/' + i18n.getLocale() + '/por/' + prop.aaid_freguesia + '" title="' + prop.freguesia + '">' + prop.freguesia + '</a> (' + prop.distrito + ', ' + prop.concelho + ')',
-            cause : prop.tipocausa == "NULL" ? '--*' : t(prop.tipocausa)
+            aa_total : prop.area_ardida.aa_total,
+            date :  date_pieces.join('-'),
+            place : '<a href="/' + i18n.getLocale() + '/por/' + prop.aaid.aaid_freguesia + '" title="' + prop.localizacao.freguesia + '">' + prop.localizacao.freguesia + '</a> (' + prop.localizacao.distrito + ', ' + prop.localizacao.concelho + ')',
+            cause : prop.causa.tipocausa == "NULL" ? '--*' : t(prop.causa.tipocausa)
           });
         }
         
@@ -61,8 +71,8 @@ exports.marker = function(req, res){
       OccurrenceDetail.top(10, function (err, response) {
         // Handle nulls.
         for (index in response) {
-          if (response[index].properties.tipocausa == "NULL") {
-            response[index].properties.tipocausa = '--*';
+          if (response[index].properties.causa.tipocausa == "NULL") {
+            response[index].properties.causa.tipocausa = '--*';
           }
         }        
         var data = {
