@@ -140,22 +140,6 @@ function number_format(num) {
 }
 
 /**
- * Formats a date object to YYYY-MM-DD
- *
- * @param Object date
- * @return string
- */
-function date_format(date) {
-  var date_pieces = [
-    date.getFullYear(),
-    ('0' + (date.getMonth() + 1)).slice(-2),
-    ('0' + date.getDate()).slice(-2)
-  ];
-  return date_pieces.join('-');
-}
-
-
-/**
  * Translates a string using the server side.
  *
  * @param string to be translated

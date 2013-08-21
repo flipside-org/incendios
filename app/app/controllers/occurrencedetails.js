@@ -9,8 +9,9 @@
 /**
  * Module dependencies.
  */
-var mongoose = require('mongoose')
-  , i18n = require('i18n')
+var mongoose = require('mongoose'),
+    i18n = require('i18n'),
+    moment = require('moment');
 
 var OccurrenceDetail = mongoose.model('OccurrenceDetail');
 
@@ -32,20 +33,10 @@ exports.table = function(req, res){
         
         for (index in response) {
           var prop = response[index].properties;
-          
-          // Format date YYYY-MM-DD.
-          // Ensure leading zeros.
-          // Pieces will be glued toghether later.
-          var date_alert = prop.data.data_alerta;
-          var date_pieces = [
-            date_alert.getFullYear(),
-            ('0' + (date_alert.getMonth() + 1)).slice(-2),
-            ('0' + date_alert.getDate()).slice(-2)
-          ]
-          
+                    
           data.rows.push({
             aa_total : prop.area_ardida.aa_total,
-            date :  date_pieces.join('-'),
+            date :  moment(prop.data.data_alerta).format('YYYY-MM-DD'),
             place : '<a href="/' + i18n.getLocale() + '/por/' + prop.aaid.aaid_freguesia + '" title="' + prop.localizacao.freguesia + '">' + prop.localizacao.freguesia + '</a> (' + prop.localizacao.distrito + ', ' + prop.localizacao.concelho + ')',
             cause : prop.causa.tipocausa == "NULL" ? '--*' : t(prop.causa.tipocausa)
           });

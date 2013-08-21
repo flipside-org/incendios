@@ -28,7 +28,7 @@ $(document).ready(function() {
         res.features[index].properties['marker-symbol'] = 'fire-station';
         res.features[index].properties['marker-size'] = 'large';
 
-        res.features[index].properties['title'] = date_format(new Date(prop.data['data_alerta']));
+        res.features[index].properties['title'] = moment(prop.data['data_alerta']).format('YYYY-MM-DD');
         res.features[index].properties['description'] = '<strong>' + t('Area') + ':</strong> ' + number_format(prop.area_ardida['aa_total']) + ' Ha<br/><strong>' + t('Cause') + ':</strong> ' + prop.causa['tipocausa'];
       }
 
