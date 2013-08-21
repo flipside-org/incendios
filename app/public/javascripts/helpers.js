@@ -139,7 +139,6 @@ function number_format(num) {
   }
 }
 
-
 /**
  * Translates a string using the server side.
  *

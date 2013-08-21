@@ -34,8 +34,8 @@
         <% if (typeof show_charts != "undefined" && show_charts) { %>
           <% if (typeof stats != "undefined" && stats != null) { %>
             <%= tn(
-              'Between 2001 and 2011, there was %d fire occurrence in %%s of %%s.',
-              'Between 2001 and 2011, there were %d fire occurrences in %%s of %%s.',
+              'Between 2001 and 2012, there was %d fire occurrence in %%s of %%s.',
+              'Between 2001 and 2012, there were %d fire occurrences in %%s of %%s.',
               stats.occurrences,
               t('the ' + info.geoadmindivision_name_raw),
               info.aa_name
@@ -53,7 +53,7 @@
             ) %>
           <% } else { %>
             <%= t(
-              'Congratulations, you just found the safest area in Portugal. Between 2001 and 2011 there were no fires here.'
+              'Congratulations, you just found the safest area in Portugal. Between 2001 and 2012 there were no fires here.'
             ) %>
           <% } %>
         <% } else { %>

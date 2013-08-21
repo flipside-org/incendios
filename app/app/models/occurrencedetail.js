@@ -23,7 +23,7 @@ var OccurrenceDetail = new Schema({
 });
 
 // Maintain indexes.
-OccurrenceDetail.index({'properties.aa_total': -1});
+OccurrenceDetail.index({'properties.area_ardida.aa_total': -1});
 
 /**
  * Statics
@@ -41,18 +41,16 @@ OccurrenceDetail.statics = {
     var fields = {
       '_id' : 0,
       'type' : 1,
-      'properties.x' : 1,
-      'properties.y' : 1,
-      'properties.distrito' : 1,
-      'properties.concelho' : 1,
-      'properties.freguesia' : 1,
-      'properties.aaid_freguesia' : 1,
-      'properties.data_alerta' : 1,
-      'properties.aa_total' : 1,
-      'properties.tipocausa' : 1,
+      'properties.localizacao.distrito' : 1,
+      'properties.localizacao.concelho' : 1,
+      'properties.localizacao.freguesia' : 1,
+      'properties.aaid.aaid_freguesia' : 1,
+      'properties.data.data_alerta' : 1,
+      'properties.area_ardida.aa_total' : 1,
+      'properties.causa.tipocausa' : 1,
       'geometry' : 1
     };
-    this.find({ 'properties.aa_total' : { $gt : 10 }}, fields).sort({'properties.aa_total': -1}).limit(num).exec(cb);
+    this.find({ 'properties.area_ardida.aa_total' : { $gt : 10 }}, fields).sort({'properties.area_ardida.aa_total': -1}).limit(num).exec(cb);
   }
 
 }
