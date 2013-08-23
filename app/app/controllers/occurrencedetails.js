@@ -62,7 +62,7 @@ exports.marker = function(req, res){
       OccurrenceDetail.top(10, function (err, response) {
         // Handle nulls.
         for (index in response) {
-          if (response[index].properties.causa.tipocausa == "NULL") {
+          if (response[index].properties.causa.tipocausa == null) {
             response[index].properties.causa.tipocausa = '--*';
           }
         }        
