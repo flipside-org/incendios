@@ -38,7 +38,7 @@ exports.table = function(req, res){
             aa_total : prop.area_ardida.aa_total,
             date :  moment(prop.data.data_alerta).format('YYYY-MM-DD'),
             place : '<a href="/' + i18n.getLocale() + '/por/' + prop.aaid.aaid_freguesia + '" title="' + prop.localizacao.freguesia + '">' + prop.localizacao.freguesia + '</a> (' + prop.localizacao.distrito + ', ' + prop.localizacao.concelho + ')',
-            cause : prop.causa.tipocausa == "NULL" ? '--*' : t(prop.causa.tipocausa)
+            cause : prop.causa.tipocausa == null ? '--*' : t(prop.causa.tipocausa)
           });
         }
         
