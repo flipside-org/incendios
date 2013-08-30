@@ -19,7 +19,7 @@ var OccurrenceDetail = new Schema({
   type : String,
   properties : Object,
   geometry : Object
-  
+
 });
 
 // Maintain indexes.
@@ -51,7 +51,23 @@ OccurrenceDetail.statics = {
       'geometry' : 1
     };
     this.find({ 'properties.area_ardida.aa_total' : { $gt : 10 }}, fields).sort({'properties.area_ardida.aa_total': -1}).limit(num).exec(cb);
-  }
+  },
+
+  /**
+   * List OccurrenceDetails according to passed options.
+   *
+   * @param [object] options for the query
+   * @param [function] cb
+   * @api public
+   */
+  list: function (options, cb) {
+    var criteria = options.criteria || {}
+      , fields = options.fields || null
+      , data
+
+    this.find(criteria, fields).exec(cb)
+  },
+
 
 }
 
