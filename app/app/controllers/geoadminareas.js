@@ -248,13 +248,7 @@ exports.view = function(req, res) {
  * API: sends JSON of a given GeoAdminArea.
  */
 exports.json = function(req, res){
-  // get the list of requested elements
-  OccurrenceDetail.list({criteria: {"properties.aaid.aaid_freguesia": req.geoadminarea.aaid}}, function(err, ods) {
-    // execute!
-    res.send(ods);
-  })
-
-  // res.send(req.geoadminarea)
+  res.send(req.geoadminarea)
 }
 
 
