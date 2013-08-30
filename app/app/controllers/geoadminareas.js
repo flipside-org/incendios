@@ -20,6 +20,7 @@ var path_offset = 3;
 var GeoAdminArea = mongoose.model('GeoAdminArea');
 var GeoAdminDivision = mongoose.model('GeoAdminDivision');
 var StatsAdminArea = mongoose.model('StatsAdminArea');
+var OccurrenceDetail = mongoose.model('OccurrenceDetail')
 var Menu = mongoose.model('Menu');
 
 
@@ -54,13 +55,13 @@ exports.geoadminarea = function(req, res, next, aa){
 /**
  * Renders the page for a GeoAdminArea.
  */
-exports.view = function(req, res){
+exports.view = function(req, res) {
   // variables
   var breadcrumbs = []
 
   async.series({
     // get all the GeoAdminDivisions
-    admin_divisions: function(state){
+    admin_divisions: function(state) {
       // get the list of requested elements
       GeoAdminDivision.list({}, function(err, gads) {
         var geoadmindivisions = {};
@@ -72,12 +73,24 @@ exports.view = function(req, res){
         state(err, geoadmindivisions);
       })
     },
+
+    // get all the OccurrenceDetails
+    occurrences_details: function(state) {
+      var options = {criteria: {"properties.aaid.aaid_freguesia": req.geoadminarea.aaid}}
+      // get the list of requested elements
+      OccurrenceDetail.list(options, function(err, occurrences_details) {
+        // execute!
+        state(err, occurrences_details);
+      })
+    }
   },
   function(err, r) {
     // error handling
     if (err) return res.render('500')
     // do
     req.geoadmindivisions = r.admin_divisions;
+    req.occurrences_details = r.occurrences_details;
+    console.log(r.occurrences_details)
   });
   // res.json(req.params.aaid)
   // recursively generates the breadcumb trail
@@ -235,7 +248,13 @@ exports.view = function(req, res){
  * API: sends JSON of a given GeoAdminArea.
  */
 exports.json = function(req, res){
-  res.send(req.geoadminarea)
+  // get the list of requested elements
+  OccurrenceDetail.list({criteria: {"properties.aaid.aaid_freguesia": req.geoadminarea.aaid}}, function(err, ods) {
+    // execute!
+    res.send(ods);
+  })
+
+  // res.send(req.geoadminarea)
 }
 
 
