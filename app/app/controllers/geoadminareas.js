@@ -69,30 +69,19 @@ exports.view = function(req, res) {
         for (var gad in gads) {
           geoadmindivisions[gads[gad].type] = gads[gad].name;
         };
+
         // execute!
         state(err, geoadmindivisions);
       })
     },
-
-    // get all the OccurrenceDetails
-    occurrences_details: function(state) {
-      var options = {criteria: {"properties.aaid.aaid_freguesia": req.geoadminarea.aaid}}
-      // get the list of requested elements
-      OccurrenceDetail.list(options, function(err, occurrences_details) {
-        // execute!
-        state(err, occurrences_details);
-      })
-    }
   },
   function(err, r) {
     // error handling
     if (err) return res.render('500')
     // do
     req.geoadmindivisions = r.admin_divisions;
-    req.occurrences_details = r.occurrences_details;
-    console.log(r.occurrences_details)
   });
-  // res.json(req.params.aaid)
+
   // recursively generates the breadcumb trail
   breadcumb_trail(req.params.aaid);
 
@@ -324,9 +313,14 @@ exports.list_location_render = function(req, res) {
 };
 
 
+/**
+ * Serve CSV file with occurrences details for the loaded Admin Area.
+ * @param req [object]
+ * @param res [object]
+ */
 exports.serve_file = function (req, res) {
   var file = __dirname.replace('/app/controllers', '') + '/files/' + req.geoadminarea.aaid + '_' +
-    req.geoadminarea.transliterated_name + '_' + i18n.getLocale() + '.png';
+    req.geoadminarea.transliterated_name + '_' + i18n.getLocale() + '.csv';
 
   fs.exists(file, function (exists) {
     if (exists) {
@@ -335,6 +329,46 @@ exports.serve_file = function (req, res) {
     }
     else {
       console.log('File "' + file + '" does not exist. Creating.')
+
+      // depending on the type of admin area
+      if (req.geoadminarea.type == 3) {
+        var criteria = {"properties.aaid.aaid_freguesia": req.geoadminarea.aaid}
+      }
+      else if (req.geoadminarea.type == 2) {
+        var criteria = {"properties.aaid.aaid_municipio": req.geoadminarea.aaid}
+      }
+      else if (req.geoadminarea.type == 1) {
+        var criteria = {"properties.aaid.aaid_distrito": req.geoadminarea.aaid}
+      }
+      var options = {criteria: criteria}
+
+      // get the list of requested elements
+      OccurrenceDetail.list(options, function(err, occurrences_details) {
+        var csv_string = '"' + t('Classification') + '","' + t('Distrito') + '","'
+          + t('Concelho') + '","' + t('Freguesia') + '","' + t('Local') + '","'
+          + t('Data e hora alerta') + '","' + t('Data e hora extinção') + '","'
+          + t('Área ardida') + '","' + t('Causa') + '"'
+
+        for (var od in occurrences_details) {
+          var occurrence = occurrences_details[od].properties
+          csv_string = csv_string + "\n" + '"' + occurrence.meta.classificacao + '","'
+            + occurrence.localizacao.distrito + '","' + occurrence.localizacao.concelho + '","'
+            + occurrence.localizacao.freguesia + '","' + occurrence.localizacao.local + '","'
+            + occurrence.data.data_alerta + '","' + occurrence.data.data_extincao + '","'
+            + occurrence.area_ardida.aa_total + '","' + occurrence.causa.tipocausa + '"'
+        }
+
+        // execute!
+        fs.writeFile(file, csv_string, function(err) {
+          if(err) {
+            console.log(err)
+          } else {
+            console.log('The file ' + file + ' was created!')
+            res.download(file)
+          }
+        });
+      })
+
     }
   })
 }
