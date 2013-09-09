@@ -17,7 +17,18 @@ var mongoose = require('mongoose')
  */
 var OccurrenceDetail = new Schema({
   type : String,
-  properties : Object,
+  properties : {
+    meta: Object,
+    causa: Object,
+    area_ardida: Object,
+    localizacao: Object,
+    aaid: {
+      aaid_distrito: Number,
+      aaid_municipio: Number,
+      aaid_freguesia: Number
+    },
+    data: Object
+  },
   geometry : Object
 
 });
@@ -63,7 +74,8 @@ OccurrenceDetail.statics = {
   list: function (options, cb) {
     var criteria = options.criteria || {}
       , fields = options.fields || null
-      , data
+
+      // console.log(this.find(criteria, fields))
 
     this.find(criteria, fields).exec(cb)
   },
