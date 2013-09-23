@@ -75,11 +75,22 @@ OccurrenceDetail.statics = {
     var criteria = options.criteria || {}
       , fields = options.fields || null
 
-      // console.log(this.find(criteria, fields))
-
     this.find(criteria, fields).exec(cb)
   },
 
+  /**
+   * List OccurrenceDetails according to passed options.
+   *
+   * @param [object] options for the query
+   * @param [function] cb
+   * @api public
+   */
+  jt_json: function (options, cb) {
+    var criteria = options.criteria || {}
+      , fields = options.fields || null
+
+    this.find(criteria, fields).exec(cb)
+  },
 
 }
 
