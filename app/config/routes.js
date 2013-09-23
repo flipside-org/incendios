@@ -45,19 +45,19 @@ module.exports = function (app) {
 
   app.param('aaid', statsadminareas.statsadminarea, menus.main)
 
+
   /**
    * YearStatus json.
    * Needs to be before stories.
    */
   var yearstatuses = require('../app/controllers/yearstatuses');
   app.get('/yearstatuses/json', yearstatuses.json);
-
   app.post('/yearstatuses/table', yearstatuses.table);
+
 
   /**
    * Stories
    */
-
   var stories = require('../app/controllers/stories');
   app.get('/:lang/story/:permalink_story', stories.view);
   // @TODO handle /story... => /historia
@@ -70,7 +70,6 @@ module.exports = function (app) {
   /**
    * Pages
    */
-
   var pages = require('../app/controllers/pages');
   app.get('/:lang/:permalink', pages.view);
 
@@ -86,15 +85,17 @@ module.exports = function (app) {
 
 
   /**
-   * home / front page route
-   */
-  var index = require('../app/controllers/index');
-  app.get('/:lang?', index.view);
-
-  /**
    * Detailed occurrences.
    */
   var occurrenceDetail = require('../app/controllers/occurrencedetails');
   app.post('/occurrencedetails', occurrenceDetail.table);
   app.post('/occurrencedetails/marker', occurrenceDetail.marker);
+  app.get('/occurrencedetails/:aaid/jt_json', occurrenceDetail.jt_json);
+
+
+  /**
+   * home / front page route
+   */
+  var index = require('../app/controllers/index');
+  app.get('/:lang?', index.view);
 }
