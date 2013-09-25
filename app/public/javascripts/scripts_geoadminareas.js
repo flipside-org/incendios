@@ -12,13 +12,13 @@ $(document).ready(function() {
   northEast = new L.LatLng(45, -1.5),
   bounds = new L.LatLngBounds(southWest, northEast);
   var map = L.mapbox.map('map', 'flipside.map-epnw0q4t', {minZoom: 7, maxZoom: 14, maxBounds : bounds}).setView([40, -74.50], 9);
-   
+
   // Disable double click zoom.
   map.doubleClickZoom.disable();
-  
+
   // *** Layer. Tiles of Administrative borders.
   map.addLayer(L.mapbox.tileLayer('flipside.pt-admin-areas'));
-  
+
   // *** Layer. Grid of administrative borders. Used for interactivity.
   // Changes location upon click. Depends on zoom level.
   var grid_layer = L.mapbox.gridLayer('flipside.pt-admin-areas');
@@ -47,16 +47,16 @@ $(document).ready(function() {
   });
   // Add layer to map.
   map.addLayer(grid_layer);
-  
+
   // *** Layer. Tiles of occurrences layer.
   var tile_layer_occurrences = L.mapbox.tileLayer('flipside.if_occurrences')
   // Add layer to map.
   map.addLayer(tile_layer_occurrences.setZIndex(999));
-  
+
   // *** Layer. Grid of occurrences layer. Used to show popup with data.
   var grid_layer_occurrences = L.mapbox.gridLayer('flipside.if_occurrences');
   map.addLayer(grid_layer_occurrences);
-  
+
   // Grid control to show popup with occurrences data.
   // Only add grid control after occurrences_tile_layer is loaded because
   // we need to get the template from that layer.
@@ -68,7 +68,7 @@ $(document).ready(function() {
     template_loaded = true;
     map.addControl(L.mapbox.gridControl(grid_layer_occurrences, {
       // Template from occurrences_tile_layer layer.
-      template : tile_layer_occurrences.getTileJSON().template, 
+      template : tile_layer_occurrences.getTileJSON().template,
       pinnable : false
     }));
   });
@@ -79,14 +79,14 @@ $(document).ready(function() {
   var bounds = new L.LatLngBounds(southWest, northEast);
 
   map.fitBounds(bounds);
-  
+
   map.legendControl.addLegend($('.legend-if-detailed-occurrence').html());
-  
-  
+
+
   /**************************************************/
   // END map.
   /**************************************************/
-  
+
   // Some areas might not have occurrences. Ex 110615
   if (stats_admin_area == null) {
     return;
@@ -152,4 +152,54 @@ $(document).ready(function() {
   // content will change the sidebar height.
   set_map_height();
 
+
+  /**************************************************/
+  // Table.
+  /**************************************************/
+  //Prepare jTable
+  /*$('#od-table').jtable({
+    title: 'Table of people',
+    ajaxSettings : {
+      type : 'GET',
+      dataType : 'json',
+    },
+    paging: true,
+    pageSize: 10,
+    sorting: true,
+    defaultSorting: 'Date DESC',
+    actions: {
+      listAction: '/occurrencedetails/' + aaid + '/jt_json',
+    },
+    fields: {
+      line : {
+        title: '#',
+      },
+      codigo: {
+        title: t('ICNF Code'),
+        key: true,
+      },
+      classificacao: {
+        title: t('Classification'),
+      },
+      distrito: {
+        title: t('Distrito'),
+      },
+      concelho: {
+        title: t('Concelho'),
+      },
+      freguesia: {
+        title: t('Freguesia'),
+      },
+      aa_total: {
+        title: t('Burnt area'),
+      },
+      data_alerta: {
+        title: t('Date'),
+      }
+    }
+  })
+
+  //Load person list from server
+  $('#od-table').jtable('load')
+  */
 });

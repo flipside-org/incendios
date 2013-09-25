@@ -396,7 +396,7 @@ nav.dropdown .level-one {
 }
 
 nav.dropdown li:hover > a {
-  background-color: #E67E22;
+  background-color: #e67e22; /* Carrot */
   color: #ECF0F1; /* Clouds */
 }
 
@@ -430,7 +430,7 @@ a.icon.share {
 }
 
 a.icon.share:hover {
-  background-color: #E67E22;
+  background-color: #e67e22; /* Carrot */
   color: #ecf0f1; /* Clouds */
 }
 
@@ -439,6 +439,34 @@ a.icon.share:hover {
 }
 
 /* / End dropdown styling */
+
+/* Download button styling */
+
+.download {
+  float: right;
+  margin-left: 10px;
+}
+.download a.icon {
+  display: block;
+  color: white;
+  font-size: 35px;
+  line-height: 35px;
+  margin-top: 7px;
+  text-align: center;
+  text-decoration: none;
+  background-color: #34495e; /* Asbestos */
+  width: 60px;
+
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
+
+.download a.icon:hover {
+  background-color: #e67e22; /* Carrot */
+}
+
+/* / END Download button styling */
 
 /* Map Legend styling */
 

@@ -22,6 +22,7 @@
     <div class="wrapper">
 
       <header>
+        <%-partial('structure/download_button') %>
         <%-partial('structure/share_button') %>
         <h1><%= info.aa_name %> <small><%= t(info.geoadmindivision_name_raw) %></small></h1>
 
@@ -64,6 +65,9 @@
         <% } %>
         </p>
         <!-- / verbose stats -->
+
+        <!-- <div id="od-table" class="table">
+        </div> -->
 
       </header>
 

@@ -4,24 +4,26 @@
       info :  null,
       settings : null,
     };
-    
+
     <% if (typeof page_meta != "undefined") { %>
       Incendios.page_meta = <%- JSON.stringify(page_meta) %>;
     <% } %>
-    
+
     <% if (typeof info != "undefined") { %>
       Incendios.info = <%- JSON.stringify(info) %>;
     <% } %>
-    
+
     <% if (typeof js_settings != "undefined") { %>
       Incendios.settings = <%- JSON.stringify(js_settings) %>;
     <% } %>
   </script>
-  
+
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
   <script src="/lib/morris/morris.min.js"></script>
   <script src="/lib/chosen/chosen/chosen.jquery.min.js" type="text/javascript"></script>
+  <script src="/lib/jquery-ui-1.10.3/js/jquery-ui-1.10.3.custom.min.js" type="text/javascript"></script>
+  <script src="/lib/jtable/lib/jquery.jtable.min.js" type="text/javascript"></script>
   <script src="/javascripts/helpers.js" type="text/javascript"></script>
   <script src="/javascripts/ajax_lib.js" type="text/javascript"></script>
   <script src="/javascripts/breadcrumbs.js" type="text/javascript"></script>

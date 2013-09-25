@@ -17,9 +17,20 @@ var mongoose = require('mongoose')
  */
 var OccurrenceDetail = new Schema({
   type : String,
-  properties : Object,
+  properties : {
+    meta: Object,
+    causa: Object,
+    area_ardida: Object,
+    localizacao: Object,
+    aaid: {
+      aaid_distrito: Number,
+      aaid_municipio: Number,
+      aaid_freguesia: Number
+    },
+    data: Object
+  },
   geometry : Object
-  
+
 });
 
 // Maintain indexes.
@@ -51,7 +62,35 @@ OccurrenceDetail.statics = {
       'geometry' : 1
     };
     this.find({ 'properties.area_ardida.aa_total' : { $gt : 10 }}, fields).sort({'properties.area_ardida.aa_total': -1}).limit(num).exec(cb);
-  }
+  },
+
+  /**
+   * List OccurrenceDetails according to passed options.
+   *
+   * @param [object] options for the query
+   * @param [function] cb
+   * @api public
+   */
+  list: function (options, cb) {
+    var criteria = options.criteria || {}
+      , fields = options.fields || null
+
+    this.find(criteria, fields).exec(cb)
+  },
+
+  /**
+   * List OccurrenceDetails according to passed options.
+   *
+   * @param [object] options for the query
+   * @param [function] cb
+   * @api public
+   */
+  jt_json: function (options, cb) {
+    var criteria = options.criteria || {}
+      , fields = options.fields || null
+
+    this.find(criteria, fields).exec(cb)
+  },
 
 }
 

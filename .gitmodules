@@ -7,3 +7,6 @@
 [submodule "app/public/lib/morris"]
 	path = app/public/lib/morris
 	url = git@github.com:oesmith/morris.js.git
+[submodule "app/public/lib/jtable"]
+	path = app/public/lib/jtable
+	url = git@github.com:hikalkan/jtable.git
