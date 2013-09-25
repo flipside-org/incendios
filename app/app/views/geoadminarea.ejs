@@ -22,6 +22,7 @@
     <div class="wrapper">
 
       <header>
+        <%-partial('structure/download_button') %>
         <%-partial('structure/share_button') %>
         <h1><%= info.aa_name %> <small><%= t(info.geoadmindivision_name_raw) %></small></h1>
 
@@ -65,16 +66,8 @@
         </p>
         <!-- / verbose stats -->
 
-        <!-- TEMP : download -->
-        <div class="download">
-          <a href="/<%= page_meta.lang %>/download/<%= info.aaid %>">
-            <%= t('Download data') %>
-          </a>
-        </div>
-
-        <div id="od-table" class="table">
-        </div>
-        <!-- / download -->
+        <!-- <div id="od-table" class="table">
+        </div> -->
 
       </header>
 
