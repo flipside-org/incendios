@@ -163,7 +163,7 @@ exports.jt_json = function(req, res){
           concelho : occurrence.localizacao.concelho,
           freguesia : occurrence.localizacao.freguesia,
           aa_total : occurrence.area_ardida.aa_total,
-          data_alerta : occurrence.data.data_alerta,
+          data_alerta : moment(occurrence.data.data_alerta).format('YYYY-MM-YYYY HH:mm:ss'),
         })
       }
 

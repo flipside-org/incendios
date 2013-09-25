@@ -157,7 +157,7 @@ $(document).ready(function() {
   // Table.
   /**************************************************/
   //Prepare jTable
-  $('#od-table').jtable({
+  /*$('#od-table').jtable({
     title: 'Table of people',
     ajaxSettings : {
       type : 'GET',
@@ -201,5 +201,5 @@ $(document).ready(function() {
 
   //Load person list from server
   $('#od-table').jtable('load')
-
+  */
 });
